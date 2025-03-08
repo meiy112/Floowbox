@@ -1,10 +1,20 @@
 import "./Divider.css";
 
-const Divider = ({ height }: { height: number }) => {
+const Divider = ({
+  height,
+  width,
+  isHorizontal = false,
+}: {
+  height?: number;
+  width?: number;
+  isHorizontal?: boolean;
+}) => {
   return (
     <div
-      className="h-full w-[1px] divider mx-[0.5em]"
-      style={{ height: `${height}em` }}
+      className={`${
+        isHorizontal ? "horizontal" : "vertical"
+      } divider mx-[0.5em]`}
+      style={{ height: `${height}em`, width: `${width}em` }}
     />
   );
 };

@@ -1,8 +1,10 @@
 import {
+  ChevronUp,
   CodeXml,
   House,
   PencilLine,
   Play,
+  Plus,
   UsersRound,
   Workflow,
   Zap,
@@ -10,6 +12,7 @@ import {
 import "./TopMenu.css";
 import { motion } from "framer-motion";
 import Divider from "../components/divider/Divider";
+import { useState } from "react";
 
 const TopMenu = ({
   isFrontend,
@@ -23,7 +26,7 @@ const TopMenu = ({
   setName: (name: string) => void;
 }) => {
   return (
-    <div className="select-none absolute text-black z-10 py-[1em] px-[1.4em] text-[0.9em] flex flex-col w-full">
+    <div className="select-none absolute text-black z-10 py-[1em] px-[1.4em] text-[0.9em] flex flex-col w-full gap-y-[1em]">
       <div className="items-center justify-between flex w-full">
         <div className="floating-menu flex justify-center items-center">
           <TopMenuButton icon={<House size={22} strokeWidth={1.65} />} />
@@ -60,12 +63,35 @@ const TopMenu = ({
           />
         </div>
       </div>
+      <ComponentMenu />
     </div>
   );
 };
 
 const ComponentMenu = () => {
-  return <div></div>;
+  const [expand, setExpand] = useState(false);
+
+  return (
+    <div className="flex">
+      {expand ? (
+        <div className="top-menu__component-menu flex flex-col gap-y-[0.5em] overflow-hidden">
+          <button>
+            <ChevronUp size={22} strokeWidth={1.65} />
+          </button>
+          <Divider isHorizontal={true} width={3} />
+        </div>
+      ) : (
+        <div className="top-menu__component-menu flex items-center justify-center">
+          <button
+            onClick={() => setExpand(true)}
+            className="component-menu__button"
+          >
+            <Plus size={22} strokeWidth={1.65} />
+          </button>
+        </div>
+      )}
+    </div>
+  );
 };
 
 const TopMenuButton = ({

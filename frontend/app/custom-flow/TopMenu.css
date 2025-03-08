@@ -9,6 +9,25 @@
   gap: 0.8em;
 }
 
+.top-menu__component-menu {
+  background: white;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(172, 172, 172, 0.15),
+    0 2px 10px rgba(201, 201, 209, 0.15);
+  border-radius: 15px;
+  width: 3.5em;
+}
+
+.component-menu__button {
+  border: 1px solid var(--secondary);
+  padding: 0.5em;
+  border-radius: 10px;
+  margin: 0.3em 0;
+  background: var(--secondary);
+  color: var(--primary);
+  cursor: pointer;
+}
+
 .floating-menu__button {
   border: 1px solid var(--border);
 }
