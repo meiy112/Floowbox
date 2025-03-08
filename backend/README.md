@@ -1,0 +1,2 @@
+Im sorry theres a super cursed dependency (pip install ./pymupdf_download_files/PyMuPDF-pymupdf-1.25.3-cp39-abi3-macosx_11_0_arm64.whl).
+This only works for mac silicon, if you smth else pls replace that line in requirements.txt with the appropriate file
