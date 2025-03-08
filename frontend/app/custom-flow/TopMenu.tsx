@@ -1,39 +1,71 @@
-import { CodeXml, Play, Workflow, Zap } from "lucide-react";
+import {
+  CodeXml,
+  House,
+  PencilLine,
+  Play,
+  UsersRound,
+  Workflow,
+  Zap,
+} from "lucide-react";
 import "./TopMenu.css";
 import { motion } from "framer-motion";
+import Divider from "../components/divider/Divider";
 
 const TopMenu = ({
   isFrontend,
   toggleFrontend,
+  name,
+  setName,
 }: {
   isFrontend: boolean;
   toggleFrontend: () => void;
+  name: string;
+  setName: (name: string) => void;
 }) => {
   return (
-    <div className="select-none absolute text-black z-10 py-[1em] px-[1.4em] items-center justify-between flex w-full text-[0.9em]">
-      <div className="floating-menu">
-        <FrontendToggle
-          isFrontend={isFrontend}
-          toggleFrontend={toggleFrontend}
-        />
-      </div>
-      <div className="floating-menu">
-        <TopMenuButton
-          text="Add Button"
-          icon={<Zap size={16} />}
-          padding={1.2}
-        />
-        <TopMenuButton icon={<Workflow size={22} strokeWidth={1.65} />} />
-        <TopMenuButton
-          text={<span className="font-semibold text-[0.95rem]">Run</span>}
-          icon={<Play size={16} strokeWidth={2.3} />}
-          outlined={true}
-          filled={true}
-          padding={1.2}
-        />
+    <div className="select-none absolute text-black z-10 py-[1em] px-[1.4em] text-[0.9em] flex flex-col w-full">
+      <div className="items-center justify-between flex w-full">
+        <div className="floating-menu flex justify-center items-center">
+          <TopMenuButton icon={<House size={22} strokeWidth={1.65} />} />
+          <span className="flex items-center align-center gap-x-[0.8em] mx-[0.2em]">
+            <span className="text-[1.05rem] cursor-pointer font-medium">
+              {name}
+            </span>
+            <button className="top-menu__name-button">
+              <PencilLine size={16} />
+            </button>
+            <button className="top-menu__name-button">
+              <UsersRound size={16} />
+            </button>
+          </span>
+          <Divider height={2.5} />
+          <FrontendToggle
+            isFrontend={isFrontend}
+            toggleFrontend={toggleFrontend}
+          />
+        </div>
+        <div className="floating-menu">
+          <TopMenuButton
+            text="Add Button"
+            icon={<Zap size={16} />}
+            padding={1.2}
+          />
+          <TopMenuButton icon={<Workflow size={22} strokeWidth={1.65} />} />
+          <TopMenuButton
+            text={<span className="font-semibold text-[0.95rem]">Run</span>}
+            icon={<Play size={16} strokeWidth={2.3} />}
+            outlined={true}
+            filled={true}
+            padding={1.2}
+          />
+        </div>
       </div>
     </div>
   );
+};
+
+const ComponentMenu = () => {
+  return <div></div>;
 };
 
 const TopMenuButton = ({
@@ -70,7 +102,7 @@ const FrontendToggle = ({
   isFrontend: boolean;
 }) => {
   return (
-    <div className="flex items-end pl-[1.75vw]">
+    <div className="flex items-end">
       <div
         onClick={toggleFrontend}
         className={`flex h-[2.2em] aspect-[43/28] cursor-pointer rounded-full frontend-toggle ${

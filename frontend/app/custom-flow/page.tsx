@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import "@xyflow/react/dist/style.css";
 import CustomFlow from "./CustomFlow";
+import TopMenu from "./TopMenu";
+import { PipelineProvider } from "../context/PipelineProvider";
 
 export default function CustomFlowPage() {
   const router = useRouter();
@@ -16,13 +18,25 @@ export default function CustomFlowPage() {
     router.push("/");
   };
 
+  const setName = (name: string) => {
+    console.log("hi");
+  };
+
   return (
-    <div className="h-full w-full">
-      <CustomFlow
-        isFrontend={isFrontend}
-        navigateHome={navigateHome}
-        toggleFrontend={() => setIsFrontend((prev) => !prev)}
-      />
-    </div>
+    <PipelineProvider>
+      <div className="h-full w-full">
+        <TopMenu
+          isFrontend={isFrontend}
+          toggleFrontend={toggleFrontend}
+          name="Untitled"
+          setName={setName}
+        />
+        <CustomFlow
+          isFrontend={isFrontend}
+          navigateHome={navigateHome}
+          toggleFrontend={() => setIsFrontend((prev) => !prev)}
+        />
+      </div>
+    </PipelineProvider>
   );
 }

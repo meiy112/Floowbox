@@ -29,3 +29,7 @@
 .frontend-toggle {
   background: var(--primary-grey);
 }
+
+.top-menu__name-button {
+  color: var(--font--light);
+}
