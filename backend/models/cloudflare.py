@@ -1,4 +1,5 @@
 import os
+from flask import send_file
 import requests
 
 from config.settings import CLOUDFLARE_ID, CLOUDFLARE_KEY
@@ -23,9 +24,22 @@ class CloudflareProvider(BaseModel):
         output = self.run("@cf/meta/llama-3-8b-instruct", inputs)
         return output["result"]["response"]
 
-
       case "image":
-        return "not yet implemented"
+        response = requests.post(
+            f"{self.API_BASE_URL}@cf/lykon/dreamshaper-8-lcm",
+            headers=self.headers,
+            json={
+              "prompt": input,
+              "height": 600,
+              "width": 800,
+            }
+        )
+
+        file_path = self.BASE_DIR + "/data/generated_image.png"
+        with open(file_path, "wb") as f:
+          f.write(response.content)
+
+        return send_file(file_path, mimetype="image/png")
 
       case "audio": 
         return "Audio generation is not availible for Cloudflare models"
