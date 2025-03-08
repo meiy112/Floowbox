@@ -27,25 +27,14 @@ export default function CustomFlow({
   isFrontend,
   navigateHome,
   toggleFrontend,
+  setIsFrontend,
 }: {
   isFrontend: boolean;
   navigateHome: () => void;
   toggleFrontend: () => void;
+  setIsFrontend: (isFrontend: boolean) => void;
 }) {
-  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([
-    {
-      id: "3",
-      type: "textbox",
-      position: { x: 800, y: 300 },
-      data: { isFrontend: isFrontend, id: "3" },
-    },
-    {
-      id: "4",
-      type: "imagebox",
-      position: { x: 800, y: 300 },
-      data: { isFrontend: isFrontend, id: "4" },
-    },
-  ]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
   const nodeTypes = {
@@ -91,18 +80,28 @@ export default function CustomFlow({
     console.log("hi");
   };
 
-  const addNewNode = (nodeType: string, id: string) => {
+  const generateId = (prefix: string) =>
+    `${prefix}-${Date.now().toString(36)}-${Math.random()
+      .toString(36)
+      .slice(2, 5)}`;
+
+  const addNewNode = (nodeType: string, id?: string) => {
+    const newId = id || generateId(nodeType);
+
     let newData: any = {};
     if (nodeType === "textbox") {
-      newData = { isFrontend: isFrontend, id };
+      setIsFrontend(true);
+      newData = { isFrontend: isFrontend, id: newId };
     } else if (nodeType === "button") {
-      newData = { id };
+      newData = { type: "text", id: newId };
     } else if (nodeType === "aimodel") {
-      newData = { type: "text", id };
+      setIsFrontend(false);
+      newData = { type: "text", id: newId };
     } else if (nodeType === "imagebox") {
-      newData = { isFrontend: isFrontend, id };
+      setIsFrontend(true);
+      newData = { isFrontend: isFrontend, id: newId };
     } else {
-      newData = { id };
+      newData = { id: newId };
     }
 
     const defaultPosition = {
@@ -111,7 +110,7 @@ export default function CustomFlow({
     };
 
     const newNode: Node = {
-      id,
+      id: newId,
       type: nodeType,
       position: defaultPosition,
       data: newData,

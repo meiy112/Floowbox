@@ -105,12 +105,12 @@ const ComponentMenu = ({
           <div className="component-menu__section">
             <button
               className="component-menu__button--component"
-              onClick={() => addNewNode("text", generateId())}
+              onClick={() => addNewNode("textbox", generateId())}
             >
               <Type size={22} strokeWidth={1.65} />
             </button>
             <button
-              onClick={() => addNewNode("image", generateId())}
+              onClick={() => addNewNode("imagebox", generateId())}
               className="component-menu__button--component"
             >
               <Image size={22} strokeWidth={1.65} />
