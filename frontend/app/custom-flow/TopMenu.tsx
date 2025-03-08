@@ -1,5 +1,6 @@
 import {
   AudioLines,
+  BookOpen,
   BotMessageSquare,
   ChevronUp,
   CodeXml,
@@ -11,6 +12,7 @@ import {
   PencilLine,
   Play,
   Plus,
+  ScanEye,
   Text,
   Type,
   Upload,
@@ -122,7 +124,10 @@ const ComponentMenu = () => {
               <FileAudio size={22} strokeWidth={1.65} />
             </button>
             <button className="component-menu__button--component">
-              <Heading size={22} strokeWidth={1.65} />
+              <BookOpen size={22} strokeWidth={1.65} />
+            </button>
+            <button className="component-menu__button--component">
+              <ScanEye size={22} strokeWidth={1.65} />
             </button>
           </div>
         </div>
