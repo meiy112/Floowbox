@@ -1,0 +1,1 @@
+This folder contains generated media. This includes mp3 and png files
