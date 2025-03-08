@@ -1,10 +1,19 @@
 import {
+  AudioLines,
+  BotMessageSquare,
   ChevronUp,
   CodeXml,
+  FileAudio,
+  Heading,
   House,
+  Image,
+  Palette,
   PencilLine,
   Play,
   Plus,
+  Text,
+  Type,
+  Upload,
   UsersRound,
   Workflow,
   Zap,
@@ -26,8 +35,8 @@ const TopMenu = ({
   setName: (name: string) => void;
 }) => {
   return (
-    <div className="select-none absolute text-black z-10 py-[1em] px-[1.4em] text-[0.9em] flex flex-col w-full gap-y-[1em]">
-      <div className="items-center justify-between flex w-full">
+    <div className="pointer-events-none absolute text-black z-10 py-[1em] px-[1.4em] text-[0.9em] flex flex-col w-full gap-y-[1em]">
+      <div className="select-none items-center justify-between flex w-full">
         <div className="floating-menu flex justify-center items-center">
           <TopMenuButton icon={<House size={22} strokeWidth={1.65} />} />
           <span className="flex items-center align-center gap-x-[0.8em] mx-[0.2em]">
@@ -63,7 +72,9 @@ const TopMenu = ({
           />
         </div>
       </div>
-      <ComponentMenu />
+      <div className="flex">
+        <ComponentMenu />
+      </div>
     </div>
   );
 };
@@ -72,13 +83,48 @@ const ComponentMenu = () => {
   const [expand, setExpand] = useState(false);
 
   return (
-    <div className="flex">
+    <div className="">
       {expand ? (
-        <div className="top-menu__component-menu flex flex-col gap-y-[0.5em] overflow-hidden">
-          <button>
+        <div className="top-menu__component-menu flex flex-col gap-y-[0.5em] overflow-hidden items-center justify-between py-[0.6em]">
+          <button
+            className="component-menu__button--collapse"
+            onClick={() => setExpand(false)}
+          >
             <ChevronUp size={22} strokeWidth={1.65} />
           </button>
-          <Divider isHorizontal={true} width={3} />
+          <Divider isHorizontal={true} width={2.5} />
+          <div className="component-menu__section">
+            <button className="component-menu__button--component">
+              <Type size={22} strokeWidth={1.65} />
+            </button>
+            <button className="component-menu__button--component">
+              <Image size={22} strokeWidth={1.65} />
+            </button>
+            <button className="component-menu__button--component">
+              <AudioLines size={22} strokeWidth={1.65} />
+            </button>
+            <button className="component-menu__button--component">
+              <Heading size={22} strokeWidth={1.65} />
+            </button>
+            <button className="component-menu__button--component">
+              <Upload size={22} strokeWidth={1.65} />
+            </button>
+          </div>
+          <Divider isHorizontal={true} width={2.5} />
+          <div className="component-menu__section">
+            <button className="component-menu__button--component">
+              <BotMessageSquare size={22} strokeWidth={1.65} />
+            </button>
+            <button className="component-menu__button--component">
+              <Palette size={22} strokeWidth={1.65} />
+            </button>
+            <button className="component-menu__button--component">
+              <FileAudio size={22} strokeWidth={1.65} />
+            </button>
+            <button className="component-menu__button--component">
+              <Heading size={22} strokeWidth={1.65} />
+            </button>
+          </div>
         </div>
       ) : (
         <div className="top-menu__component-menu flex items-center justify-center">
