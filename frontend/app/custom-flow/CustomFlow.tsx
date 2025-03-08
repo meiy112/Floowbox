@@ -11,6 +11,8 @@ import { useCallback, useEffect } from "react";
 import { ReactFlow, Background } from "@xyflow/react";
 import { useNodeConnectionContext } from "../context/NodeConnectionProvider";
 import TopMenu from "./TopMenu";
+import ImageNode from "./nodes/ImageNode";
+import TextNode from "./nodes/TextNode";
 
 interface ConnectionParams {
   source: string;
@@ -30,15 +32,44 @@ export default function CustomFlow({
   navigateHome: () => void;
   toggleFrontend: () => void;
 }) {
-  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([
+    {
+      id: "3",
+      type: "textbox",
+      position: { x: 800, y: 300 },
+      data: { isFrontend: isFrontend, id: "3" },
+    },
+    {
+      id: "4",
+      type: "imagebox",
+      position: { x: 800, y: 300 },
+      data: { isFrontend: isFrontend, id: "4" },
+    },
+  ]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
-  const nodeTypes = {};
+  const nodeTypes = {
+    imagebox: ImageNode,
+    textbox: TextNode,
+  };
 
   useEffect(() => {
     setNodes((nds) =>
       nds.map((node) => {
-        if (node.type === "image") {
+        if (node.type === "aimodel") {
+          return {
+            ...node,
+            style: {
+              ...(node.style || {}),
+              display: isFrontend ? "none" : "block",
+              pointerEvents: isFrontend ? "none" : "auto",
+            },
+          };
+        }
+        if (node.type === "imagebox") {
+          return { ...node, data: { ...node.data, isFrontend } };
+        }
+        if (node.type === "textbox") {
           return { ...node, data: { ...node.data, isFrontend } };
         }
         return node;
@@ -65,9 +96,11 @@ export default function CustomFlow({
     if (nodeType === "textbox") {
       newData = { isFrontend: isFrontend, id };
     } else if (nodeType === "button") {
-      newData = { type: "text", id };
+      newData = { id };
     } else if (nodeType === "aimodel") {
       newData = { type: "text", id };
+    } else if (nodeType === "imagebox") {
+      newData = { isFrontend: isFrontend, id };
     } else {
       newData = { id };
     }

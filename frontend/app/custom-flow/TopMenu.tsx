@@ -24,7 +24,7 @@ import "./TopMenu.css";
 import { motion } from "framer-motion";
 import Divider from "../components/divider/Divider";
 import { useState } from "react";
-import { Node } from "@xyflow/react";
+import { generateId } from "./utils";
 
 const TopMenu = ({
   isFrontend,
@@ -103,10 +103,16 @@ const ComponentMenu = ({
           </button>
           <Divider isHorizontal={true} width={2.5} />
           <div className="component-menu__section">
-            <button className="component-menu__button--component">
+            <button
+              className="component-menu__button--component"
+              onClick={() => addNewNode("text", generateId())}
+            >
               <Type size={22} strokeWidth={1.65} />
             </button>
-            <button className="component-menu__button--component">
+            <button
+              onClick={() => addNewNode("image", generateId())}
+              className="component-menu__button--component"
+            >
               <Image size={22} strokeWidth={1.65} />
             </button>
             <button className="component-menu__button--component">
