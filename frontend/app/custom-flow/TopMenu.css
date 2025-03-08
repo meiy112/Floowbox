@@ -1,0 +1,95 @@
+.floating-menu {
+  background: white;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(172, 172, 172, 0.15),
+    0 2px 10px rgba(201, 201, 209, 0.15);
+  border-radius: 50em;
+  padding: 0.6em;
+  display: flex;
+  gap: 0.8em;
+  pointer-events: auto;
+}
+
+.top-menu__component-menu {
+  background: white;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(172, 172, 172, 0.15),
+    0 2px 10px rgba(201, 201, 209, 0.15);
+  border-radius: 15px;
+  width: 3.5em;
+  pointer-events: auto;
+}
+
+.component-menu__section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+  gap: 0.7em;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.component-menu__button {
+  border: 1px solid var(--secondary);
+  padding: 0.5em;
+  border-radius: 10px;
+  margin: 0.3em 0;
+  background: var(--secondary);
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.component-menu__button:hover {
+  border: 1px solid var(--primary);
+}
+
+.component-menu__button--component {
+  aspect-ratio: 1/1;
+  width: 2.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.component-menu__button--collapse {
+  width: 2.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50em;
+  cursor: pointer;
+}
+
+.component-menu__button--component:hover,
+.component-menu__button--collapse:hover {
+  background-color: var(--hover-bg);
+}
+
+.floating-menu__button {
+  border: 1px solid var(--border);
+}
+
+.floating-menu__button--outlined {
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+.floating-menu__button--filled {
+  background: var(--secondary);
+}
+
+.frontend-toggle__thumb {
+  border: 1px solid var(--border);
+}
+
+.frontend-toggle {
+  background: var(--primary-grey);
+}
+
+.top-menu__name-button {
+  color: var(--font--light);
+}

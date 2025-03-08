@@ -3,6 +3,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import "@xyflow/react/dist/style.css";
 import CustomFlow from "./CustomFlow";
+import TopMenu from "./TopMenu";
+import { PipelineProvider } from "../context/PipelineProvider";
+import { NodeConnectionProvider } from "../context/NodeConnectionProvider";
 
 export default function CustomFlowPage() {
   const router = useRouter();
@@ -17,12 +20,14 @@ export default function CustomFlowPage() {
   };
 
   return (
-    <div className="h-full w-full">
-      <CustomFlow
-        isFrontend={isFrontend}
-        navigateHome={navigateHome}
-        toggleFrontend={() => setIsFrontend((prev) => !prev)}
-      />
-    </div>
+    <PipelineProvider>
+      <NodeConnectionProvider>
+        <CustomFlow
+          isFrontend={isFrontend}
+          navigateHome={navigateHome}
+          toggleFrontend={() => setIsFrontend((prev) => !prev)}
+        />
+      </NodeConnectionProvider>
+    </PipelineProvider>
   );
 }
