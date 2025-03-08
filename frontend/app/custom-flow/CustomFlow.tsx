@@ -10,6 +10,7 @@ import {
 import { useCallback, useEffect } from "react";
 import { ReactFlow, Background } from "@xyflow/react";
 import { useNodeConnectionContext } from "../context/NodeConnectionProvider";
+import TopMenu from "./TopMenu";
 
 interface ConnectionParams {
   source: string;
@@ -55,8 +56,46 @@ export default function CustomFlow({
     [setEdges]
   );
 
+  const setName = (name: string) => {
+    console.log("hi");
+  };
+
+  const addNewNode = (nodeType: string, id: string) => {
+    let newData: any = {};
+    if (nodeType === "textbox") {
+      newData = { isFrontend: isFrontend, id };
+    } else if (nodeType === "button") {
+      newData = { type: "text", id };
+    } else if (nodeType === "aimodel") {
+      newData = { type: "text", id };
+    } else {
+      newData = { id };
+    }
+
+    const defaultPosition = {
+      x: Math.floor(Math.random() * 800),
+      y: Math.floor(Math.random() * 600),
+    };
+
+    const newNode: Node = {
+      id,
+      type: nodeType,
+      position: defaultPosition,
+      data: newData,
+    };
+
+    setNodes((prevNodes) => [...prevNodes, newNode]);
+  };
+
   return (
     <div className="h-full w-full">
+      <TopMenu
+        isFrontend={isFrontend}
+        toggleFrontend={toggleFrontend}
+        name="Untitled"
+        setName={setName}
+        addNewNode={addNewNode}
+      />
       <ReactFlow
         nodes={nodes}
         edges={isFrontend ? [] : edges}

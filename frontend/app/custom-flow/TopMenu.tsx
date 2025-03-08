@@ -24,17 +24,20 @@ import "./TopMenu.css";
 import { motion } from "framer-motion";
 import Divider from "../components/divider/Divider";
 import { useState } from "react";
+import { Node } from "@xyflow/react";
 
 const TopMenu = ({
   isFrontend,
   toggleFrontend,
   name,
   setName,
+  addNewNode,
 }: {
   isFrontend: boolean;
   toggleFrontend: () => void;
   name: string;
   setName: (name: string) => void;
+  addNewNode: (nodeType: string, id: string) => void;
 }) => {
   return (
     <div className="pointer-events-none absolute text-black z-10 py-[1em] px-[1.4em] text-[0.9em] flex flex-col w-full gap-y-[1em]">
@@ -75,13 +78,17 @@ const TopMenu = ({
         </div>
       </div>
       <div className="flex">
-        <ComponentMenu />
+        <ComponentMenu addNewNode={addNewNode} />
       </div>
     </div>
   );
 };
 
-const ComponentMenu = () => {
+const ComponentMenu = ({
+  addNewNode,
+}: {
+  addNewNode: (nodeType: string, id: string) => void;
+}) => {
   const [expand, setExpand] = useState(false);
 
   return (
