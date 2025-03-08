@@ -1,9 +1,9 @@
 from flask import Blueprint, jsonify, request
-import fitz # PyMuPDF
+import pymupdf
 
 upload_bp = Blueprint("upload", __name__)
 
-@upload_bp.route('/extract-text', methods=['POST'])
+@upload_bp.route('/api/extract-text', methods=['POST'])
 def extract_text_from_pdf():
   if 'pdf' not in request.files:
     return jsonify({'error': '\'file\' parameter was not provided in post body'}), 400
@@ -14,7 +14,7 @@ def extract_text_from_pdf():
   
   try:
     # read file
-    doc = fitz.open(stream=pdf_file.read(), filetype='pdf')
+    doc = pymupdf.open(stream=pdf_file.read(), filetype='pdf')
     text = ''
     
     # extract text from each page
