@@ -9,6 +9,7 @@ import {
 } from "@xyflow/react";
 import { useCallback, useEffect } from "react";
 import { ReactFlow, Background } from "@xyflow/react";
+import { useNodeConnectionContext } from "../context/NodeConnectionProvider";
 
 interface ConnectionParams {
   source: string;
@@ -17,7 +18,7 @@ interface ConnectionParams {
   targetHandle: string | null;
 }
 
-const defaultViewport = { x: 0, y: 0, zoom: 1.5 };
+const defaultViewport = { x: 0, y: 0, zoom: 1 };
 
 export default function CustomFlow({
   isFrontend,
@@ -33,9 +34,23 @@ export default function CustomFlow({
 
   const nodeTypes = {};
 
+  useEffect(() => {
+    setNodes((nds) =>
+      nds.map((node) => {
+        if (node.type === "image") {
+          return { ...node, data: { ...node.data, isFrontend } };
+        }
+        return node;
+      })
+    );
+  }, [isFrontend, setNodes]);
+
+  const { createConnection } = useNodeConnectionContext();
+
   const onConnect = useCallback(
     (params: ConnectionParams) => {
       setEdges((eds) => addEdge({ ...params, animated: true }, eds));
+      createConnection(params.source, params.target);
     },
     [setEdges]
   );
