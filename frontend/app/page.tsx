@@ -1,3 +1,4 @@
+"use client";
 import { useRouter } from "next/navigation";
 import "@xyflow/react/dist/style.css";
 
