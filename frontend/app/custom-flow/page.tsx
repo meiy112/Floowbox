@@ -24,6 +24,7 @@ export default function CustomFlowPage() {
         <CustomFlow
           isFrontend={isFrontend}
           navigateHome={navigateHome}
+          setIsFrontend={setIsFrontend}
           toggleFrontend={() => setIsFrontend((prev) => !prev)}
         />
       </NodeConnectionProvider>
