@@ -71,8 +71,15 @@ body {
   --background: #ffffff;
   --foreground: #171717;
 
-  --text__background: #ffcce6;
-  --text__font: #82025a;
+  --text__font-rgb: 130, 2, 90;
+  --text__background-rgb: 255, 204, 230;
+  --image__background-rgb: 221, 243, 240;
+  --image__font-rgb: 6, 149, 133;
+  --audio__font-rgb: 35, 91, 168;
+  --audio__background-rgb: 229, 238, 255;
+
+  --image__font: #109585;
+  --text__font: #b40a7f;
 
   --border: #ecebf0;
   --border--container: #e4e3e9;
@@ -167,4 +174,28 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.backend-box__text {
+  box-shadow: 0 1px 2px 0 rgba(165, 6, 77, 0.5);
+}
+
+.container-shadow {
+  box-shadow: 0 3px 5px rgba(201, 201, 209, 0.25);
+}
+
+.full-target-handle {
+  width: 100%;
+  height: 100%;
+  background: blue;
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+  transform: none;
+  border: none;
+  z-index: 10;
+}
+
+.react-flow__node {
+  z-index: -1 !important;
 }
