@@ -4,5 +4,5 @@ from abc import ABC, abstractmethod
 class BaseModel(ABC):
   # generate content based on input
   @abstractmethod
-  def generate(self, input, output_type):
+  def generate(self, input, input_type, output_type, options):
       pass
