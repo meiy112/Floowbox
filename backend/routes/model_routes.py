@@ -6,6 +6,7 @@ model_bp = Blueprint("model", __name__)
 
 @model_bp.route('/api/model/<provider>/<input_type>/<output_type>', methods=['POST'])
 def generate(provider, input_type, output_type):
+  print("I am here")
   model = get_model(provider)
   if not model:
     return jsonify({"error": "Invalid model, please choose one of: " + str(MODELS)}), 400
@@ -13,6 +14,8 @@ def generate(provider, input_type, output_type):
   prompt = request.json.get("prompt", "")
   if len(prompt) == 0:
     return jsonify({"error": "Prompt is empty. Please enter a valid prompt"}), 400
+
+  print("here", request.json)
 
   options = request.json.get("options", {})
   if not isinstance(options, dict):

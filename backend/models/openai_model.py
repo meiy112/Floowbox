@@ -21,14 +21,26 @@ class OpenAiModel(BaseModel):
 
         if not context or len(context) == 0:
           context = "You are a helpful assistant."
+          
+        # print("here", input)
 
-        params = {
-          "model": "gpt-4o-mini",
-          "messages": [
-            {"role": "system", "content": context},
-            # {"role": "user", "content": input}
-          ] + input
-        }
+        if isinstance(input, str):
+          params = {
+            "model": "gpt-4o-mini",
+            "messages": [
+              {"role": "system", "content": context},
+              {"role": "user", "content": input}
+            ] 
+          }
+        else:
+          params = {
+            "model": "gpt-4o-mini",
+            "messages": [
+              {"role": "system", "content": context},
+              # {"role": "user", "content": input}
+            ] + input
+          }
+          
         
         print("new input", input)
 
