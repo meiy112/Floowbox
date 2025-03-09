@@ -53,6 +53,7 @@ const Input: React.FC<InputProps> = ({
           className={s.numberInputLabel}
           onFocus={handleFocus}
           max={max ? max : 2}
+          min={0}
           step={isWholeNumber ? 1 : 0.1}
           onKeyDown={handleKeyDown}
         />

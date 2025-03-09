@@ -5,7 +5,7 @@ export const modelApi = {
 import { BASE_URL } from "./config";
 
 
-const modelMap: { [key: string]: string } = {
+const modelMap: {[key: string]: string } = {
   "GPT o3-mini": "openai",
   Ollama: "cloudflare",
   Gemini: "gemini",

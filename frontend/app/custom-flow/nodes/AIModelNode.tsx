@@ -20,7 +20,7 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
   const defaultModels = {
     text: "GPT o3-mini",
     image: "Midjourney",
-    audio: "TTS (text-to-speech)",
+    audio: "TTS-1",
     file: "PDF",
   };
 

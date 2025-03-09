@@ -2,8 +2,18 @@ import { useState } from "react";
 import "./AIModel.css";
 import { s } from "framer-motion/client";
 import { modelIconMap, ModelType } from "./utils";
-import { ChevronDown, ChevronUp, Maximize2, Minimize2 } from "lucide-react";
 import Input from "../input-field/Input";
+import {
+  ChevronDown,
+  ChevronUp,
+  Maximize2,
+  Minimize2,
+  BotMessageSquare,
+  BookOpen,
+  PencilLine,
+  FileAudio,
+  Palette,
+} from "lucide-react";
 
 type HeaderProps = {
   type: string;
@@ -12,6 +22,9 @@ type HeaderProps = {
 };
 
 const Header = ({ type, isOpen, setIsOpen }: HeaderProps) => {
+  const [title, setTitle] = useState("Double Click to Edit Title");
+  const [isEditing, setIsEditing] = useState(false);
+
   const optionsMap = {
     text: "Text AI",
     image: "Image AI",
@@ -19,6 +32,51 @@ const Header = ({ type, isOpen, setIsOpen }: HeaderProps) => {
     file: "File Parser",
   };
   const aiType = optionsMap[type as ModelType];
+
+  const iconMap: { [key: string]: any } = {
+    text: (
+      <BotMessageSquare
+        size={30}
+        style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
+      />
+    ),
+    image: (
+      <Palette
+        size={30}
+        style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
+      />
+    ),
+    audio: (
+      <FileAudio
+        size={30}
+        style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
+      />
+    ),
+    file: (
+      <BookOpen
+        size={30}
+        style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
+      />
+    ),
+  };
+
+  const handleDoubleClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleBlur = () => {
+    setIsEditing(false);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setIsEditing(false);
+    }
+  };
 
   return (
     <>
@@ -30,7 +88,7 @@ const Header = ({ type, isOpen, setIsOpen }: HeaderProps) => {
           <div
             className={`backend-box__${type} rounded-[8px] h-[3em] w-[3em] bg-white flex items-center justify-center`}
           >
-            <img src={modelIconMap[aiType]} alt="" />
+            {iconMap[type]}
           </div>
         </div>
 
@@ -46,7 +104,29 @@ const Header = ({ type, isOpen, setIsOpen }: HeaderProps) => {
               {aiType}
             </div>
           </div>
-          <div className="font-semibold text-[1rem]">Hello World</div>
+          <div className="flex flex-row items-center space-x-3">
+            <div className="font-semibold text-[1rem]">
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={title}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  onKeyDown={handleKeyDown}
+                  autoFocus
+                  className="border border-gray-300 rounded w-full focus:outline-none"
+                />
+              ) : (
+                <div
+                  onDoubleClick={handleDoubleClick}
+                  className="cursor-pointer"
+                >
+                  {title}
+                </div>
+              )}
+            </div>
+            <PencilLine size={18} style={{ color: "var(--font--light)" }} />
+          </div>
         </div>
         <button
           className="absolute top-[-5] right-[-5] p-2 cursor-pointer"
@@ -85,6 +165,7 @@ const ModelSelection = ({ model, setModel, type }: ModelSelectionProps) => {
     Midjourney: "/images/midjourney-icon.svg",
     DreamShaper: "/images/cloudflare-icon.svg",
     "TTS-1": "/images/openai-icon-audio.svg",
+    PDF: "/images/pdf-icon.svg",
   };
   const modelIcon = iconMap[model as keyof typeof iconMap];
 

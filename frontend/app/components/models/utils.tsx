@@ -14,7 +14,7 @@ export const modelIconMap: { [key: string]: string } = {
   midjourney: "/images/midjourney-icon.svg",
   gemini: "/images/gemini-icon.svg",
   deepseek: "/images/deepseek-icon.svg",
-  PDF: "",
+  PDF: "/images/pdf-icon.svg",
 };
 
 export const typeIconMap = {
