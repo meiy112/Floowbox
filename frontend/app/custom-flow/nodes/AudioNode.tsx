@@ -56,6 +56,16 @@ const AudioNode = ({ data, isConnectable, id }: AudioBoxNodeProps) => {
 const FrontendAudioBox = ({ audioBlob }: { audioBlob: Blob | null }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null);
+  const [blobUrl, setBlobUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (audioBlob) {
+      const url = URL.createObjectURL(audioBlob);
+      setBlobUrl(url);
+
+      return () => URL.revokeObjectURL(url);
+    }
+  }, [audioBlob]);
 
   const onReady = (ws: any) => {
     setWavesurfer(ws);
@@ -77,18 +87,20 @@ const FrontendAudioBox = ({ audioBlob }: { audioBlob: Blob | null }) => {
               <img src="./images/play.svg" />
             )}
           </button>
-          <WavesurferPlayer
-            width={340}
-            waveColor={"#CECCD7"}
-            progressColor={"#FF0072"}
-            url="/test.mp3"
-            onReady={onReady}
-            onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
-            barWidth={3}
-            barRadius={3}
-            height={50}
-          />
+          {blobUrl && (
+            <WavesurferPlayer
+              width={340}
+              waveColor={"#CECCD7"}
+              progressColor={"#FF0072"}
+              url={blobUrl}
+              onReady={onReady}
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
+              barWidth={3}
+              barRadius={3}
+              height={50}
+            />
+          )}
         </div>
       </div>
     </div>
