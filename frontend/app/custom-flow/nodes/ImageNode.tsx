@@ -51,8 +51,8 @@ const ImageNode = ({ data, isConnectable, id }: ImageBoxNodeProps) => {
 const FrontendImageBox = () => {
   return (
     <div className="bg-white image-box__frontend-container image-box h-[380px]">
-      <div className="gap-y-[1em] image-box__frontend rounded-[15px] overflow-hidden flex flex-col items-center justify-center h-full bg-[#F7F7F9]">
-        <Image size={60} color={"#CECCD7"} opacity={0.5} strokeWidth={1.5} />
+      <div className="gap-y-[0.8em] image-box__frontend rounded-[15px] overflow-hidden flex flex-col items-center justify-center h-full bg-[#F7F7F9]">
+        <Image size={70} color={"#CECCD7"} opacity={0.5} strokeWidth={1.3} />
         <div className="flex items-center justify-center flex-col">
           <div style={{ color: "#ceccd7" }}>
             When an image is ready, it will
