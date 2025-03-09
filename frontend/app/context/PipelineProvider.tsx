@@ -46,7 +46,7 @@ export const PipelineProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const callPipelines = async (keys: string[], input?: any) => {
-    for (let key of keys) {
+    for (const key of keys) {
       if (pipelines[key]) {
         await pipelines[key].execute(input);
       }
