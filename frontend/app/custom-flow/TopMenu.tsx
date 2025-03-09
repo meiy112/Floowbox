@@ -158,7 +158,7 @@ const ComponentMenu = ({
             <button
               className="component-menu__button--component"
               onClick={() =>
-                addNewNode("aimodel", centerFlowPosition, generateId())
+                addNewNode("llm", centerFlowPosition, generateId())
               }
             >
               <BotMessageSquare size={22} strokeWidth={1.65} />

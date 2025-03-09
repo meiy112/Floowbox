@@ -42,13 +42,13 @@ export default function CustomFlow({
   const nodeTypes = {
     imagebox: ImageNode,
     textbox: TextNode,
-    aimodel: AIModelNode,
+    llm: AIModelNode,
   };
 
   useEffect(() => {
     setNodes((nds) =>
       nds.map((node) => {
-        if (node.type === "aimodel") {
+        if (node.type === "llm") {
           return {
             ...node,
             style: {
@@ -96,7 +96,7 @@ export default function CustomFlow({
       newData = { isFrontend: isFrontend, id: newId };
     } else if (nodeType === "button") {
       newData = { type: "text", id: newId };
-    } else if (nodeType === "aimodel") {
+    } else if (nodeType === "llm") {
       setIsFrontend(false);
       newData = { type: "text", id: newId };
     } else if (nodeType === "imagebox") {
