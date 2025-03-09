@@ -16,6 +16,7 @@ import ImageNode from "./nodes/ImageNode";
 import TextNode from "./nodes/TextNode";
 import AIModelNode from "./nodes/AIModelNode";
 import ButtonNode from "./nodes/ButtonNode";
+import HeaderNode from "./nodes/HeaderNode";
 
 interface ConnectionParams {
   source: string;
@@ -45,6 +46,7 @@ export default function CustomFlow({
     textbox: TextNode,
     llm: AIModelNode,
     button: ButtonNode,
+    header: HeaderNode,
   };
 
   useEffect(() => {

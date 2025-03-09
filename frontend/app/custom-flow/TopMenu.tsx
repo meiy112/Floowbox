@@ -150,7 +150,12 @@ const ComponentMenu = ({
             <button className="component-menu__button--component">
               <AudioLines size={22} strokeWidth={1.65} />
             </button>
-            <button className="component-menu__button--component">
+            <button
+              className="component-menu__button--component"
+              onClick={() =>
+                addNewNode("header", centerFlowPosition, generateId())
+              }
+            >
               <Heading size={22} strokeWidth={1.65} />
             </button>
             <button className="component-menu__button--component">

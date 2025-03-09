@@ -71,6 +71,7 @@
 
 .floating-menu__button {
   border: 1px solid var(--border);
+  cursor: pointer;
 }
 
 .floating-menu__button--outlined {
