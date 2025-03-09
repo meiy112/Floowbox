@@ -15,6 +15,7 @@ const Header = ({ type, isOpen, setIsOpen }: HeaderProps) => {
     text: "Text AI",
     image: "Image AI",
     audio: "Audio AI",
+    file: "File Parser",
   };
   const aiType = optionsMap[type as ModelType];
 
@@ -28,7 +29,7 @@ const Header = ({ type, isOpen, setIsOpen }: HeaderProps) => {
           <div
             className={`backend-box__${type} rounded-[8px] h-[3em] w-[3em] bg-white flex items-center justify-center`}
           >
-            <img src={modelIconMap[type as ModelType]} alt="Icon" />
+            <img src={modelIconMap[aiType]} alt="" />
           </div>
         </div>
 
@@ -71,6 +72,7 @@ const ModelSelection = ({ model, setModel, type }: ModelSelectionProps) => {
     text: ["GPT o3-mini", "Gemini", "Ollama", "Deepseek"],
     image: ["DALLE 3", "DreamShaper", "Midjourney"],
     audio: ["TTS-1"],
+    file: ["PDF"],
   };
   const options = optionsMap[type as ModelType];
 
@@ -88,7 +90,9 @@ const ModelSelection = ({ model, setModel, type }: ModelSelectionProps) => {
 
   return (
     <div className="flex flex-col gap-y-[0.3em]">
-      <div className="ai-model__label--s">AI Model</div>
+      <div className="ai-model__label--s">
+        {type == "file" ? "File format" : "AI Model"}
+      </div>
 
       <div className="relative w-full">
         {/* Dropdown Button */}
@@ -198,7 +202,9 @@ const AIModel = ({
         <>
           <div className="border-[1px] border-gray-100"></div>
           <ModelSelection model={model} setModel={setModel} type={type} />
-          <ContextInput text={context} setText={setContext} />
+          {type != "file" && (
+            <ContextInput text={context} setText={setContext} />
+          )}
         </>
       ) : null}
     </div>

@@ -190,7 +190,7 @@ const ComponentMenu = ({
             </button>
             <button
               className="component-menu__button--component"
-              onClick={() => addNewNode("pdfparser", centerFlowPosition)}
+              onClick={() => addNewNode("fileparser", centerFlowPosition)}
             >
               <BookOpen size={22} strokeWidth={1.65} />
             </button>
