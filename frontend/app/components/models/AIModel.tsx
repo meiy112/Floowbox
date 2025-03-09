@@ -316,93 +316,93 @@ type AIModelProps = {
   setModel: (value: string) => void;
   context: string;
   setContext: (value: string) => void;
+  temperature: number;
+  setTemperature: (value: number) => void;
+  prompt: string;
+  setPrompt: (value: string) => void;
+  maxLength: number;
+  setMaxLength: (value: number) => void;
+  negativePrompt: string;
+  setNegativePrompt: (value: string) => void;
+  speed: number;
+  setSpeed: (value: number) => void;
+  voice: string;
+  setVoice: (value: string) => void;
 };
 
-const AIModel = ({
-  type,
-  model,
-  setModel,
-  context,
-  setContext,
-}: AIModelProps) => {
+const AIModel = (props: AIModelProps) => {
   const [isOpen, setIsOpen] = useState(true);
-  const [temperature, setTemperature] = useState(0.5);
-  const [prompt, setPrompt] = useState("");
-  const [maxLength, setMaxLength] = useState(200);
-  const [negativePrompt, setNegativePrompt] = useState("")
-  const [speed, setSpeed] = useState(0.5)
-  const [voice, setVoice] = useState("alloy")
 
   return (
     <div className="ai-model__container container-shadow text-black bg-white w-[25em] rounded-[20px] p-[1em] flex flex-col gap-y-[1.2em]">
-      <Header type={type} isOpen={isOpen} setIsOpen={setIsOpen} />
+      <Header type={props.type} isOpen={isOpen} setIsOpen={setIsOpen} />
       {isOpen ? (
         <>
           <div className="border-[1px] border-gray-100"></div>
-          <ModelSelection model={model} setModel={setModel} type={type} />
-          {type != "file" && (
-            <ContextInput text={context} setText={setContext} />
+          <ModelSelection model={props.model} setModel={props.setModel} type={props.type} />
+          {props.type != "file" && (
+            <ContextInput text={props.context} setText={props.setContext} />
           )}
-          {(type == "text" || type == "image") && (
+          {(props.type == "text" || props.type == "image") && (
             <div className="flex flex-col gap-y-[0.2em]">
               <div className="ai-model__label--s">Prompt</div>
               <textarea
                 id="text-input"
-                value={prompt}
-                onChange={(e: any) => setPrompt(e)}
+                value={props.prompt}
+                onChange={(e: any) => props.setPrompt(e)}
                 className="leading-tight w-full aspect-[4/1] text-[0.85rem] rounded-[10px] resize-none ai-model__input py-[0.5em] px-[0.8em] placeholder-[#BAB7C3]"
                 placeholder="Prompt for the AI."
               />
           </div>
           )}
-          {type == "image" && (
+          {props.type == "image" && (
             <div className="flex flex-col gap-y-[0.2em]">
               <div className="ai-model__label--s">Negative Prompt</div>
               <textarea
                 id="text-input"
-                value={negativePrompt}
-                onChange={(e: any) => setNegativePrompt(e)}
+                value={props.negativePrompt}
+                onChange={(e: any) => props.setNegativePrompt(e)}
                 className="leading-tight w-full aspect-[4/1] text-[0.85rem] rounded-[10px] resize-none ai-model__input py-[0.5em] px-[0.8em] placeholder-[#BAB7C3]"
                 placeholder="What not to include in the generated image."
               />
           </div>
           )}
-          {type != "file" && (
+          {props.type != "file" && (
             <div className="flex flex-col gap-y-[0.2em]">
               <div className="ai-model__label--s">Temperature</div>
               <Input
-                value={temperature}
-                updateValue={setTemperature}
+                value={props.temperature}
+                updateValue={props.setTemperature}
                 max={1}
-                type={type}
+                type={props.type}
               />
             </div>
           )}
-          {type == "text" && (
+          {props.type == "text" && (
             <div className="flex flex-col gap-y-[0.2em]">
               <div className="ai-model__label--s">Max length (Tokens)</div>
               <Input
-                value={maxLength}
-                updateValue={setMaxLength}
+                value={props.maxLength}
+                updateValue={props.setMaxLength}
                 max={1000}
-                type={type}
+                type={props.type}
               />
           </div>
           )}
-          {type == "audio" && (
+          {props.type == "audio" && (
             <div className="flex flex-col gap-y-[0.2em]">
               <div className="ai-model__label--s">Voice</div>
-              <VoiceDropdown voice={voice} setVoice={setVoice}/>
+              <VoiceDropdown voice={props.voice} setVoice={props.setVoice}/>
           </div>
           )}
-          {type == "audio" && (
+          {props.type == "audio" && (
             <div className="flex flex-col gap-y-[0.2em]">
               <div className="ai-model__label--s">Speed</div>
               <Input
-                value={speed}
-                updateValue={setSpeed}
+                value={props.speed}
+                updateValue={props.setSpeed}
                 max={1}
-                type={type}
+                type={props.type}
               />
           </div>
           )}
@@ -413,4 +413,4 @@ const AIModel = ({
 };
 
 export default AIModel;
-s;
+
