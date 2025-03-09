@@ -1,9 +1,8 @@
 .audio-box {
   box-shadow: 0 3px 10px 0 rgba(201, 201, 209, 0.15);
-  border-radius: 20px;
+  border-radius: 50em;
   font-size: 0.9rem;
   padding: 0.45em;
-  width: 38em;
   font-weight: 400;
 }
 

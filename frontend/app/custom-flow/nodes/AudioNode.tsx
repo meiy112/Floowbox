@@ -1,10 +1,14 @@
 "use client";
 import { AnimatePresence } from "framer-motion";
 import "./AudioNode.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { PipelineNode } from "@/app/class/Pipeline";
 import { useNodeConnectionContext } from "@/app/context/NodeConnectionProvider";
 import BackendBox from "@/app/components/boxes/BackendBox";
+import { Pause, Play } from "lucide-react";
+import AudioBox from "@/app/components/boxes/AudioBox";
+import WavesurferPlayer from "@wavesurfer/react";
+import WaveSurfer from "wavesurfer.js";
 
 type AudioBoxNodeProps = {
   data: { isFrontend: boolean };
@@ -16,12 +20,14 @@ const AudioNode = ({ data, isConnectable, id }: AudioBoxNodeProps) => {
   const { isFrontend } = data;
   const { registerNode } = useNodeConnectionContext();
 
+  const [audioBlob, setAudioBlob] = useState(null);
+
   const nodeDefinition: PipelineNode = {
     id: id,
     type: "audio",
     process: async (input: any) => {
       console.log("Audio box processing. Input:", input);
-      return input;
+      setAudioBlob(input);
     },
   };
 
@@ -32,12 +38,12 @@ const AudioNode = ({ data, isConnectable, id }: AudioBoxNodeProps) => {
   return (
     <div
       className="relative flex items-center justify-center"
-      style={{ height: "450px", zIndex: 5 }}
+      style={{ height: "6em", zIndex: 5 }}
     >
       <AnimatePresence>
-        <div>
+        <div className="h-full">
           {isFrontend ? (
-            <FrontendAudioBox />
+            <FrontendAudioBox audioBlob={audioBlob} />
           ) : (
             <BackendAudioBox isConnectable={isConnectable} id={id} />
           )}
@@ -47,17 +53,42 @@ const AudioNode = ({ data, isConnectable, id }: AudioBoxNodeProps) => {
   );
 };
 
-const FrontendAudioBox = () => {
+const FrontendAudioBox = ({ audioBlob }: { audioBlob: Blob | null }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null);
+
+  const onReady = (ws: any) => {
+    setWavesurfer(ws);
+    setIsPlaying(false);
+  };
+
+  const onPlayPause = () => {
+    wavesurfer && wavesurfer.playPause();
+  };
+
   return (
-    <div className="bg-white audio-box__frontend-container audio-box h-[380px]">
-      <div className="gap-y-[0.8em] image-box__frontend rounded-[15px] overflow-hidden flex flex-col items-center justify-center h-full bg-[#F7F7F9]">
-        <div className="flex items-center justify-center flex-col">
-          <div style={{ color: "#ceccd7" }}>
-            When an image is ready, it will
-          </div>
-          <div className="mt-[-0.2em]" style={{ color: "#ceccd7" }}>
-            appear here.
-          </div>
+    <div className="bg-white audio-box__frontend-container audio-box h-full w-[450px]">
+      <div className="gap-y-[0.8em] px-[1.7em] image-box__frontend rounded-[50em] overflow-hidden flex flex-col items-center justify-center h-full">
+        <div className="flex items-center justify-center gap-x-[1.5em]">
+          <button className="cursor-pointer" onClick={onPlayPause}>
+            {isPlaying ? (
+              <img src="./images/pause.svg" />
+            ) : (
+              <img src="./images/play.svg" />
+            )}
+          </button>
+          <WavesurferPlayer
+            width={340}
+            waveColor={"#CECCD7"}
+            progressColor={"#FF0072"}
+            url="/test.mp3"
+            onReady={onReady}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            barWidth={3}
+            barRadius={3}
+            height={50}
+          />
         </div>
       </div>
     </div>
@@ -72,8 +103,8 @@ const BackendAudioBox = ({
   id: string;
 }) => {
   return (
-    <div className="audio-box__backend-container audio-box h-[380px] flex items-center justify-center">
-      <BackendBox type="image" isConnectable={isConnectable} id={id} />
+    <div className="audio-box__backend-container audio-box h-full flex items-center justify-center">
+      <BackendBox type="audio" isConnectable={isConnectable} id={id} />
     </div>
   );
 };

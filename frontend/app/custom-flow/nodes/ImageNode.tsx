@@ -33,7 +33,7 @@ const ImageNode = ({ data, isConnectable, id }: ImageBoxNodeProps) => {
   return (
     <div
       className="relative flex items-center justify-center"
-      style={{ height: "450px", zIndex: 5 }}
+      style={{ height: "380px", zIndex: 5 }}
     >
       <AnimatePresence>
         <div>

@@ -8,6 +8,7 @@ import {
   Heading,
   House,
   Image,
+  Link,
   MessagesSquare,
   Palette,
   PencilLine,
@@ -69,6 +70,9 @@ const TopMenu = ({
             </span>
             <button className="top-menu__name-button">
               <PencilLine size={16} />
+            </button>
+            <button className="top-menu__name-button">
+              <Link size={16} />
             </button>
             <button className="top-menu__name-button">
               <UsersRound size={16} />
@@ -149,7 +153,7 @@ const ComponentMenu = ({
             <button
               className="component-menu__button--component"
               onClick={() =>
-                addNewNode("audioplayer", centerFlowPosition, generateId())
+                addNewNode("audiobox", centerFlowPosition, generateId())
               }
             >
               <AudioLines size={22} strokeWidth={1.65} />
@@ -165,7 +169,7 @@ const ComponentMenu = ({
             <button
               className="component-menu__button--component"
               onClick={() =>
-                addNewNode("fileupload", centerFlowPosition, generateId())
+                addNewNode("uploadbox", centerFlowPosition, generateId())
               }
             >
               <Upload size={22} strokeWidth={1.65} />
@@ -173,7 +177,7 @@ const ComponentMenu = ({
             <button
               className="component-menu__button--component"
               onClick={() =>
-                addNewNode("chat", centerFlowPosition, generateId())
+                addNewNode("chatbox", centerFlowPosition, generateId())
               }
             >
               <MessagesSquare size={22} strokeWidth={1.65} />
