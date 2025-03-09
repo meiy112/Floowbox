@@ -17,6 +17,7 @@ const NodeHandleWrapper = ({
   isConnectable,
   threshold = 50,
   children,
+  isFrontend,
 }: NodeHandleWrapperProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedSourceHandle, setSelectedSourceHandle] = useState<
@@ -102,15 +103,18 @@ const NodeHandleWrapper = ({
 
         // Conditions for showing the target handle:
         // Always show it if a target connection exists, or if we're in target mode.
-        const showTarget = targetConnected || showTargetHandles;
+        const showTarget =
+          (targetConnected || showTargetHandles) && !isFrontend;
+
         // Conditions for showing the source handle:
         // Show it if there's an active source connection,
         // OR if it's the one closest to the mouse (provided no target connection occupies that side),
         // OR if the connection is actively in progress from this side.
         const showSource =
-          sourceConnected ||
-          isSourceActive ||
-          (selectedSourceHandle === dir && !targetConnected);
+          (sourceConnected ||
+            isSourceActive ||
+            (selectedSourceHandle === dir && !targetConnected)) &&
+          !isFrontend;
 
         return (
           <React.Fragment key={dir}>

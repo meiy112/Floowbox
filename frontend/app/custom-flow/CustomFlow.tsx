@@ -66,6 +66,9 @@ export default function CustomFlow({
         if (node.type === "textbox") {
           return { ...node, data: { ...node.data, isFrontend } };
         }
+        if (node.type === "button") {
+          return { ...node, data: { ...node.data, isFrontend } };
+        }
         return node;
       })
     );
