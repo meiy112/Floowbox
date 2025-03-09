@@ -39,7 +39,7 @@ const BackendBox = ({
         <div
           className={`bg-white backend-box__${type} rounded-[8px] font-medium h-[3em] pl-[0.7em] pr-[1.2em] flex items-center justify-center`}
           style={{
-            boxShadow: `0 1px 3px 0 rgba(var(--${type}__font-rgb), 0.2)`,
+            boxShadow: `0 1px 2px 0 rgba(var(--${type}__font-rgb), 0.5)`,
           }}
         >
           <div
