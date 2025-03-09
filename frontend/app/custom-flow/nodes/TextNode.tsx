@@ -75,7 +75,7 @@ const FrontendTextBox = ({
           rows={10}
           value={value}
           onChange={handleChange}
-          className="m-[1em] flex-1 w-full h-full resize-none focus:outline-none placeholder-[#BAB7C3]"
+          className="m-[1em] flex-1 w-full h-full resize-none focus:outline-none placeholder-[#BAB7C3] overflow-auto"
         />
       </div>
     </div>

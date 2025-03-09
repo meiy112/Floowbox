@@ -33,7 +33,6 @@ async function generate(model: string, inputType: string, outputType: string, pr
       response = await requests.postRequest(url, body);
       return response;
 
-    // TODO: test image
     case "image":
       response = await fetch(BASE_URL + url, {
         method: "POST",
@@ -53,9 +52,7 @@ async function generate(model: string, inputType: string, outputType: string, pr
       blobUrl = URL.createObjectURL(blob);
       return blobUrl
   
-    // TODO: test audio
     case "audio":
-      console.log(model)
       response = await fetch(BASE_URL + url, {
         method: "POST",
         headers: {
