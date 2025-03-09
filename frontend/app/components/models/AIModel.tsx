@@ -1,34 +1,17 @@
 import { useState } from "react";
 import "./AIModel.css";
 import { s } from "framer-motion/client";
-import { modelIconMap, ModelType } from "./utils";
+import { ModelType } from "./utils";
 import { 
   ChevronDown, 
   ChevronUp, 
   Maximize2, 
   Minimize2,
   BotMessageSquare,
-  BookOpen
-} from "lucide-react";
-
-import {
-  AudioLines,
-  CodeXml,
-  FileAudio,
-  Heading,
-  House,
-  Image,
-  Link,
-  MessagesSquare,
-  Palette,
+  BookOpen,
   PencilLine,
-  Play,
-  Plus,
-  Type,
-  Upload,
-  UsersRound,
-  Workflow,
-  Zap,
+  FileAudio,
+  Palette
 } from "lucide-react";
 
 type HeaderProps = {
@@ -48,6 +31,25 @@ const Header = ({ type, isOpen, setIsOpen }: HeaderProps) => {
     file: "File Parser",
   };
   const aiType = optionsMap[type as ModelType];
+
+  const iconMap: {[key: string]: any } = {
+    text: <BotMessageSquare 
+            size={30}
+            style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
+          />,
+    image: <Palette 
+            size={30}
+            style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
+          />,
+    audio: <FileAudio 
+              size={30}
+              style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
+            />,
+    file: <BookOpen 
+              size={30}
+              style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
+            />,
+  }
 
   const handleDoubleClick = () => {
     setIsEditing(true);
@@ -77,11 +79,7 @@ const Header = ({ type, isOpen, setIsOpen }: HeaderProps) => {
           <div
             className={`backend-box__${type} rounded-[8px] h-[3em] w-[3em] bg-white flex items-center justify-center`}
           >
-            {/* <img src={modelIconMap[aiType]} alt="" /> */}
-            <BotMessageSquare 
-              size={30}
-              style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
-            />
+            {iconMap[type]}
           </div>
         </div>
 
@@ -158,6 +156,7 @@ const ModelSelection = ({ model, setModel, type }: ModelSelectionProps) => {
     Midjourney: "/images/midjourney-icon.svg",
     DreamShaper: "/images/cloudflare-icon.svg",
     "TTS-1": "/images/openai-icon-audio.svg",
+    PDF: "/images/pdf-icon.svg",
   };
   const modelIcon = iconMap[model as keyof typeof iconMap];
 
