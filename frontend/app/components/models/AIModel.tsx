@@ -349,7 +349,7 @@ const AIModel = (props: AIModelProps) => {
               <textarea
                 id="text-input"
                 value={props.prompt}
-                onChange={(e: any) => props.setPrompt(e)}
+                onChange={(e: any) => props.setPrompt(e.target.value)}
                 className="leading-tight w-full aspect-[4/1] text-[0.85rem] rounded-[10px] resize-none ai-model__input py-[0.5em] px-[0.8em] placeholder-[#BAB7C3]"
                 placeholder="Prompt for the AI."
               />
@@ -361,7 +361,7 @@ const AIModel = (props: AIModelProps) => {
               <textarea
                 id="text-input"
                 value={props.negativePrompt}
-                onChange={(e: any) => props.setNegativePrompt(e)}
+                onChange={(e: any) => props.setNegativePrompt(e.target.value)}
                 className="leading-tight w-full aspect-[4/1] text-[0.85rem] rounded-[10px] resize-none ai-model__input py-[0.5em] px-[0.8em] placeholder-[#BAB7C3]"
                 placeholder="What not to include in the generated image."
               />

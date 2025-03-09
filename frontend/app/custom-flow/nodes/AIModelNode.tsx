@@ -37,6 +37,12 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
 
   const contextRef = useRef(context);
   const modelRef = useRef(model);
+  const temperatureRef = useRef(temperature);
+  const promptRef = useRef(prompt);
+  const maxLengthRef = useRef(maxLength);
+  const negativePromptRef = useRef(negativePrompt);
+  const speedRef = useRef(speed);
+  const voiceRef = useRef(voice);
 
   useEffect(() => {
     contextRef.current = context;
@@ -45,6 +51,30 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
   useEffect(() => {
     modelRef.current = model;
   }, [model]);
+
+  useEffect(() => {
+    temperatureRef.current = temperature;
+  }, [temperature]);
+  
+  useEffect(() => {
+    promptRef.current = prompt;
+  }, [prompt]);
+  
+  useEffect(() => {
+    maxLengthRef.current = maxLength;
+  }, [maxLength]);
+  
+  useEffect(() => {
+    negativePromptRef.current = negativePrompt;
+  }, [negativePrompt]);
+  
+  useEffect(() => {
+    speedRef.current = speed;
+  }, [speed]);
+  
+  useEffect(() => {
+    voiceRef.current = voice;
+  }, [voice]);
 
   const { registerNode } = useNodeConnectionContext();
 
@@ -59,14 +89,20 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
       } else {
         const options = {
           context: contextRef.current,
-          voice: "shimmer",
-        }; // TODO: add options if they are selected
+          temperature: temperatureRef.current,
+          maxLength: maxLengthRef.current,
+          negativePrompt: negativePromptRef.current,
+          speed: speedRef.current,
+          voice: voiceRef.current,
+        }; 
+
+        console.log(options)
 
         const result = await modelApi.generate(
           model,
           "text",
           type,
-          input,
+          prompt + ": " + input,
           options
         );
         return result;
