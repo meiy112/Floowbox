@@ -55,7 +55,6 @@ async function generate(model: string, inputType: string, outputType: string, pr
   
     // TODO: test audio
     case "audio":
-      console.log(model)
       response = await fetch(BASE_URL + url, {
         method: "POST",
         headers: {
