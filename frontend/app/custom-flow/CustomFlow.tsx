@@ -8,7 +8,7 @@ import {
   BackgroundVariant,
   ReactFlowProvider,
 } from "@xyflow/react";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ReactFlow, Background } from "@xyflow/react";
 import { useNodeConnectionContext } from "../context/NodeConnectionProvider";
 import TopMenu from "./TopMenu";
@@ -43,6 +43,14 @@ export default function CustomFlow({
 }) {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
+  const [isRunning, setIsRunning] = useState(false);
+
+  const toggleIsRunning = () => {
+    if (!isRunning) {
+      setIsFrontend(true);
+    }
+    setIsRunning((prev) => !prev);
+  };
 
   const nodeTypes = {
     imagebox: ImageNode,
@@ -177,7 +185,11 @@ export default function CustomFlow({
   const reactFlowWrapper = useRef(null);
 
   return (
-    <div className="h-full w-full" ref={reactFlowWrapper}>
+    <div
+      className="h-full w-full"
+      ref={reactFlowWrapper}
+      style={isRunning ? { pointerEvents: "none" } : {}}
+    >
       <ReactFlowProvider>
         <TopMenu
           isFrontend={isFrontend}
@@ -186,6 +198,8 @@ export default function CustomFlow({
           setName={setName}
           addNewNode={addNewNode}
           reactFlowWrapper={reactFlowWrapper}
+          toggleIsRunning={toggleIsRunning}
+          isRunning={isRunning}
         />
         <ReactFlow
           nodes={nodes}
@@ -198,13 +212,20 @@ export default function CustomFlow({
           fitView
           style={{ backgroundColor: "white" }}
           attributionPosition="bottom-left"
+          nodesDraggable={!isRunning}
+          nodesConnectable={!isRunning}
+          panOnScroll={!isRunning}
+          zoomOnScroll={!isRunning}
+          zoomOnPinch={!isRunning}
         >
-          <Background
-            color="#BCBCD0"
-            variant={BackgroundVariant.Dots}
-            gap={25}
-            size={2}
-          />
+          {!isRunning && (
+            <Background
+              color="#BCBCD0"
+              variant={BackgroundVariant.Dots}
+              gap={25}
+              size={2}
+            />
+          )}
         </ReactFlow>
       </ReactFlowProvider>
     </div>

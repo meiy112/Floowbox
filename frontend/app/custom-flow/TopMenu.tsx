@@ -10,6 +10,7 @@ import {
   Image,
   Link,
   MessagesSquare,
+  MoveLeft,
   Palette,
   PencilLine,
   Play,
@@ -33,6 +34,8 @@ const TopMenu = ({
   setName,
   addNewNode,
   reactFlowWrapper,
+  toggleIsRunning,
+  isRunning,
 }: {
   isFrontend: boolean;
   toggleFrontend: () => void;
@@ -40,6 +43,8 @@ const TopMenu = ({
   setName: (name: string) => void;
   addNewNode: (nodeType: string, position: any) => void;
   reactFlowWrapper: any;
+  toggleIsRunning: () => void;
+  isRunning: boolean;
 }) => {
   const reactFlowInstance = useReactFlow();
   const [centerFlowPosition, setCenterFlowPosition] = useState<{
@@ -61,52 +66,82 @@ const TopMenu = ({
   return (
     <div className="pointer-events-none absolute text-black z-10 py-[1em] px-[1.4em] text-[0.9em] flex flex-col w-full gap-y-[1em]">
       <div className="select-none items-center justify-between flex w-full">
-        <div className="floating-menu flex justify-center items-center">
-          <TopMenuButton icon={<House size={22} strokeWidth={1.65} />} />
-          <span className="flex items-center align-center gap-x-[0.8em] mx-[0.2em]">
-            <span className="text-[1.05rem] cursor-pointer font-medium">
-              {name}
+        {!isRunning && (
+          <div className="floating-menu flex justify-center items-center">
+            <TopMenuButton icon={<House size={22} strokeWidth={1.65} />} />
+            <span className="flex items-center align-center gap-x-[0.8em] mx-[0.2em]">
+              <span className="text-[1.05rem] cursor-pointer font-medium">
+                {name}
+              </span>
+              <button className="top-menu__name-button">
+                <PencilLine size={16} />
+              </button>
+              <button className="top-menu__name-button">
+                <Link size={16} />
+              </button>
+              <button className="top-menu__name-button">
+                <UsersRound size={16} />
+              </button>
             </span>
-            <button className="top-menu__name-button">
-              <PencilLine size={16} />
-            </button>
-            <button className="top-menu__name-button">
-              <Link size={16} />
-            </button>
-            <button className="top-menu__name-button">
-              <UsersRound size={16} />
-            </button>
-          </span>
-          <Divider height={2.5} />
-          <FrontendToggle
-            isFrontend={isFrontend}
-            toggleFrontend={toggleFrontend}
-          />
-          <SystemStatus isFrontend={isFrontend} />
-        </div>
+            <Divider height={2.5} />
+            <FrontendToggle
+              isFrontend={isFrontend}
+              toggleFrontend={toggleFrontend}
+            />
+            <SystemStatus isFrontend={isFrontend} />
+          </div>
+        )}
         <div className="floating-menu">
+          {!isRunning && (
+            <>
+              <TopMenuButton
+                text="Add Button"
+                icon={<Zap size={16} />}
+                padding={1.2}
+                onClick={() => addNewNode("button", centerFlowPosition)}
+              />
+              <TopMenuButton icon={<Workflow size={22} strokeWidth={1.65} />} />
+            </>
+          )}
           <TopMenuButton
-            text="Add Button"
-            icon={<Zap size={16} />}
+            text={
+              !isRunning ? (
+                <span className="font-semibold text-[0.95rem]">Run</span>
+              ) : (
+                <span
+                  className="font-medium text-[0.95rem]"
+                  style={{ color: "rgba(0, 0, 0, 0.75)" }}
+                >
+                  Back
+                </span>
+              )
+            }
+            icon={
+              isRunning ? (
+                <MoveLeft
+                  size={16}
+                  strokeWidth={2.3}
+                  color={"rgba(0, 0, 0, 0.75)"}
+                />
+              ) : (
+                <Play size={16} strokeWidth={2.3} />
+              )
+            }
+            outlined={!isRunning}
+            filled={!isRunning}
             padding={1.2}
-            onClick={() => addNewNode("button", centerFlowPosition)}
-          />
-          <TopMenuButton icon={<Workflow size={22} strokeWidth={1.65} />} />
-          <TopMenuButton
-            text={<span className="font-semibold text-[0.95rem]">Run</span>}
-            icon={<Play size={16} strokeWidth={2.3} />}
-            outlined={true}
-            filled={true}
-            padding={1.2}
+            onClick={toggleIsRunning}
           />
         </div>
       </div>
-      <div className="flex">
-        <ComponentMenu
-          addNewNode={addNewNode}
-          centerFlowPosition={centerFlowPosition}
-        />
-      </div>
+      {!isRunning && (
+        <div className="flex">
+          <ComponentMenu
+            addNewNode={addNewNode}
+            centerFlowPosition={centerFlowPosition}
+          />
+        </div>
+      )}
     </div>
   );
 };
