@@ -17,6 +17,10 @@ export class Pipeline {
     this.edges.push(edge);
   }
 
+  removeEdge(edgeId: string): void {
+    this.edges = this.edges.filter((edge) => edge.id !== edgeId);
+  }
+
   /**
    * Executes the pipeline.
    * If `startingNodeIds` is provided, only those nodes will be executed as starting points.

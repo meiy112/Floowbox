@@ -19,7 +19,7 @@ import ButtonNode from "./nodes/ButtonNode";
 import HeaderNode from "./nodes/HeaderNode";
 import AudioNode from "./nodes/AudioNode";
 import FileDropNode from "./nodes/FileDropNode";
-import { generateId } from "./utils";
+import { extractConnectionIds, generateId } from "./utils";
 
 interface ConnectionParams {
   source: string;
@@ -128,7 +128,7 @@ export default function CustomFlow({
     );
   }, [isFrontend, setNodes]);
 
-  const { createConnection } = useNodeConnectionContext();
+  const { createConnection, removeConnection } = useNodeConnectionContext();
 
   const onConnect = useCallback(
     (params: ConnectionParams) => {
@@ -184,6 +184,28 @@ export default function CustomFlow({
 
   const reactFlowWrapper = useRef(null);
 
+  const handleEdgesChange = useCallback(
+    (changes: any) => {
+      onEdgesChange(changes);
+      changes.forEach((change: any) => {
+        if (change.type === "remove") {
+          const removedEdgeId = change.id;
+          console.log("Removed edge id:", removedEdgeId);
+          const ids = extractConnectionIds(removedEdgeId);
+          if (ids) {
+            removeConnection(ids.inputId, ids.outputId);
+          } else {
+            console.warn(
+              "Could not extract connection ids from:",
+              removedEdgeId
+            );
+          }
+        }
+      });
+    },
+    [onEdgesChange, removeConnection]
+  );
+
   return (
     <div
       className="h-full w-full"
@@ -206,7 +228,7 @@ export default function CustomFlow({
           edges={isFrontend ? [] : edges}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
+          onEdgesChange={handleEdgesChange}
           onConnect={onConnect}
           defaultViewport={defaultViewport}
           fitView
