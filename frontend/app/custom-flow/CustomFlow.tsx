@@ -44,6 +44,8 @@ export default function CustomFlow({
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
+  console.log(nodes);
+
   const nodeTypes = {
     imagebox: ImageNode,
     textbox: TextNode,
@@ -54,6 +56,7 @@ export default function CustomFlow({
     audiogen: AIModelNode,
     imagegen: AIModelNode,
     filebox: FileDropNode,
+    fileparser: AIModelNode,
   };
 
   useEffect(() => {
@@ -80,6 +83,16 @@ export default function CustomFlow({
           };
         }
         if (node.type === "imagegen") {
+          return {
+            ...node,
+            style: {
+              ...(node.style || {}),
+              display: isFrontend ? "none" : "block",
+              pointerEvents: isFrontend ? "none" : "auto",
+            },
+          };
+        }
+        if (node.type === "fileparser") {
           return {
             ...node,
             style: {
@@ -134,6 +147,9 @@ export default function CustomFlow({
     } else if (nodeType === "llm") {
       setIsFrontend(false);
       newData = { type: "text", id: newId };
+    } else if (nodeType === "fileparser") {
+      setIsFrontend(false);
+      newData = { type: "file", id: newId };
     } else if (nodeType === "audiogen") {
       setIsFrontend(false);
       newData = { type: "audio", id: newId };

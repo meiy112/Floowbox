@@ -20,6 +20,7 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
     text: "GPT o3-mini",
     image: "Midjourney",
     audio: "TTS (text-to-speech)",
+    file: "PDF",
   };
 
   const { id, type } = data;
@@ -47,7 +48,13 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
       const options = {
         voice: "shimmer",
       }; // TODO: add options if they are selected
-      const result = await modelApi.generate(model, "text", type, input, options);
+      const result = await modelApi.generate(
+        model,
+        "text",
+        type,
+        input,
+        options
+      );
       return result;
     },
   };
