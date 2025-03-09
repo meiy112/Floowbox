@@ -3,6 +3,7 @@ import "./AIModel.css";
 import { s } from "framer-motion/client";
 import { modelIconMap, ModelType } from "./utils";
 import { ChevronDown, ChevronUp, Maximize2, Minimize2 } from "lucide-react";
+import Input from "../input-field/Input";
 
 type HeaderProps = {
   type: string;
@@ -193,9 +194,10 @@ const AIModel = ({
   setContext,
 }: AIModelProps) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [temperature, setTemperature] = useState(1);
 
   return (
-    <div className="ai-model__container container-shadow text-black bg-white w-[25em] rounded-[20px] p-[1em] flex flex-col gap-y-[1em]">
+    <div className="ai-model__container container-shadow text-black bg-white w-[25em] rounded-[20px] p-[1em] flex flex-col gap-y-[1.2em]">
       <Header type={type} isOpen={isOpen} setIsOpen={setIsOpen} />
       {isOpen ? (
         <>
@@ -203,6 +205,17 @@ const AIModel = ({
           <ModelSelection model={model} setModel={setModel} type={type} />
           {type != "file" && (
             <ContextInput text={context} setText={setContext} />
+          )}
+          {type != "file" && (
+            <div className="flex flex-col gap-y-[0.2em]">
+              <div className="ai-model__label--s">Temperature</div>
+              <Input
+                value={temperature}
+                updateValue={setTemperature}
+                max={2}
+                type={type}
+              />
+            </div>
           )}
         </>
       ) : null}
