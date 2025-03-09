@@ -1,7 +1,6 @@
 .file-box {
   box-shadow: 0 3px 10px 0 rgba(201, 201, 209, 0.15);
   font-size: 0.9rem;
-  padding: 0.45em;
   font-weight: 400;
 }
 
@@ -10,7 +9,7 @@
 }
 
 .file-box__frontend {
-  border: 1px dashed rgba(var(--primary-rgb), 0.5);
+  border: 1px dashed var(--border);
 }
 
 .file-box__backend-container {
