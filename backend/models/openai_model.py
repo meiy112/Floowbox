@@ -13,7 +13,7 @@ class OpenAiModel(BaseModel):
   def generate(self, input, input_type, output_type, options):
     match output_type:
       case "text":
-        max_completion_tokens = options.get("max_completion_tokens")
+        max_completion_tokens = options.get("length")
         temperature = options.get("tempurature")
 
         params = {
@@ -25,7 +25,7 @@ class OpenAiModel(BaseModel):
         }
 
         if max_completion_tokens:
-          params["max_tokens"] = max_completion_tokens
+          params["max_completion_tokens"] = max_completion_tokens
         if temperature:
           params["temperature"] = temperature
 
