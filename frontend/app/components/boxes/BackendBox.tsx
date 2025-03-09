@@ -1,4 +1,4 @@
-import { AudioLines, Image, Type } from "lucide-react";
+import { AudioLines, Image, Type, Upload } from "lucide-react";
 import NodeHandleWrapper from "../NodeHandleWrapper";
 import "./BackendBox.css";
 
@@ -7,7 +7,7 @@ const BackendBox = ({
   isConnectable,
   id,
 }: {
-  type: "text" | "image" | "audio";
+  type: "text" | "image" | "audio" | "file";
   isConnectable: boolean;
   id: string;
 }) => {
@@ -15,6 +15,7 @@ const BackendBox = ({
     text: "Text Box",
     image: "Image Box",
     audio: "Audio Box",
+    file: "FileDrop Box",
   };
 
   const SIZE = 24;
@@ -24,6 +25,7 @@ const BackendBox = ({
     text: <Type size={SIZE} strokeWidth={STROKE_WIDTH} />,
     image: <Image size={SIZE} strokeWidth={STROKE_WIDTH} />,
     audio: <AudioLines size={SIZE} strokeWidth={STROKE_WIDTH} />,
+    file: <Upload size={SIZE} strokeWidth={STROKE_WIDTH} />,
   };
 
   return (
@@ -36,6 +38,9 @@ const BackendBox = ({
       >
         <div
           className={`bg-white backend-box__${type} rounded-[8px] font-medium h-[3em] pl-[0.7em] pr-[1.2em] flex items-center justify-center`}
+          style={{
+            boxShadow: `0 1px 3px 0 rgba(var(--${type}__font-rgb), 0.2)`,
+          }}
         >
           <div
             className="flex items-center justify-center gap-x-[0.5em]"
