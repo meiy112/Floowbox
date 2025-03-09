@@ -18,7 +18,6 @@ def generate(provider, input_type, output_type):
   if not isinstance(options, dict):
     return jsonify({"error": "Invalid options format. Must be a JSON object with string keys and string values."}), 400
 
-  print("prompt: " + prompt)
   result = model.generate(prompt, input_type, output_type, options)
   
   return result

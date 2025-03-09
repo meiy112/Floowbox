@@ -26,9 +26,11 @@ class OpenAiModel(BaseModel):
           "model": "gpt-4o-mini",
           "messages": [
             {"role": "system", "content": context},
-            {"role": "user", "content": input}
-          ]
+            # {"role": "user", "content": input}
+          ] + input
         }
+        
+        print("new input", input)
 
         if max_completion_tokens:
           params["max_completion_tokens"] = math.floor(max_completion_tokens)
