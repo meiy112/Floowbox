@@ -14,6 +14,7 @@ import { useNodeConnectionContext } from "../context/NodeConnectionProvider";
 import TopMenu from "./TopMenu";
 import ImageNode from "./nodes/ImageNode";
 import TextNode from "./nodes/TextNode";
+import AIModelNode from "./nodes/AIModelNode";
 
 interface ConnectionParams {
   source: string;
@@ -41,6 +42,7 @@ export default function CustomFlow({
   const nodeTypes = {
     imagebox: ImageNode,
     textbox: TextNode,
+    aimodel: AIModelNode,
   };
 
   useEffect(() => {
@@ -91,7 +93,6 @@ export default function CustomFlow({
 
     let newData: any = {};
     if (nodeType === "textbox") {
-      setIsFrontend(true);
       newData = { isFrontend: isFrontend, id: newId };
     } else if (nodeType === "button") {
       newData = { type: "text", id: newId };
@@ -99,7 +100,6 @@ export default function CustomFlow({
       setIsFrontend(false);
       newData = { type: "text", id: newId };
     } else if (nodeType === "imagebox") {
-      setIsFrontend(true);
       newData = { isFrontend: isFrontend, id: newId };
     } else {
       newData = { id: newId };

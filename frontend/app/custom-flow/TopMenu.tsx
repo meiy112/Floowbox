@@ -155,7 +155,12 @@ const ComponentMenu = ({
           </div>
           <Divider isHorizontal={true} width={2.5} />
           <div className="component-menu__section">
-            <button className="component-menu__button--component">
+            <button
+              className="component-menu__button--component"
+              onClick={() =>
+                addNewNode("aimodel", centerFlowPosition, generateId())
+              }
+            >
               <BotMessageSquare size={22} strokeWidth={1.65} />
             </button>
             <button className="component-menu__button--component">
