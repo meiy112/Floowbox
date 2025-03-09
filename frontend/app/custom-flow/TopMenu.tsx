@@ -24,7 +24,6 @@ import "./TopMenu.css";
 import { motion } from "framer-motion";
 import Divider from "../components/divider/Divider";
 import { useEffect, useState } from "react";
-import { generateId } from "./utils";
 import { useReactFlow } from "@xyflow/react";
 
 const TopMenu = ({
@@ -39,7 +38,7 @@ const TopMenu = ({
   toggleFrontend: () => void;
   name: string;
   setName: (name: string) => void;
-  addNewNode: (nodeType: string, position: any, id: string) => void;
+  addNewNode: (nodeType: string, position: any) => void;
   reactFlowWrapper: any;
 }) => {
   const reactFlowInstance = useReactFlow();
@@ -89,9 +88,7 @@ const TopMenu = ({
             text="Add Button"
             icon={<Zap size={16} />}
             padding={1.2}
-            onClick={() =>
-              addNewNode("button", centerFlowPosition, generateId())
-            }
+            onClick={() => addNewNode("button", centerFlowPosition)}
           />
           <TopMenuButton icon={<Workflow size={22} strokeWidth={1.65} />} />
           <TopMenuButton
@@ -117,7 +114,7 @@ const ComponentMenu = ({
   addNewNode,
   centerFlowPosition,
 }: {
-  addNewNode: (nodeType: string, position: any, id: string) => void;
+  addNewNode: (nodeType: string, position: any) => void;
   centerFlowPosition: any;
 }) => {
   const [expand, setExpand] = useState(false);
@@ -136,49 +133,37 @@ const ComponentMenu = ({
           <div className="component-menu__section">
             <button
               className="component-menu__button--component"
-              onClick={() =>
-                addNewNode("textbox", centerFlowPosition, generateId())
-              }
+              onClick={() => addNewNode("textbox", centerFlowPosition)}
             >
               <Type size={22} strokeWidth={1.65} />
             </button>
             <button
-              onClick={() =>
-                addNewNode("imagebox", centerFlowPosition, generateId())
-              }
+              onClick={() => addNewNode("imagebox", centerFlowPosition)}
               className="component-menu__button--component"
             >
               <Image size={22} strokeWidth={1.65} />
             </button>
             <button
               className="component-menu__button--component"
-              onClick={() =>
-                addNewNode("audiobox", centerFlowPosition, generateId())
-              }
+              onClick={() => addNewNode("audiobox", centerFlowPosition)}
             >
               <AudioLines size={22} strokeWidth={1.65} />
             </button>
             <button
               className="component-menu__button--component"
-              onClick={() =>
-                addNewNode("header", centerFlowPosition, generateId())
-              }
+              onClick={() => addNewNode("header", centerFlowPosition)}
             >
               <Heading size={22} strokeWidth={1.65} />
             </button>
             <button
               className="component-menu__button--component"
-              onClick={() =>
-                addNewNode("filebox", centerFlowPosition, generateId())
-              }
+              onClick={() => addNewNode("filebox", centerFlowPosition)}
             >
               <Upload size={22} strokeWidth={1.65} />
             </button>
             <button
               className="component-menu__button--component"
-              onClick={() =>
-                addNewNode("chatbox", centerFlowPosition, generateId())
-              }
+              onClick={() => addNewNode("chatbox", centerFlowPosition)}
             >
               <MessagesSquare size={22} strokeWidth={1.65} />
             </button>
@@ -187,33 +172,25 @@ const ComponentMenu = ({
           <div className="component-menu__section">
             <button
               className="component-menu__button--component"
-              onClick={() =>
-                addNewNode("llm", centerFlowPosition, generateId())
-              }
+              onClick={() => addNewNode("llm", centerFlowPosition)}
             >
               <BotMessageSquare size={22} strokeWidth={1.65} />
             </button>
             <button
               className="component-menu__button--component"
-              onClick={() =>
-                addNewNode("imagegen", centerFlowPosition, generateId())
-              }
+              onClick={() => addNewNode("imagegen", centerFlowPosition)}
             >
               <Palette size={22} strokeWidth={1.65} />
             </button>
             <button
               className="component-menu__button--component"
-              onClick={() =>
-                addNewNode("audiogen", centerFlowPosition, generateId())
-              }
+              onClick={() => addNewNode("audiogen", centerFlowPosition)}
             >
               <FileAudio size={22} strokeWidth={1.65} />
             </button>
             <button
               className="component-menu__button--component"
-              onClick={() =>
-                addNewNode("pdfparser", centerFlowPosition, generateId())
-              }
+              onClick={() => addNewNode("pdfparser", centerFlowPosition)}
             >
               <BookOpen size={22} strokeWidth={1.65} />
             </button>

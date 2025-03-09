@@ -19,6 +19,7 @@ import ButtonNode from "./nodes/ButtonNode";
 import HeaderNode from "./nodes/HeaderNode";
 import AudioNode from "./nodes/AudioNode";
 import FileDropNode from "./nodes/FileDropNode";
+import { generateId } from "./utils";
 
 interface ConnectionParams {
   source: string;
@@ -122,13 +123,8 @@ export default function CustomFlow({
     console.log("hi");
   };
 
-  const generateId = (prefix: string) =>
-    `${prefix}-${Date.now().toString(36)}-${Math.random()
-      .toString(36)
-      .slice(2, 5)}`;
-
-  const addNewNode = (nodeType: string, position: any, id?: string) => {
-    const newId = id || generateId(nodeType);
+  const addNewNode = (nodeType: string, position: any) => {
+    const newId = generateId();
 
     let newData: any = {};
     if (nodeType === "textbox") {
