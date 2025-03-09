@@ -2,6 +2,8 @@ import { requests } from "./requestTemplate"
 export const modelApi = {
   generate,
 };
+import { BASE_URL } from "./config";
+
 
 const modelMap: { [key: string]: string } = {
   "GPT o3-mini": "openai",
@@ -32,7 +34,7 @@ async function generate(model: string, inputType: string, outputType: string, pr
 
     // TODO: test image
     case "image":
-      response = await fetch(url, {
+      response = await fetch(BASE_URL + url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +43,7 @@ async function generate(model: string, inputType: string, outputType: string, pr
       });
   
       if (!response.ok) {
-        console.error("Failed to fetch audio");
+        console.error("Failed to fetch image");
         return;
       }
   
@@ -52,7 +54,7 @@ async function generate(model: string, inputType: string, outputType: string, pr
   
     // TODO: test audio
     case "audio":
-      response = await fetch(url, {
+      response = await fetch(BASE_URL + url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

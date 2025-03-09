@@ -46,7 +46,7 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
     process: async (input: any) => {
       console.log("here");
       const options = {}; // TODO: add options if they are selected
-      const result = await modelApi.generate(model, "string", type, input, options);
+      const result = await modelApi.generate(model, "text", type, input, options);
       return result;
     },
   };
