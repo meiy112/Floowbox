@@ -17,6 +17,7 @@ const FileDropNode = ({ data, isConnectable, id }: FileDropBoxNodeProps) => {
   const { isFrontend } = data;
   const { registerNode } = useNodeConnectionContext();
   const [fileBlob, setFileDropBlob] = useState<Blob | null>(null);
+  const [frontendHeight, setFrontendHeight] = useState<number | null>(null);
 
   const fileRef = useRef(fileBlob);
 
@@ -44,9 +45,16 @@ const FileDropNode = ({ data, isConnectable, id }: FileDropBoxNodeProps) => {
       <AnimatePresence>
         <div className="h-full">
           {isFrontend ? (
-            <FrontendFileDropBox onFileSelected={setFileDropBlob} />
+            <FrontendFileDropBox
+              onFileSelected={setFileDropBlob}
+              setHeight={setFrontendHeight}
+            />
           ) : (
-            <BackendFileDropBox isConnectable={isConnectable} id={id} />
+            <BackendFileDropBox
+              isConnectable={isConnectable}
+              id={id}
+              height={frontendHeight}
+            />
           )}
         </div>
       </AnimatePresence>
@@ -54,14 +62,18 @@ const FileDropNode = ({ data, isConnectable, id }: FileDropBoxNodeProps) => {
   );
 };
 
+type FrontendFileDropBoxProps = {
+  onFileSelected: (file: Blob | null) => void;
+  setHeight: (height: number) => void;
+};
+
 const FrontendFileDropBox = ({
   onFileSelected,
-}: {
-  onFileSelected: (file: Blob | null) => void;
-}) => {
+  setHeight,
+}: FrontendFileDropBoxProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Helper function to format file size in a readable format
   const formatFileSize = (bytes: number): string => {
     if (bytes < 1024) {
       return bytes + " bytes";
@@ -77,13 +89,22 @@ const FrontendFileDropBox = ({
     onFileSelected(null);
   };
 
+  useEffect(() => {
+    if (containerRef.current) {
+      setHeight(containerRef.current.clientHeight);
+    }
+  }, [setHeight, selectedFile]);
+
   return (
-    <div className="py-[1.1em] overflow-hidden bg-white flex flex-col justify-between file-box__frontend-container file-box h-full w-[450px] rounded-[20px]">
+    <div
+      ref={containerRef}
+      className="py-[1.1em] overflow-hidden bg-white flex flex-col justify-between file-box__frontend-container file-box h-full w-[450px] rounded-[20px]"
+    >
       <div className="flex px-[1.3em] items-center gap-x-[1em]">
         <div className="border-1 border-[var(--border)] rounded-[20em] aspect-square w-[42px] flex items-center justify-center">
           <Upload size={18} />
         </div>
-        <div className="">
+        <div>
           <div className="text-[1rem] font-medium">Upload Files</div>
           <div className="text-[#CECCD7]">
             Select and upload the files of your choice.
@@ -110,7 +131,7 @@ const FrontendFileDropBox = ({
             opacity={0.5}
             strokeWidth={1.3}
           />
-          <span className="">Choose a file or drag & drop it here.</span>
+          <span>Choose a file or drag & drop it here.</span>
           <span className="mt-[1em] mb-[1em] text-[var(--primary)] text-[0.8rem] rounded-[50em] border-1 border-[var(--primary)] px-[0.7em]">
             or browse
           </span>
@@ -149,15 +170,22 @@ const FrontendFileDropBox = ({
   );
 };
 
+type BackendFileDropBoxProps = {
+  isConnectable: boolean;
+  id: string;
+  height: number | null;
+};
+
 const BackendFileDropBox = ({
   isConnectable,
   id,
-}: {
-  isConnectable: boolean;
-  id: string;
-}) => {
+  height,
+}: BackendFileDropBoxProps) => {
   return (
-    <div className="file-box__backend-container rounded-[20px] file-box h-[18em] flex items-center justify-center w-[450px]">
+    <div
+      className="file-box__backend-container rounded-[20px] file-box flex items-center justify-center w-[450px]"
+      style={{ height: height ? `${height}px` : "18em" }}
+    >
       <BackendBox type="file" isConnectable={isConnectable} id={id} />
     </div>
   );
