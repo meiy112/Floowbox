@@ -83,7 +83,6 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
     type: "GptModel",
     process: async (input: any) => {
       if (type === "file") {
-        console.log("parsing pdf...");
         const result = await parseApi.parsePdf(input);
         return result;
       } else {
@@ -103,7 +102,6 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
           promptRef.current + ": " + input,
           options
         );
-        console.log("AI Model node results", result);
         return result;
       }
     },

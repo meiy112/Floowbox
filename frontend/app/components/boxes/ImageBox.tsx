@@ -20,7 +20,6 @@ const ImageBoxNode = ({ data, isConnectable, id }: ImageBoxNodeProps) => {
     id: id,
     type: "ImageSummarizer",
     process: async (input: any) => {
-      console.log("ImageBox processing. Input:", input);
       return input;
     },
   };

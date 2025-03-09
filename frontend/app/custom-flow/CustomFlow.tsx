@@ -186,7 +186,22 @@ export default function CustomFlow({
       data: newData,
     };
 
-    setNodes((prevNodes) => [...prevNodes, newNode]);
+    setNodes((prevNodes) => {
+      const newNodes = [...prevNodes, newNode];
+      newNodes.sort((a, b) => {
+        const getOrder = (node: Node) => {
+          if (
+            node.type &&
+            ["llm", "audiogen", "imagegen", "fileparser"].includes(node.type)
+          )
+            return 2;
+          if (node.type === "button") return 1;
+          return 0;
+        };
+        return getOrder(a) - getOrder(b);
+      });
+      return newNodes;
+    });
   };
 
   const reactFlowWrapper = useRef(null);
@@ -197,7 +212,6 @@ export default function CustomFlow({
       changes.forEach((change: any) => {
         if (change.type === "remove") {
           const removedEdgeId = change.id;
-          console.log("Removed edge id:", removedEdgeId);
           const ids = extractConnectionIds(removedEdgeId);
           if (ids) {
             removeConnection(ids.inputId, ids.outputId);

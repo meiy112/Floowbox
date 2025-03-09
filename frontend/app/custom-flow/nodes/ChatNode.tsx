@@ -23,8 +23,6 @@ const ChatNode = ({
   const { currentPipeline, registerNode } = useNodeConnectionContext();
   const [messages, setMessages] = useState<Message[]>([]);
 
-  console.log(messages);
-
   const messagesRef = useRef(messages);
   const divRef = useRef<HTMLDivElement | null>(null);
 
@@ -54,12 +52,6 @@ const ChatNode = ({
       if (input) {
         addMessage(input, "developer");
       }
-      console.log(input);
-
-      console.log(
-        "Chat Input processing. Returning value:",
-        messagesRef.current
-      );
 
       return messagesRef.current;
     },
