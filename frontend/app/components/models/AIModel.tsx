@@ -37,24 +37,28 @@ const Header = ({ type, isOpen, setIsOpen }: HeaderProps) => {
     text: (
       <BotMessageSquare
         size={30}
+        strokeWidth={1.5}
         style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
       />
     ),
     image: (
       <Palette
         size={30}
+        strokeWidth={1.5}
         style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
       />
     ),
     audio: (
       <FileAudio
         size={30}
+        strokeWidth={1.5}
         style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
       />
     ),
     file: (
       <BookOpen
         size={30}
+        strokeWidth={1.5}
         style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
       />
     ),
@@ -87,6 +91,9 @@ const Header = ({ type, isOpen, setIsOpen }: HeaderProps) => {
         >
           <div
             className={`backend-box__${type} rounded-[8px] h-[3em] w-[3em] bg-white flex items-center justify-center`}
+            style={{
+              boxShadow: `0 1px 2px 0 rgba(var(--${type}__font-rgb), 0.5)`,
+            }}
           >
             {iconMap[type]}
           </div>
