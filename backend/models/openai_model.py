@@ -15,11 +15,15 @@ class OpenAiModel(BaseModel):
       case "text":
         max_completion_tokens = options.get("length")
         temperature = options.get("tempurature")
+        context = options.get("context")
+
+        if not context or len(context) == 0:
+          context = "You are a helpful assistant."
 
         params = {
           "model": "gpt-4o-mini",
           "messages": [
-            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "system", "content": context},
             {"role": "user", "content": input}
           ]
         }

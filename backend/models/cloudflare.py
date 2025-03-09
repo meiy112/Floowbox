@@ -14,9 +14,13 @@ class CloudflareProvider(BaseModel):
   
   def generate(self, input, input_type, output_type, options):
     match output_type:
-      case "text":        
+      case "text":  
+        context = options.get("context")
+        if not context or len(context) == 0:
+          context = "You are a helpful assistant."
+
         inputs = [
-            { "role": "system", "content": "You are a friendly assistant, keep your answers short" },
+            { "role": "system", "content": context },
             { "role": "user", "content": input}
         ];
 
