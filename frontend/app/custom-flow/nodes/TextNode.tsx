@@ -46,7 +46,7 @@ const TextNode = ({
   return (
     <div
       className="text-black relative flex items-center justify-center text-node"
-      style={{ height: "250px", zIndex: 5 }}
+      style={{ height: "215px", zIndex: 5 }}
     >
       <div className={isFrontend ? "" : "invisible"}>
         <FrontendTextBox handleChange={handleChange} value={value} />
