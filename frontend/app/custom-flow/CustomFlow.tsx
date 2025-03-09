@@ -238,7 +238,7 @@ export default function CustomFlow({
         <TopMenu
           isFrontend={isFrontend}
           toggleFrontend={toggleFrontend}
-          name="Custom Flow"
+          name="Custom Floow"
           setName={setName}
           addNewNode={addNewNode}
           reactFlowWrapper={reactFlowWrapper}
@@ -281,7 +281,7 @@ export default function CustomFlow({
               </div> */}
               <div className="flex">
                 <span className="font-bold text-[var(--primary)] text-[4em]">
-                  Floow
+                  Fl👀w
                 </span>
                 <span className="font-bold text-[4em]">Box</span>
               </div>
@@ -292,6 +292,9 @@ export default function CustomFlow({
                 This is the floow page, it is empty now. Find the + icon at the
                 top left to add nodes.
               </div>
+              <button className="bg-black text-white rounded-[50em] px-[1.2em] text-[0.85rem] font-semibold py-[0.4em] mt-[1.3em] gap-x-[0.7em] flex">
+                ✨ Get Started
+              </button>
             </div>
           )}
         </ReactFlow>
