@@ -47,15 +47,15 @@ export default function CustomFlow({
   console.log(nodes);
 
   const nodeTypes = {
-    imagebox: ImageNode,
-    textbox: TextNode,
+    image: ImageNode,
+    text: TextNode,
     llm: AIModelNode,
     button: ButtonNode,
     header: HeaderNode,
-    audiobox: AudioNode,
+    audio: AudioNode,
     audiogen: AIModelNode,
     imagegen: AIModelNode,
-    filebox: FileDropNode,
+    file: FileDropNode,
     fileparser: AIModelNode,
   };
 
@@ -102,19 +102,19 @@ export default function CustomFlow({
             },
           };
         }
-        if (node.type === "imagebox") {
+        if (node.type === "image") {
           return { ...node, data: { ...node.data, isFrontend } };
         }
-        if (node.type === "textbox") {
+        if (node.type === "text") {
           return { ...node, data: { ...node.data, isFrontend } };
         }
         if (node.type === "button") {
           return { ...node, data: { ...node.data, isFrontend } };
         }
-        if (node.type === "audiobox") {
+        if (node.type === "audio") {
           return { ...node, data: { ...node.data, isFrontend } };
         }
-        if (node.type === "filebox") {
+        if (node.type === "file") {
           return { ...node, data: { ...node.data, isFrontend } };
         }
         return node;
@@ -140,7 +140,7 @@ export default function CustomFlow({
     const newId = generateId();
 
     let newData: any = {};
-    if (nodeType === "textbox") {
+    if (nodeType === "text") {
       newData = { isFrontend: isFrontend, id: newId };
     } else if (nodeType === "button") {
       newData = { isFrontend: isFrontend, id: newId };
@@ -153,11 +153,11 @@ export default function CustomFlow({
     } else if (nodeType === "audiogen") {
       setIsFrontend(false);
       newData = { type: "audio", id: newId };
-    } else if (nodeType === "imagebox") {
+    } else if (nodeType === "image") {
       newData = { isFrontend: isFrontend, id: newId };
-    } else if (nodeType === "audiobox") {
+    } else if (nodeType === "audio") {
       newData = { isFrontend: isFrontend, id: newId };
-    } else if (nodeType === "filebox") {
+    } else if (nodeType === "file") {
       newData = { isFrontend: isFrontend, id: newId };
     } else if (nodeType === "imagegen") {
       setIsFrontend(false);

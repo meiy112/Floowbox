@@ -133,19 +133,19 @@ const ComponentMenu = ({
           <div className="component-menu__section">
             <button
               className="component-menu__button--component"
-              onClick={() => addNewNode("textbox", centerFlowPosition)}
+              onClick={() => addNewNode("text", centerFlowPosition)}
             >
               <Type size={22} strokeWidth={1.65} />
             </button>
             <button
-              onClick={() => addNewNode("imagebox", centerFlowPosition)}
+              onClick={() => addNewNode("image", centerFlowPosition)}
               className="component-menu__button--component"
             >
               <Image size={22} strokeWidth={1.65} />
             </button>
             <button
               className="component-menu__button--component"
-              onClick={() => addNewNode("audiobox", centerFlowPosition)}
+              onClick={() => addNewNode("audio", centerFlowPosition)}
             >
               <AudioLines size={22} strokeWidth={1.65} />
             </button>
@@ -157,13 +157,13 @@ const ComponentMenu = ({
             </button>
             <button
               className="component-menu__button--component"
-              onClick={() => addNewNode("filebox", centerFlowPosition)}
+              onClick={() => addNewNode("file", centerFlowPosition)}
             >
               <Upload size={22} strokeWidth={1.65} />
             </button>
             <button
               className="component-menu__button--component"
-              onClick={() => addNewNode("chatbox", centerFlowPosition)}
+              onClick={() => addNewNode("chat", centerFlowPosition)}
             >
               <MessagesSquare size={22} strokeWidth={1.65} />
             </button>

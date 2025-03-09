@@ -42,22 +42,18 @@ const FileDropNode = ({ data, isConnectable, id }: FileDropBoxNodeProps) => {
       className="relative flex items-center justify-center"
       style={{ zIndex: 5 }}
     >
-      <AnimatePresence>
-        <div className="h-full">
-          {isFrontend ? (
-            <FrontendFileDropBox
-              onFileSelected={setFileDropBlob}
-              setHeight={setFrontendHeight}
-            />
-          ) : (
-            <BackendFileDropBox
-              isConnectable={isConnectable}
-              id={id}
-              height={frontendHeight}
-            />
-          )}
-        </div>
-      </AnimatePresence>
+      <div className={isFrontend ? "" : "invisible"}>
+        <FrontendFileDropBox
+          onFileSelected={setFileDropBlob}
+          setHeight={setFrontendHeight}
+        />
+      </div>
+      <BackendFileDropBox
+        isConnectable={isConnectable}
+        id={id}
+        height={frontendHeight}
+        hidden={isFrontend}
+      />
     </div>
   );
 };
@@ -174,17 +170,23 @@ type BackendFileDropBoxProps = {
   isConnectable: boolean;
   id: string;
   height: number | null;
+  hidden: boolean;
 };
 
 const BackendFileDropBox = ({
   isConnectable,
   id,
   height,
+  hidden,
 }: BackendFileDropBoxProps) => {
   return (
     <div
-      className="file-box__backend-container rounded-[20px] file-box flex items-center justify-center w-[450px]"
-      style={{ height: height ? `${height}px` : "18em" }}
+      className="absolute inset-0 file-box__backend-container rounded-[20px] file-box flex items-center justify-center w-[450px]"
+      style={{
+        height: height ? `${height}px` : "20.8em",
+        opacity: hidden ? 0 : 1,
+        pointerEvents: hidden ? "none" : "auto",
+      }}
     >
       <BackendBox type="file" isConnectable={isConnectable} id={id} />
     </div>
