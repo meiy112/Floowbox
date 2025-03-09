@@ -77,10 +77,13 @@ body {
   --image__font-rgb: 6, 149, 133;
   --audio__font-rgb: 35, 91, 168;
   --audio__background-rgb: 229, 238, 255;
+  --file__background-rgb: 230, 229, 243;
+  --file__font-rgb: 52, 21, 220;
 
   --image__font: #109585;
   --text__font: #b40a7f;
   --audio__font: #4577bc;
+  --file__font: #3415dc;
 
   --border: #ecebf0;
   --border--container: #e4e3e9;
@@ -91,6 +94,7 @@ body {
   --image__background: #c5f0eb;
 
   --primary: #ff0072;
+  --primary-rgb: 255, 0, 114;
   --secondary: #ffeaf1;
   --primary-grey: #f0eff3;
 

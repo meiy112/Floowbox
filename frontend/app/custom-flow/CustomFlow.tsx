@@ -18,6 +18,7 @@ import AIModelNode from "./nodes/AIModelNode";
 import ButtonNode from "./nodes/ButtonNode";
 import HeaderNode from "./nodes/HeaderNode";
 import AudioNode from "./nodes/AudioNode";
+import FileDropNode from "./nodes/FileDropNode";
 
 interface ConnectionParams {
   source: string;
@@ -51,6 +52,7 @@ export default function CustomFlow({
     audiobox: AudioNode,
     audiogen: AIModelNode,
     imagegen: AIModelNode,
+    filebox: FileDropNode,
   };
 
   useEffect(() => {
@@ -98,6 +100,9 @@ export default function CustomFlow({
         if (node.type === "audiobox") {
           return { ...node, data: { ...node.data, isFrontend } };
         }
+        if (node.type === "filebox") {
+          return { ...node, data: { ...node.data, isFrontend } };
+        }
         return node;
       })
     );
@@ -139,6 +144,8 @@ export default function CustomFlow({
     } else if (nodeType === "imagebox") {
       newData = { isFrontend: isFrontend, id: newId };
     } else if (nodeType === "audiobox") {
+      newData = { isFrontend: isFrontend, id: newId };
+    } else if (nodeType === "filebox") {
       newData = { isFrontend: isFrontend, id: newId };
     } else if (nodeType === "imagegen") {
       setIsFrontend(false);
