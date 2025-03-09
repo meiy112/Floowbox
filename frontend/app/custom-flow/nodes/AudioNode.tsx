@@ -1,7 +1,7 @@
 "use client";
 import { AnimatePresence } from "framer-motion";
 import "./AudioNode.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { PipelineNode } from "@/app/class/Pipeline";
 import { useNodeConnectionContext } from "@/app/context/NodeConnectionProvider";
 import BackendBox from "@/app/components/boxes/BackendBox";
@@ -59,14 +59,15 @@ const FrontendAudioBox = ({ audioBlob }: { audioBlob: Blob | null }) => {
     if (audioBlob) {
       const url = URL.createObjectURL(audioBlob);
       setBlobUrl(url);
+      wavesurfer && wavesurfer.play();
 
       return () => URL.revokeObjectURL(url);
     }
   }, [audioBlob]);
 
   const onReady = (ws: any) => {
-    setWavesurfer(ws);
-    setIsPlaying(false);
+    ws.play();
+    setIsPlaying(true);
   };
 
   const onPlayPause = () => {
