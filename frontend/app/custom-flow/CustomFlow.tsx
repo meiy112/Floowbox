@@ -17,6 +17,7 @@ import TextNode from "./nodes/TextNode";
 import AIModelNode from "./nodes/AIModelNode";
 import ButtonNode from "./nodes/ButtonNode";
 import HeaderNode from "./nodes/HeaderNode";
+import AudioNode from "./nodes/AudioNode";
 
 interface ConnectionParams {
   source: string;
@@ -47,12 +48,35 @@ export default function CustomFlow({
     llm: AIModelNode,
     button: ButtonNode,
     header: HeaderNode,
+    audiobox: AudioNode,
+    audiogen: AIModelNode,
+    imagegen: AIModelNode,
   };
 
   useEffect(() => {
     setNodes((nds) =>
       nds.map((node) => {
         if (node.type === "llm") {
+          return {
+            ...node,
+            style: {
+              ...(node.style || {}),
+              display: isFrontend ? "none" : "block",
+              pointerEvents: isFrontend ? "none" : "auto",
+            },
+          };
+        }
+        if (node.type === "audiogen") {
+          return {
+            ...node,
+            style: {
+              ...(node.style || {}),
+              display: isFrontend ? "none" : "block",
+              pointerEvents: isFrontend ? "none" : "auto",
+            },
+          };
+        }
+        if (node.type === "imagegen") {
           return {
             ...node,
             style: {
@@ -69,6 +93,9 @@ export default function CustomFlow({
           return { ...node, data: { ...node.data, isFrontend } };
         }
         if (node.type === "button") {
+          return { ...node, data: { ...node.data, isFrontend } };
+        }
+        if (node.type === "audiobox") {
           return { ...node, data: { ...node.data, isFrontend } };
         }
         return node;
@@ -106,8 +133,16 @@ export default function CustomFlow({
     } else if (nodeType === "llm") {
       setIsFrontend(false);
       newData = { type: "text", id: newId };
+    } else if (nodeType === "audiogen") {
+      setIsFrontend(false);
+      newData = { type: "audio", id: newId };
     } else if (nodeType === "imagebox") {
       newData = { isFrontend: isFrontend, id: newId };
+    } else if (nodeType === "audiobox") {
+      newData = { isFrontend: isFrontend, id: newId };
+    } else if (nodeType === "imagegen") {
+      setIsFrontend(false);
+      newData = { type: "image", id: newId };
     } else {
       newData = { id: newId };
     }

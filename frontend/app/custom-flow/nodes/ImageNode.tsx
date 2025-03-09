@@ -19,7 +19,7 @@ const ImageNode = ({ data, isConnectable, id }: ImageBoxNodeProps) => {
 
   const nodeDefinition: PipelineNode = {
     id: id,
-    type: "ImageSummarizer",
+    type: "image",
     process: async (input: any) => {
       console.log("ImageBox processing. Input:", input);
       return input;
@@ -33,7 +33,7 @@ const ImageNode = ({ data, isConnectable, id }: ImageBoxNodeProps) => {
   return (
     <div
       className="relative flex items-center justify-center"
-      style={{ height: "450px", zIndex: 5 }}
+      style={{ height: "380px", zIndex: 5 }}
     >
       <AnimatePresence>
         <div>

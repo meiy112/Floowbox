@@ -8,12 +8,12 @@ import {
   Heading,
   House,
   Image,
+  Link,
+  MessagesSquare,
   Palette,
   PencilLine,
   Play,
   Plus,
-  ScanEye,
-  Text,
   Type,
   Upload,
   UsersRound,
@@ -70,6 +70,9 @@ const TopMenu = ({
             </span>
             <button className="top-menu__name-button">
               <PencilLine size={16} />
+            </button>
+            <button className="top-menu__name-button">
+              <Link size={16} />
             </button>
             <button className="top-menu__name-button">
               <UsersRound size={16} />
@@ -147,7 +150,12 @@ const ComponentMenu = ({
             >
               <Image size={22} strokeWidth={1.65} />
             </button>
-            <button className="component-menu__button--component">
+            <button
+              className="component-menu__button--component"
+              onClick={() =>
+                addNewNode("audiobox", centerFlowPosition, generateId())
+              }
+            >
               <AudioLines size={22} strokeWidth={1.65} />
             </button>
             <button
@@ -158,8 +166,21 @@ const ComponentMenu = ({
             >
               <Heading size={22} strokeWidth={1.65} />
             </button>
-            <button className="component-menu__button--component">
+            <button
+              className="component-menu__button--component"
+              onClick={() =>
+                addNewNode("uploadbox", centerFlowPosition, generateId())
+              }
+            >
               <Upload size={22} strokeWidth={1.65} />
+            </button>
+            <button
+              className="component-menu__button--component"
+              onClick={() =>
+                addNewNode("chatbox", centerFlowPosition, generateId())
+              }
+            >
+              <MessagesSquare size={22} strokeWidth={1.65} />
             </button>
           </div>
           <Divider isHorizontal={true} width={2.5} />
@@ -172,17 +193,29 @@ const ComponentMenu = ({
             >
               <BotMessageSquare size={22} strokeWidth={1.65} />
             </button>
-            <button className="component-menu__button--component">
+            <button
+              className="component-menu__button--component"
+              onClick={() =>
+                addNewNode("imagegen", centerFlowPosition, generateId())
+              }
+            >
               <Palette size={22} strokeWidth={1.65} />
             </button>
-            <button className="component-menu__button--component">
+            <button
+              className="component-menu__button--component"
+              onClick={() =>
+                addNewNode("audiogen", centerFlowPosition, generateId())
+              }
+            >
               <FileAudio size={22} strokeWidth={1.65} />
             </button>
-            <button className="component-menu__button--component">
+            <button
+              className="component-menu__button--component"
+              onClick={() =>
+                addNewNode("pdfparser", centerFlowPosition, generateId())
+              }
+            >
               <BookOpen size={22} strokeWidth={1.65} />
-            </button>
-            <button className="component-menu__button--component">
-              <ScanEye size={22} strokeWidth={1.65} />
             </button>
           </div>
         </div>
