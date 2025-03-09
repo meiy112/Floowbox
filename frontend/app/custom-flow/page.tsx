@@ -8,7 +8,7 @@ import { NodeConnectionProvider } from "../context/NodeConnectionProvider";
 
 export default function CustomFlowPage() {
   const router = useRouter();
-  const [isFrontend, setIsFrontend] = useState(false);
+  const [isFrontend, setIsFrontend] = useState(true);
 
   const toggleFrontend = () => {
     setIsFrontend((prev) => !prev);
@@ -25,7 +25,7 @@ export default function CustomFlowPage() {
           isFrontend={isFrontend}
           navigateHome={navigateHome}
           setIsFrontend={setIsFrontend}
-          toggleFrontend={() => setIsFrontend((prev) => !prev)}
+          toggleFrontend={toggleFrontend}
         />
       </NodeConnectionProvider>
     </PipelineProvider>

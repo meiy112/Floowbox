@@ -36,13 +36,13 @@
   padding: 0.5em;
   border-radius: 10px;
   margin: 0.3em 0;
-  background: var(--secondary);
   color: var(--primary);
   cursor: pointer;
+  border: 1px solid rgba(255, 0, 114, 0.5);
 }
 
 .component-menu__button:hover {
-  border: 1px solid var(--primary);
+  background: var(--secondary);
 }
 
 .component-menu__button--component {

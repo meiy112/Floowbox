@@ -1,27 +1,26 @@
 "use client";
-import { AnimatePresence, motion } from "framer-motion";
-import "./ImageNode.css";
+import { AnimatePresence } from "framer-motion";
+import "./AudioNode.css";
 import React, { useEffect } from "react";
 import { PipelineNode } from "@/app/class/Pipeline";
 import { useNodeConnectionContext } from "@/app/context/NodeConnectionProvider";
 import BackendBox from "@/app/components/boxes/BackendBox";
-import { Image } from "lucide-react";
 
-type ImageBoxNodeProps = {
+type AudioBoxNodeProps = {
   data: { isFrontend: boolean };
   isConnectable: boolean;
   id: string;
 };
 
-const ImageNode = ({ data, isConnectable, id }: ImageBoxNodeProps) => {
+const AudioNode = ({ data, isConnectable, id }: AudioBoxNodeProps) => {
   const { isFrontend } = data;
   const { registerNode } = useNodeConnectionContext();
 
   const nodeDefinition: PipelineNode = {
     id: id,
-    type: "image",
+    type: "audio",
     process: async (input: any) => {
-      console.log("ImageBox processing. Input:", input);
+      console.log("Audio box processing. Input:", input);
       return input;
     },
   };
@@ -38,9 +37,9 @@ const ImageNode = ({ data, isConnectable, id }: ImageBoxNodeProps) => {
       <AnimatePresence>
         <div>
           {isFrontend ? (
-            <FrontendImageBox />
+            <FrontendAudioBox />
           ) : (
-            <BackendImageBox isConnectable={isConnectable} id={id} />
+            <BackendAudioBox isConnectable={isConnectable} id={id} />
           )}
         </div>
       </AnimatePresence>
@@ -48,11 +47,10 @@ const ImageNode = ({ data, isConnectable, id }: ImageBoxNodeProps) => {
   );
 };
 
-const FrontendImageBox = () => {
+const FrontendAudioBox = () => {
   return (
-    <div className="bg-white image-box__frontend-container image-box h-[380px]">
+    <div className="bg-white audio-box__frontend-container audio-box h-[380px]">
       <div className="gap-y-[0.8em] image-box__frontend rounded-[15px] overflow-hidden flex flex-col items-center justify-center h-full bg-[#F7F7F9]">
-        <Image size={70} color={"#CECCD7"} opacity={0.5} strokeWidth={1.3} />
         <div className="flex items-center justify-center flex-col">
           <div style={{ color: "#ceccd7" }}>
             When an image is ready, it will
@@ -66,7 +64,7 @@ const FrontendImageBox = () => {
   );
 };
 
-const BackendImageBox = ({
+const BackendAudioBox = ({
   isConnectable,
   id,
 }: {
@@ -74,10 +72,10 @@ const BackendImageBox = ({
   id: string;
 }) => {
   return (
-    <div className="image-box__backend-container image-box h-[380px] flex items-center justify-center">
+    <div className="audio-box__backend-container audio-box h-[380px] flex items-center justify-center">
       <BackendBox type="image" isConnectable={isConnectable} id={id} />
     </div>
   );
 };
 
-export default ImageNode;
+export default AudioNode;

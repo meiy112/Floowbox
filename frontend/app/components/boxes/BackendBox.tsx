@@ -1,4 +1,4 @@
-import { Image, Text, Type } from "lucide-react";
+import { Image, Type } from "lucide-react";
 import NodeHandleWrapper from "../NodeHandleWrapper";
 import "./BackendBox.css";
 
