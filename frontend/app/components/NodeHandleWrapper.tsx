@@ -8,6 +8,7 @@ type NodeHandleWrapperProps = {
   isConnectable: boolean;
   threshold?: number; // threshold (in pixels) for showing source handles when not connected
   children: React.ReactNode;
+  isFrontend?: boolean;
 };
 
 const NodeHandleWrapper = ({
