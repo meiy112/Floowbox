@@ -32,7 +32,7 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
   const [prompt, setPrompt] = useState("");
   const [maxLength, setMaxLength] = useState(200);
   const [negativePrompt, setNegativePrompt] = useState("");
-  const [speed, setSpeed] = useState(0.5);
+  const [speed, setSpeed] = useState(1);
   const [voice, setVoice] = useState("alloy");
 
   const contextRef = useRef(context);
@@ -100,7 +100,7 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
           model,
           "text",
           type,
-          prompt + ": " + input,
+          promptRef.current + ": " + input,
           options
         );
         console.log("AI Model node results", result);

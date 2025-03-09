@@ -13,10 +13,6 @@ class GenimiModel(BaseModel):
   def generate(self, input, input_type, output_type, options):
     match output_type:
       case "text":
-        context = options.get("context")
-        if not context or len(context) == 0:
-          context = "You are a helpful assistant."
-
         response = self.client.models.generate_content(
             model="gemini-2.0-flash",
             contents=[input])

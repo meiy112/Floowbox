@@ -28,7 +28,7 @@ class CloudflareProvider(BaseModel):
         return output["result"]["response"]
 
       case "image":
-        negative_prompt = options.get("negative_prompt")
+        negative_prompt = options.get("negativePrompt")
         if negative_prompt:
           response = requests.post(
             f"{self.API_BASE_URL}@cf/lykon/dreamshaper-8-lcm",
