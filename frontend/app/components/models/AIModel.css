@@ -1,0 +1,14 @@
+.ai-model__container {
+  border: 1px solid var(--border--container);
+}
+
+.ai-model__label--s {
+  font-size: 0.7rem;
+  font-weight: 500;
+  margin-left: 0.1em;
+}
+
+.ai-model__input {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}

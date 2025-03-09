@@ -6,8 +6,9 @@ import {
   Edge,
   addEdge,
   BackgroundVariant,
+  ReactFlowProvider,
 } from "@xyflow/react";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { ReactFlow, Background } from "@xyflow/react";
 import { useNodeConnectionContext } from "../context/NodeConnectionProvider";
 import TopMenu from "./TopMenu";
@@ -85,7 +86,7 @@ export default function CustomFlow({
       .toString(36)
       .slice(2, 5)}`;
 
-  const addNewNode = (nodeType: string, id?: string) => {
+  const addNewNode = (nodeType: string, position: any, id?: string) => {
     const newId = id || generateId(nodeType);
 
     let newData: any = {};
@@ -104,49 +105,49 @@ export default function CustomFlow({
       newData = { id: newId };
     }
 
-    const defaultPosition = {
-      x: Math.floor(Math.random() * 800),
-      y: Math.floor(Math.random() * 600),
-    };
-
     const newNode: Node = {
       id: newId,
       type: nodeType,
-      position: defaultPosition,
+      position: position,
       data: newData,
     };
 
     setNodes((prevNodes) => [...prevNodes, newNode]);
   };
 
+  const reactFlowWrapper = useRef(null);
+
   return (
-    <div className="h-full w-full">
-      <TopMenu
-        isFrontend={isFrontend}
-        toggleFrontend={toggleFrontend}
-        name="Untitled"
-        setName={setName}
-        addNewNode={addNewNode}
-      />
-      <ReactFlow
-        nodes={nodes}
-        edges={isFrontend ? [] : edges}
-        nodeTypes={nodeTypes}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        defaultViewport={defaultViewport}
-        fitView
-        style={{ backgroundColor: "white" }}
-        attributionPosition="bottom-left"
-      >
-        <Background
-          color="#BCBCD0"
-          variant={BackgroundVariant.Dots}
-          gap={25}
-          size={2}
+    <div className="h-full w-full" ref={reactFlowWrapper}>
+      <ReactFlowProvider>
+        <TopMenu
+          isFrontend={isFrontend}
+          toggleFrontend={toggleFrontend}
+          name="Untitled"
+          setName={setName}
+          addNewNode={addNewNode}
+          reactFlowWrapper={reactFlowWrapper}
         />
-      </ReactFlow>
+        <ReactFlow
+          nodes={nodes}
+          edges={isFrontend ? [] : edges}
+          nodeTypes={nodeTypes}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          defaultViewport={defaultViewport}
+          fitView
+          style={{ backgroundColor: "white" }}
+          attributionPosition="bottom-left"
+        >
+          <Background
+            color="#BCBCD0"
+            variant={BackgroundVariant.Dots}
+            gap={25}
+            size={2}
+          />
+        </ReactFlow>
+      </ReactFlowProvider>
     </div>
   );
 }

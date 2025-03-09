@@ -23,8 +23,9 @@ import {
 import "./TopMenu.css";
 import { motion } from "framer-motion";
 import Divider from "../components/divider/Divider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { generateId } from "./utils";
+import { useReactFlow } from "@xyflow/react";
 
 const TopMenu = ({
   isFrontend,
@@ -32,12 +33,14 @@ const TopMenu = ({
   name,
   setName,
   addNewNode,
+  reactFlowWrapper,
 }: {
   isFrontend: boolean;
   toggleFrontend: () => void;
   name: string;
   setName: (name: string) => void;
-  addNewNode: (nodeType: string, id: string) => void;
+  addNewNode: (nodeType: string, position: any, id: string) => void;
+  reactFlowWrapper: any;
 }) => {
   return (
     <div className="pointer-events-none absolute text-black z-10 py-[1em] px-[1.4em] text-[0.9em] flex flex-col w-full gap-y-[1em]">
@@ -78,7 +81,10 @@ const TopMenu = ({
         </div>
       </div>
       <div className="flex">
-        <ComponentMenu addNewNode={addNewNode} />
+        <ComponentMenu
+          addNewNode={addNewNode}
+          reactFlowWrapper={reactFlowWrapper}
+        />
       </div>
     </div>
   );
@@ -86,10 +92,28 @@ const TopMenu = ({
 
 const ComponentMenu = ({
   addNewNode,
+  reactFlowWrapper,
 }: {
-  addNewNode: (nodeType: string, id: string) => void;
+  addNewNode: (nodeType: string, position: any, id: string) => void;
+  reactFlowWrapper: any;
 }) => {
   const [expand, setExpand] = useState(false);
+  const reactFlowInstance = useReactFlow();
+  const [centerFlowPosition, setCenterFlowPosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
+
+  useEffect(() => {
+    if (reactFlowWrapper.current && reactFlowInstance) {
+      const { width, height } =
+        reactFlowWrapper.current.getBoundingClientRect();
+      const viewport = reactFlowInstance.getViewport();
+      const centerFlowX = (-viewport.x + width / 2) / viewport.zoom;
+      const centerFlowY = (-viewport.y + height / 2) / viewport.zoom;
+      setCenterFlowPosition({ x: centerFlowX, y: centerFlowY });
+    }
+  }, [reactFlowInstance]);
 
   return (
     <div className="">
@@ -105,12 +129,16 @@ const ComponentMenu = ({
           <div className="component-menu__section">
             <button
               className="component-menu__button--component"
-              onClick={() => addNewNode("textbox", generateId())}
+              onClick={() =>
+                addNewNode("textbox", centerFlowPosition, generateId())
+              }
             >
               <Type size={22} strokeWidth={1.65} />
             </button>
             <button
-              onClick={() => addNewNode("imagebox", generateId())}
+              onClick={() =>
+                addNewNode("imagebox", centerFlowPosition, generateId())
+              }
               className="component-menu__button--component"
             >
               <Image size={22} strokeWidth={1.65} />
