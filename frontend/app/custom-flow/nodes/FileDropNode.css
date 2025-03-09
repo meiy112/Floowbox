@@ -10,7 +10,7 @@
 }
 
 .file-box__frontend {
-  border: 1px dashed rgba(var(--primary-rgb), 0.5);
+  border: 1px dashed var(--border);
 }
 
 .file-box__backend-container {

@@ -5,8 +5,6 @@ import React, { useEffect, useState } from "react";
 import { PipelineNode } from "@/app/class/Pipeline";
 import { useNodeConnectionContext } from "@/app/context/NodeConnectionProvider";
 import BackendBox from "@/app/components/boxes/BackendBox";
-import WavesurferPlayer from "@wavesurfer/react";
-import WaveSurfer from "wavesurfer.js";
 import { CloudUpload } from "lucide-react";
 
 type FileDropBoxNodeProps = {
@@ -18,15 +16,13 @@ type FileDropBoxNodeProps = {
 const FileDropNode = ({ data, isConnectable, id }: FileDropBoxNodeProps) => {
   const { isFrontend } = data;
   const { registerNode } = useNodeConnectionContext();
-
-  const [audioBlob, setFileDropBlob] = useState(null);
+  const [fileBlob, setFileDropBlob] = useState<Blob | null>(null);
 
   const nodeDefinition: PipelineNode = {
     id: id,
-    type: "audio",
-    process: async (input: any) => {
-      console.log("FileDrop box processing. Input:", input);
-      setFileDropBlob(input);
+    type: "file",
+    process: async () => {
+      return fileBlob;
     },
   };
 
@@ -42,7 +38,7 @@ const FileDropNode = ({ data, isConnectable, id }: FileDropBoxNodeProps) => {
       <AnimatePresence>
         <div className="h-full">
           {isFrontend ? (
-            <FrontendFileDropBox />
+            <FrontendFileDropBox onFileSelected={setFileDropBlob} />
           ) : (
             <BackendFileDropBox isConnectable={isConnectable} id={id} />
           )}
@@ -52,19 +48,34 @@ const FileDropNode = ({ data, isConnectable, id }: FileDropBoxNodeProps) => {
   );
 };
 
-const FrontendFileDropBox = () => {
+const FrontendFileDropBox = ({
+  onFileSelected,
+}: {
+  onFileSelected: (file: File) => void;
+}) => {
   return (
     <div className="bg-white file-box__frontend-container file-box h-full w-[450px] rounded-[20px]">
-      <div className="cursor-pointer px-[1.7em] file-box__frontend rounded-[15px] overflow-hidden flex flex-col items-center justify-center h-full">
-        <CloudUpload
-          size={70}
-          color={"#CECCD7"}
-          opacity={0.5}
-          strokeWidth={1.3}
+      <label className="h-full w-full">
+        <input
+          type="file"
+          className="hidden"
+          onChange={(e) => {
+            if (e.target.files && e.target.files[0]) {
+              onFileSelected(e.target.files[0]);
+            }
+          }}
         />
-        <span className="text-[1rem] font-medium">Drag & drop to upload</span>
-        <span className="text-[var(--primary)]">or browse</span>
-      </div>
+        <div className="cursor-pointer px-[1.7em] file-box__frontend rounded-[15px] overflow-hidden flex flex-col items-center justify-center h-full">
+          <CloudUpload
+            size={70}
+            color={"#CECCD7"}
+            opacity={0.5}
+            strokeWidth={1.3}
+          />
+          <span className="text-[1rem] font-medium">Drag & drop to upload</span>
+          <span className="text-[var(--primary)]">or browse</span>
+        </div>
+      </label>
     </div>
   );
 };
