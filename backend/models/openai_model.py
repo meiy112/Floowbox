@@ -13,7 +13,7 @@ class OpenAiModel(BaseModel):
   def generate(self, input, input_type, output_type, options):
     match output_type:
       case "text":
-        max_completion_tokens = options.get("length")
+        max_completion_tokens = options.get("maxLength")
         temperature = options.get("tempurature")
         context = options.get("context")
 
