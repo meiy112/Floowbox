@@ -13,6 +13,7 @@ interface ConnectionContextType {
   createConnection: (inputId: string, outputId: string) => void;
   registerNode: (nodeDefinition: PipelineNode) => void;
   currentPipeline: Pipeline;
+  removeConnection: (inputId: string, outputId: string) => void;
 }
 
 const NodeConnectionContext = createContext<ConnectionContextType | undefined>(
@@ -64,6 +65,23 @@ export const NodeConnectionProvider = ({
     }
   };
 
+  const removeConnection = (inputId: string, outputId: string) => {
+    const edgeId = `edge_${inputId}_${outputId}`;
+    const pipeline = pipelines[defaultFlowId];
+    if (!pipeline) {
+      console.error(`Flow graph '${defaultFlowId}' does not exist.`);
+      return;
+    }
+    pipeline.removeEdge(edgeId);
+    triggerUpdate();
+    setConnections((prev) =>
+      prev.filter(
+        (conn) => !(conn.inputId === inputId && conn.outputId === outputId)
+      )
+    );
+    console.log(`Removed connection: ${edgeId}`);
+  };
+
   return (
     <NodeConnectionContext.Provider
       value={{
@@ -71,6 +89,7 @@ export const NodeConnectionProvider = ({
         createConnection,
         registerNode,
         currentPipeline,
+        removeConnection,
       }}
     >
       {children}

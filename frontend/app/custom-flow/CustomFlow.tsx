@@ -8,7 +8,7 @@ import {
   BackgroundVariant,
   ReactFlowProvider,
 } from "@xyflow/react";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ReactFlow, Background } from "@xyflow/react";
 import { useNodeConnectionContext } from "../context/NodeConnectionProvider";
 import TopMenu from "./TopMenu";
@@ -19,7 +19,7 @@ import ButtonNode from "./nodes/ButtonNode";
 import HeaderNode from "./nodes/HeaderNode";
 import AudioNode from "./nodes/AudioNode";
 import FileDropNode from "./nodes/FileDropNode";
-import { generateId } from "./utils";
+import { extractConnectionIds, generateId } from "./utils";
 
 interface ConnectionParams {
   source: string;
@@ -43,6 +43,14 @@ export default function CustomFlow({
 }) {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
+  const [isRunning, setIsRunning] = useState(false);
+
+  const toggleIsRunning = () => {
+    if (!isRunning) {
+      setIsFrontend(true);
+    }
+    setIsRunning((prev) => !prev);
+  };
 
   const nodeTypes = {
     imagebox: ImageNode,
@@ -120,7 +128,7 @@ export default function CustomFlow({
     );
   }, [isFrontend, setNodes]);
 
-  const { createConnection } = useNodeConnectionContext();
+  const { createConnection, removeConnection } = useNodeConnectionContext();
 
   const onConnect = useCallback(
     (params: ConnectionParams) => {
@@ -176,8 +184,34 @@ export default function CustomFlow({
 
   const reactFlowWrapper = useRef(null);
 
+  const handleEdgesChange = useCallback(
+    (changes: any) => {
+      onEdgesChange(changes);
+      changes.forEach((change: any) => {
+        if (change.type === "remove") {
+          const removedEdgeId = change.id;
+          console.log("Removed edge id:", removedEdgeId);
+          const ids = extractConnectionIds(removedEdgeId);
+          if (ids) {
+            removeConnection(ids.inputId, ids.outputId);
+          } else {
+            console.warn(
+              "Could not extract connection ids from:",
+              removedEdgeId
+            );
+          }
+        }
+      });
+    },
+    [onEdgesChange, removeConnection]
+  );
+
   return (
-    <div className="h-full w-full" ref={reactFlowWrapper}>
+    <div
+      className="h-full w-full"
+      ref={reactFlowWrapper}
+      style={isRunning ? { pointerEvents: "none" } : {}}
+    >
       <ReactFlowProvider>
         <TopMenu
           isFrontend={isFrontend}
@@ -186,25 +220,34 @@ export default function CustomFlow({
           setName={setName}
           addNewNode={addNewNode}
           reactFlowWrapper={reactFlowWrapper}
+          toggleIsRunning={toggleIsRunning}
+          isRunning={isRunning}
         />
         <ReactFlow
           nodes={nodes}
           edges={isFrontend ? [] : edges}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
+          onEdgesChange={handleEdgesChange}
           onConnect={onConnect}
           defaultViewport={defaultViewport}
           fitView
           style={{ backgroundColor: "white" }}
           attributionPosition="bottom-left"
+          nodesDraggable={!isRunning}
+          nodesConnectable={!isRunning}
+          panOnScroll={!isRunning}
+          zoomOnScroll={!isRunning}
+          zoomOnPinch={!isRunning}
         >
-          <Background
-            color="#BCBCD0"
-            variant={BackgroundVariant.Dots}
-            gap={25}
-            size={2}
-          />
+          {!isRunning && (
+            <Background
+              color="#BCBCD0"
+              variant={BackgroundVariant.Dots}
+              gap={25}
+              size={2}
+            />
+          )}
         </ReactFlow>
       </ReactFlowProvider>
     </div>
