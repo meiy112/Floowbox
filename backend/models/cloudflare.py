@@ -15,7 +15,6 @@ class CloudflareProvider(BaseModel):
   def generate(self, input, input_type, output_type, options):
     match output_type:
       case "text":        
-
         inputs = [
             { "role": "system", "content": "You are a friendly assistant, keep your answers short" },
             { "role": "user", "content": input}
@@ -25,15 +24,28 @@ class CloudflareProvider(BaseModel):
         return output["result"]["response"]
 
       case "image":
-        response = requests.post(
+        negative_prompt = options.get("negative_prompt")
+        if negative_prompt:
+          response = requests.post(
             f"{self.API_BASE_URL}@cf/lykon/dreamshaper-8-lcm",
             headers=self.headers,
             json={
               "prompt": input,
               "height": 600,
               "width": 800,
+              "negative_prompt": negative_prompt,
             }
-        )
+          )
+        else:
+          response = requests.post(
+              f"{self.API_BASE_URL}@cf/lykon/dreamshaper-8-lcm",
+              headers=self.headers,
+              json={
+                "prompt": input,
+                "height": 600,
+                "width": 800,
+              }
+          )
 
         file_path = self.BASE_DIR + "/data/generated_image.png"
         with open(file_path, "wb") as f:
