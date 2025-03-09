@@ -87,7 +87,7 @@ const FrontendAudioBox = ({ audioBlob }: { audioBlob: Blob | null }) => {
               <img src="./images/play.svg" />
             )}
           </button>
-          {blobUrl && (
+          {blobUrl ? (
             <WavesurferPlayer
               width={340}
               waveColor={"#CECCD7"}
@@ -100,6 +100,13 @@ const FrontendAudioBox = ({ audioBlob }: { audioBlob: Blob | null }) => {
               barRadius={3}
               height={50}
             />
+          ) : (
+            <div className="w-[340px] flex flex-col gap-y-[0.2em]">
+              <span className="text-[1rem] font-medium">No Audio Found</span>
+              <span className="text-[#CECCD7]">
+                When an audio is ready, it will play here.
+              </span>
+            </div>
           )}
         </div>
       </div>
@@ -115,7 +122,7 @@ const BackendAudioBox = ({
   id: string;
 }) => {
   return (
-    <div className="audio-box__backend-container audio-box h-full flex items-center justify-center">
+    <div className="audio-box__backend-container audio-box h-full flex items-center justify-center w-[450px]">
       <BackendBox type="audio" isConnectable={isConnectable} id={id} />
     </div>
   );
