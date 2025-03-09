@@ -48,9 +48,6 @@ export const NodeConnectionProvider = ({
       ...prev,
       { pipelineId: defaultFlowId, inputId, outputId },
     ]);
-    console.log(
-      `Connected input '${inputId}' to output '${outputId}' in flow graph '${defaultFlowId}'.`
-    );
   };
 
   const registerNode = (nodeDefinition: PipelineNode) => {
@@ -79,7 +76,6 @@ export const NodeConnectionProvider = ({
         (conn) => !(conn.inputId === inputId && conn.outputId === outputId)
       )
     );
-    console.log(`Removed connection: ${edgeId}`);
   };
 
   return (

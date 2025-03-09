@@ -34,7 +34,6 @@ const TextNode = ({
       if (input) {
         setValue(input);
       }
-      console.log("Text Input processing. Returning value:", valueRef.current);
       return valueRef.current;
     },
   };

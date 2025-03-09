@@ -22,7 +22,6 @@ const ImageNode = ({ data, isConnectable, id }: ImageBoxNodeProps) => {
     id: id,
     type: "image",
     process: async (input: any) => {
-      console.log("ImageBox processing. Input:", input);
       setImageSrc(input);
       return input;
     },
