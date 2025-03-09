@@ -4,6 +4,7 @@ import { Pipeline, PipelineNode } from "@/app/class/Pipeline";
 import BackendBox from "@/app/components/boxes/BackendBox";
 import { useNodeConnectionContext } from "@/app/context/NodeConnectionProvider";
 import { Send } from "lucide-react";
+import { flushSync } from "react-dom";
 
 export interface Message {
   content: string;
@@ -52,6 +53,8 @@ const ChatNode = ({
       if (input) {
         addMessage(input, "developer");
       }
+
+      console.log(messagesRef.current);
 
       return messagesRef.current;
     },
@@ -104,7 +107,6 @@ const FrontendChatBox = ({
     setNewMessage(e.target.value);
   };
 
-  // Auto-focus the textarea and scroll the messages container to the bottom
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.focus();
@@ -125,7 +127,6 @@ const FrontendChatBox = ({
           </div>
         </div>
         <div className="h-[1px] w-full bg-[var(--border)]" />
-        {/* Message container: maps over messages and displays them */}
         <div
           className="flex-1 overflow-auto flex flex-col px-[2em] relative box-border"
           ref={divRef}
@@ -163,9 +164,11 @@ const FrontendChatBox = ({
                 if (e.key === "Enter") {
                   e.preventDefault();
                   if (newMessage.trim()) {
-                    addMessage(newMessage, "user");
-                    await currentPipeline.execute(null, [id]);
+                    flushSync(() => {
+                      addMessage(newMessage, "user");
+                    });
                     setNewMessage("");
+                    await currentPipeline.execute(null, [id]);
                   }
                 }
               }}
@@ -173,9 +176,11 @@ const FrontendChatBox = ({
             <button
               onClick={async () => {
                 if (newMessage.trim()) {
-                  addMessage(newMessage, "user");
-                  await currentPipeline.execute(null, [id]);
+                  flushSync(() => {
+                    addMessage(newMessage, "user");
+                  });
                   setNewMessage("");
+                  await currentPipeline.execute(null, [id]);
                 }
               }}
               className="absolute chat-node__button flex items-center justify-center right-[1.5em] cursor-pointer"

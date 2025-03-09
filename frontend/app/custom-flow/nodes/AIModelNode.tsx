@@ -93,13 +93,14 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
           negativePrompt: negativePromptRef.current,
           speed: speedRef.current,
           voice: voiceRef.current,
+          prompt: promptRef.current,
         };
 
         const result = await modelApi.generate(
           model,
           "text",
           type,
-          promptRef.current + ": " + input,
+          input,
           options
         );
         return result;
