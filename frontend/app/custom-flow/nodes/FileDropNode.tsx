@@ -1,12 +1,11 @@
 "use client";
 import { AnimatePresence } from "framer-motion";
 import "./FileDropNode.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { PipelineNode } from "@/app/class/Pipeline";
 import { useNodeConnectionContext } from "@/app/context/NodeConnectionProvider";
 import BackendBox from "@/app/components/boxes/BackendBox";
-import { CloudUpload, Upload } from "lucide-react";
-import Divider from "@/app/components/divider/Divider";
+import { CircleX, CloudUpload, Upload } from "lucide-react";
 
 type FileDropBoxNodeProps = {
   data: { isFrontend: boolean };
@@ -19,11 +18,17 @@ const FileDropNode = ({ data, isConnectable, id }: FileDropBoxNodeProps) => {
   const { registerNode } = useNodeConnectionContext();
   const [fileBlob, setFileDropBlob] = useState<Blob | null>(null);
 
+  const fileRef = useRef(fileBlob);
+
+  useEffect(() => {
+    fileRef.current = fileBlob;
+  }, [fileBlob]);
+
   const nodeDefinition: PipelineNode = {
     id: id,
     type: "file",
     process: async () => {
-      return fileBlob;
+      return fileRef.current;
     },
   };
 
@@ -34,7 +39,7 @@ const FileDropNode = ({ data, isConnectable, id }: FileDropBoxNodeProps) => {
   return (
     <div
       className="relative flex items-center justify-center"
-      style={{ height: "18em", zIndex: 5 }}
+      style={{ zIndex: 5 }}
     >
       <AnimatePresence>
         <div className="h-full">
@@ -52,8 +57,26 @@ const FileDropNode = ({ data, isConnectable, id }: FileDropBoxNodeProps) => {
 const FrontendFileDropBox = ({
   onFileSelected,
 }: {
-  onFileSelected: (file: File) => void;
+  onFileSelected: (file: Blob | null) => void;
 }) => {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  // Helper function to format file size in a readable format
+  const formatFileSize = (bytes: number): string => {
+    if (bytes < 1024) {
+      return bytes + " bytes";
+    } else if (bytes < 1024 * 1024) {
+      return (bytes / 1024).toFixed(2) + " KB";
+    } else {
+      return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+    }
+  };
+
+  const removeFile = () => {
+    setSelectedFile(null);
+    onFileSelected(null);
+  };
+
   return (
     <div className="py-[1.1em] overflow-hidden bg-white flex flex-col justify-between file-box__frontend-container file-box h-full w-[450px] rounded-[20px]">
       <div className="flex px-[1.3em] items-center gap-x-[1em]">
@@ -68,13 +91,15 @@ const FrontendFileDropBox = ({
         </div>
       </div>
       <div className="h-[1px] w-full bg-[var(--border)] mt-[1em] mb-[1.2em]" />
-      <label className="flex-1 px-[1.3em]">
+      <label className="h-[13em] px-[1.3em]">
         <input
           type="file"
           className="hidden"
           onChange={(e) => {
             if (e.target.files && e.target.files[0]) {
-              onFileSelected(e.target.files[0]);
+              const file = e.target.files[0];
+              setSelectedFile(file);
+              onFileSelected(file);
             }
           }}
         />
@@ -91,6 +116,35 @@ const FrontendFileDropBox = ({
           </span>
         </div>
       </label>
+      {selectedFile && (
+        <div className="flex px-[1.3em] items-center gap-x-[1em] mt-[0.7em] w-full">
+          <div className="w-full bg-[#EEF1F7] rounded-[15px] h-[5em] px-[1.2em] flex items-center justify-between">
+            <div className="gap-x-[1em] flex items-center">
+              <img src="images/pdf.svg" alt="" className="h-[3em]" />
+              <div>
+                <div>
+                  {selectedFile ? selectedFile.name : "File name goes here"}
+                </div>
+                <div
+                  className="text-[0.8rem]"
+                  style={{ color: "rgba(0, 0, 0, 0.3)" }}
+                >
+                  {selectedFile
+                    ? formatFileSize(selectedFile.size)
+                    : "File size goes here"}
+                </div>
+              </div>
+            </div>
+            <button
+              className="h-full flex py-[1.1em] cursor-pointer"
+              style={{ color: "rgba(0, 0, 0, 0.5)" }}
+              onClick={removeFile}
+            >
+              <CircleX size={16} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -103,7 +157,7 @@ const BackendFileDropBox = ({
   id: string;
 }) => {
   return (
-    <div className="file-box__backend-container rounded-[20px] file-box h-full flex items-center justify-center w-[450px]">
+    <div className="file-box__backend-container rounded-[20px] file-box h-[18em] flex items-center justify-center w-[450px]">
       <BackendBox type="file" isConnectable={isConnectable} id={id} />
     </div>
   );
