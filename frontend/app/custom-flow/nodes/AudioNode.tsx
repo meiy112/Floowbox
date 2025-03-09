@@ -38,15 +38,14 @@ const AudioNode = ({ data, isConnectable, id }: AudioBoxNodeProps) => {
       className="relative flex items-center justify-center"
       style={{ height: "6em", zIndex: 5 }}
     >
-      <AnimatePresence>
-        <div className="h-full">
-          {isFrontend ? (
-            <FrontendAudioBox audioBlob={audioBlob} />
-          ) : (
-            <BackendAudioBox isConnectable={isConnectable} id={id} />
-          )}
-        </div>
-      </AnimatePresence>
+      <div className={isFrontend ? "h-full" : "h-full invisible"}>
+        <FrontendAudioBox audioBlob={audioBlob} />
+      </div>
+      <BackendAudioBox
+        isConnectable={isConnectable}
+        id={id}
+        hidden={isFrontend}
+      />
     </div>
   );
 };
@@ -115,12 +114,20 @@ const FrontendAudioBox = ({ audioBlob }: { audioBlob: Blob | null }) => {
 const BackendAudioBox = ({
   isConnectable,
   id,
+  hidden,
 }: {
   isConnectable: boolean;
   id: string;
+  hidden: boolean;
 }) => {
   return (
-    <div className="audio-box__backend-container audio-box h-full flex items-center justify-center w-[450px]">
+    <div
+      className="absolute inset-0 audio-box__backend-container audio-box h-full flex items-center justify-center w-[450px]"
+      style={{
+        opacity: hidden ? 0 : 1,
+        pointerEvents: hidden ? "none" : "auto",
+      }}
+    >
       <BackendBox type="audio" isConnectable={isConnectable} id={id} />
     </div>
   );
