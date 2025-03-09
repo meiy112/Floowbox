@@ -22,7 +22,7 @@ type HeaderProps = {
 };
 
 const Header = ({ type, isOpen, setIsOpen }: HeaderProps) => {
-  const [title, setTitle] = useState("Double Click to Edit Title");
+  const [title, setTitle] = useState("Double Click to Edit");
   const [isEditing, setIsEditing] = useState(false);
 
   const optionsMap = {
@@ -266,7 +266,6 @@ const ContextInput = ({ text, setText }: ContextInputProps) => {
   );
 };
 
-
 type VoiceDropdownProps = {
   voice: string;
   setVoice: (value: string) => void;
@@ -274,7 +273,17 @@ type VoiceDropdownProps = {
 
 const VoiceDropdown = ({ voice, setVoice }: VoiceDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const voices = ["alloy", "ash", "coral", "echo", "fable", "onyx", "nova", "sage", "shimmer"]
+  const voices = [
+    "alloy",
+    "ash",
+    "coral",
+    "echo",
+    "fable",
+    "onyx",
+    "nova",
+    "sage",
+    "shimmer",
+  ];
 
   return (
     <div className="flex flex-col gap-y-[0.3em]">
@@ -284,9 +293,7 @@ const VoiceDropdown = ({ voice, setVoice }: VoiceDropdownProps) => {
           onClick={() => setIsOpen(!isOpen)}
           className="w-full aspect-[8/1] font-medium ai-model__input flex justify-between items-center cursor-pointer"
         >
-          <div className="flex items-center py-2 px-3">
-            {voice}
-          </div>
+          <div className="flex items-center py-2 px-3">{voice}</div>
 
           <span className="mr-[1em]">
             {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
@@ -305,9 +312,7 @@ const VoiceDropdown = ({ voice, setVoice }: VoiceDropdownProps) => {
                   setIsOpen(false);
                 }}
               >
-                <div className="pr-10">
-                  {voice}
-                </div>
+                <div className="pr-10">{voice}</div>
               </li>
             ))}
           </ul>
@@ -315,7 +320,7 @@ const VoiceDropdown = ({ voice, setVoice }: VoiceDropdownProps) => {
       </div>
     </div>
   );
-}
+};
 
 type AIModelProps = {
   type: string;
@@ -341,12 +346,18 @@ const AIModel = (props: AIModelProps) => {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className="ai-model__container container-shadow text-black bg-white w-[25em] rounded-[20px] p-[1em] flex flex-col gap-y-[1.2em]">
+    <div
+      className={`ai-model__container container-shadow text-black bg-white w-[25em] rounded-[20px] p-[1em] flex flex-col gap-y-[1.2em]`}
+    >
       <Header type={props.type} isOpen={isOpen} setIsOpen={setIsOpen} />
       {isOpen ? (
         <>
           <div className="border-[1px] border-gray-100"></div>
-          <ModelSelection model={props.model} setModel={props.setModel} type={props.type} />
+          <ModelSelection
+            model={props.model}
+            setModel={props.setModel}
+            type={props.type}
+          />
           {props.type != "file" && (
             <ContextInput text={props.context} setText={props.setContext} />
           )}
@@ -360,7 +371,7 @@ const AIModel = (props: AIModelProps) => {
                 className="leading-tight w-full aspect-[4/1] text-[0.85rem] rounded-[10px] resize-none ai-model__input py-[0.5em] px-[0.8em] placeholder-[#BAB7C3]"
                 placeholder="Prompt for the AI."
               />
-          </div>
+            </div>
           )}
           {props.type == "image" && (
             <div className="flex flex-col gap-y-[0.2em]">
@@ -372,7 +383,7 @@ const AIModel = (props: AIModelProps) => {
                 className="leading-tight w-full aspect-[4/1] text-[0.85rem] rounded-[10px] resize-none ai-model__input py-[0.5em] px-[0.8em] placeholder-[#BAB7C3]"
                 placeholder="What not to include in the generated image."
               />
-          </div>
+            </div>
           )}
           {props.type != "file" && (
             <div className="flex flex-col gap-y-[0.2em]">
@@ -394,13 +405,13 @@ const AIModel = (props: AIModelProps) => {
                 max={1000}
                 type={props.type}
               />
-          </div>
+            </div>
           )}
           {props.type == "audio" && (
             <div className="flex flex-col gap-y-[0.2em]">
               <div className="ai-model__label--s">Voice</div>
-              <VoiceDropdown voice={props.voice} setVoice={props.setVoice}/>
-          </div>
+              <VoiceDropdown voice={props.voice} setVoice={props.setVoice} />
+            </div>
           )}
           {props.type == "audio" && (
             <div className="flex flex-col gap-y-[0.2em]">
@@ -411,7 +422,7 @@ const AIModel = (props: AIModelProps) => {
                 max={1}
                 type={props.type}
               />
-          </div>
+            </div>
           )}
         </>
       ) : null}
@@ -420,4 +431,3 @@ const AIModel = (props: AIModelProps) => {
 };
 
 export default AIModel;
-

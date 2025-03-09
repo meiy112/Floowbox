@@ -68,7 +68,7 @@ const FrontendTextBox = ({
   handleChange: React.ChangeEventHandler<HTMLTextAreaElement>;
 }) => {
   return (
-    <div className="bg-white text-box__frontend-container text-box h-[215px]">
+    <div className="bg-white text-box__frontend-container text-box h-[215px] w-[38em]">
       <div className="text-box__frontend rounded-[15px] overflow-hidden flex h-full">
         <textarea
           placeholder="Start typing here..."
@@ -93,7 +93,7 @@ const BackendTextBox = ({
 }) => {
   return (
     <div
-      className="text-box__backend-container absolute inset-0 text-box h-[215px] flex items-center justify-center"
+      className="text-box__backend-container absolute inset-0 text-box h-[215px] flex items-center justify-center w-[38em]"
       style={{
         opacity: hidden ? 0 : 1,
         pointerEvents: hidden ? "none" : "auto",
