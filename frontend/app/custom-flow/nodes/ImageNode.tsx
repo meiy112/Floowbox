@@ -1,7 +1,7 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
 import "./ImageNode.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { PipelineNode } from "@/app/class/Pipeline";
 import { useNodeConnectionContext } from "@/app/context/NodeConnectionProvider";
 import BackendBox from "@/app/components/boxes/BackendBox";
@@ -14,6 +14,7 @@ type ImageBoxNodeProps = {
 };
 
 const ImageNode = ({ data, isConnectable, id }: ImageBoxNodeProps) => {
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
   const { isFrontend } = data;
   const { registerNode } = useNodeConnectionContext();
 
@@ -22,6 +23,7 @@ const ImageNode = ({ data, isConnectable, id }: ImageBoxNodeProps) => {
     type: "image",
     process: async (input: any) => {
       console.log("ImageBox processing. Input:", input);
+      setImageSrc(input);
       return input;
     },
   };
@@ -38,7 +40,7 @@ const ImageNode = ({ data, isConnectable, id }: ImageBoxNodeProps) => {
       <AnimatePresence>
         <div>
           {isFrontend ? (
-            <FrontendImageBox />
+            <FrontendImageBox imageSrc={imageSrc}/>
           ) : (
             <BackendImageBox isConnectable={isConnectable} id={id} />
           )}
@@ -48,20 +50,30 @@ const ImageNode = ({ data, isConnectable, id }: ImageBoxNodeProps) => {
   );
 };
 
-const FrontendImageBox = () => {
+const FrontendImageBox = ({ imageSrc }: { imageSrc: string | null }) => {
   return (
     <div className="bg-white image-box__frontend-container image-box h-[380px]">
-      <div className="gap-y-[0.8em] image-box__frontend rounded-[15px] overflow-hidden flex flex-col items-center justify-center h-full bg-[#F7F7F9]">
-        <Image size={70} color={"#CECCD7"} opacity={0.5} strokeWidth={1.3} />
-        <div className="flex items-center justify-center flex-col">
-          <div style={{ color: "#ceccd7" }}>
-            When an image is ready, it will
-          </div>
-          <div className="mt-[-0.2em]" style={{ color: "#ceccd7" }}>
-            appear here.
+      {
+        imageSrc ?
+        <div className="gap-y-[0.8em] image-box__frontend rounded-[15px] overflow-hidden flex flex-col items-center justify-center h-full">
+          <img
+            src={imageSrc}
+          />
+        </div>
+        :
+        <div className="gap-y-[0.8em] image-box__frontend rounded-[15px] overflow-hidden flex flex-col items-center justify-center h-full bg-[#F7F7F9]">
+          <Image size={70} color={"#CECCD7"} opacity={0.5} strokeWidth={1.3} />
+          <div className="flex items-center justify-center flex-col">
+            <div style={{ color: "#ceccd7" }}>
+              When an image is ready, it will
+            </div>
+            <div className="mt-[-0.2em]" style={{ color: "#ceccd7" }}>
+              appear here.
+            </div>
           </div>
         </div>
-      </div>
+      }
+      
     </div>
   );
 };
