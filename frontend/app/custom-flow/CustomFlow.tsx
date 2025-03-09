@@ -286,13 +286,13 @@ export default function CustomFlow({
                 <span className="font-bold text-[4em]">Box</span>
               </div>
               <div
-                className="text-center text-[0.85rem] w-[18em] text-black bg-white rounded-[15px]"
+                className="text-center text-[0.85rem] w-[18em] text-black bg-white rounded-[15px] mt-[-0.5em]"
                 style={{ color: "rgba(0, 0, 0, 0.5" }}
               >
                 This is the floow page, it is empty now. Find the + icon at the
                 top left to add nodes.
               </div>
-              <button className="bg-black text-white rounded-[50em] px-[1.2em] text-[0.85rem] font-semibold py-[0.4em] mt-[1.3em] gap-x-[0.7em] flex">
+              <button className="bg-black text-white rounded-[50em] px-[1.2em] text-[0.85rem] font-semibold py-[0.4em] mt-[1.7em] gap-x-[0.7em] flex">
                 ✨ Get Started
               </button>
             </div>
