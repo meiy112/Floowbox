@@ -42,6 +42,23 @@ const TopMenu = ({
   addNewNode: (nodeType: string, position: any, id: string) => void;
   reactFlowWrapper: any;
 }) => {
+  const reactFlowInstance = useReactFlow();
+  const [centerFlowPosition, setCenterFlowPosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
+
+  useEffect(() => {
+    if (reactFlowWrapper.current && reactFlowInstance) {
+      const { width, height } =
+        reactFlowWrapper.current.getBoundingClientRect();
+      const viewport = reactFlowInstance.getViewport();
+      const centerFlowX = (-viewport.x + width / 2) / viewport.zoom;
+      const centerFlowY = (-viewport.y + height / 2) / viewport.zoom;
+      setCenterFlowPosition({ x: centerFlowX, y: centerFlowY });
+    }
+  }, [reactFlowInstance]);
+
   return (
     <div className="pointer-events-none absolute text-black z-10 py-[1em] px-[1.4em] text-[0.9em] flex flex-col w-full gap-y-[1em]">
       <div className="select-none items-center justify-between flex w-full">
@@ -69,6 +86,9 @@ const TopMenu = ({
             text="Add Button"
             icon={<Zap size={16} />}
             padding={1.2}
+            onClick={() =>
+              addNewNode("button", centerFlowPosition, generateId())
+            }
           />
           <TopMenuButton icon={<Workflow size={22} strokeWidth={1.65} />} />
           <TopMenuButton
@@ -83,7 +103,7 @@ const TopMenu = ({
       <div className="flex">
         <ComponentMenu
           addNewNode={addNewNode}
-          reactFlowWrapper={reactFlowWrapper}
+          centerFlowPosition={centerFlowPosition}
         />
       </div>
     </div>
@@ -92,28 +112,12 @@ const TopMenu = ({
 
 const ComponentMenu = ({
   addNewNode,
-  reactFlowWrapper,
+  centerFlowPosition,
 }: {
   addNewNode: (nodeType: string, position: any, id: string) => void;
-  reactFlowWrapper: any;
+  centerFlowPosition: any;
 }) => {
   const [expand, setExpand] = useState(false);
-  const reactFlowInstance = useReactFlow();
-  const [centerFlowPosition, setCenterFlowPosition] = useState<{
-    x: number;
-    y: number;
-  } | null>(null);
-
-  useEffect(() => {
-    if (reactFlowWrapper.current && reactFlowInstance) {
-      const { width, height } =
-        reactFlowWrapper.current.getBoundingClientRect();
-      const viewport = reactFlowInstance.getViewport();
-      const centerFlowX = (-viewport.x + width / 2) / viewport.zoom;
-      const centerFlowY = (-viewport.y + height / 2) / viewport.zoom;
-      setCenterFlowPosition({ x: centerFlowX, y: centerFlowY });
-    }
-  }, [reactFlowInstance]);
 
   return (
     <div className="">
@@ -197,15 +201,18 @@ const TopMenuButton = ({
   outlined,
   filled,
   padding,
+  onClick,
 }: {
   text?: any;
   icon?: any;
   outlined?: boolean;
   filled?: boolean;
   padding?: number;
+  onClick?: () => void;
 }) => {
   return (
     <button
+      onClick={onClick}
       className={`${outlined && "floating-menu__button--outlined"} ${
         filled && "floating-menu__button--filled"
       } flex items-center justify-center gap-x-[0.45em] h-[2.7em] floating-menu__button rounded-[50em] font-medium`}
