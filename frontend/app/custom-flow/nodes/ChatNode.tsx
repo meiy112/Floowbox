@@ -3,7 +3,7 @@ import "./ChatNode.css";
 import { Pipeline, PipelineNode } from "@/app/class/Pipeline";
 import BackendBox from "@/app/components/boxes/BackendBox";
 import { useNodeConnectionContext } from "@/app/context/NodeConnectionProvider";
-import { CircleUserRound, Send } from "lucide-react";
+import { Send } from "lucide-react";
 
 export interface Message {
   content: string;
@@ -23,6 +23,8 @@ const ChatNode = ({
   const { currentPipeline, registerNode } = useNodeConnectionContext();
   const [messages, setMessages] = useState<Message[]>([]);
 
+  console.log(messages);
+
   const messagesRef = useRef(messages);
   const divRef = useRef<HTMLDivElement | null>(null);
 
@@ -33,15 +35,12 @@ const ChatNode = ({
   };
 
   async function addMessage(newMessage: string, role: string) {
-    const messageToAdd = {
-      content: newMessage,
-      role: role,
-    };
-    const newMessages = [...messages, messageToAdd];
-
-    setMessages(newMessages);
-
-    scrollToTop();
+    const messageToAdd = { content: newMessage, role: role };
+    setMessages((prevMessages) => {
+      const updatedMessages = [...prevMessages, messageToAdd];
+      setTimeout(() => scrollToTop(), 0);
+      return updatedMessages;
+    });
   }
 
   useEffect(() => {
@@ -61,6 +60,7 @@ const ChatNode = ({
         "Chat Input processing. Returning value:",
         messagesRef.current
       );
+
       return messagesRef.current;
     },
   };

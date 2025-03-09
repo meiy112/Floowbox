@@ -40,15 +40,28 @@ export class Pipeline {
     }
   }
 
-  async executeNode(node: PipelineNode, input?: any): Promise<void> {
+  async executeNode(
+    node: PipelineNode,
+    input?: any,
+    visited: Set<string> = new Set()
+  ): Promise<void> {
     const output = await node.process(input);
+
+    if (visited.has(node.id)) {
+      console.warn(`Cycle detected: Node ${node.id} already executed.`);
+      return output;
+    }
+
     const outgoingEdges = this.edges.filter(
       (edge) => edge.from.nodeId === node.id
     );
+
+    visited.add(node.id);
+
     for (const edge of outgoingEdges) {
       const nextNode = this.nodes[edge.to.nodeId];
       if (nextNode) {
-        await this.executeNode(nextNode, output);
+        await this.executeNode(nextNode, output, new Set(visited));
       }
     }
   }
