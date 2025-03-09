@@ -67,7 +67,6 @@ type ModelSelectionProps = {
 const ModelSelection = ({ model, setModel, type }: ModelSelectionProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  // TODO: add more models to the map
   const optionsMap = {
     text: ["GPT o3-mini", "Gemini", "Ollama", "Deepseek"],
     image: ["DALLE 3", "DreamShaper", "Midjourney"],

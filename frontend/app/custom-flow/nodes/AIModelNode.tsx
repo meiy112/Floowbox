@@ -1,5 +1,6 @@
 "use client";
 import { modelApi } from "@/app/api/modelApi";
+import { parseApi } from "@/app/api/parseApi"
 import { PipelineNode } from "@/app/class/Pipeline";
 import AIModel from "@/app/components/models/AIModel";
 import { ModelType } from "@/app/components/models/utils";
@@ -45,17 +46,23 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
     id: id,
     type: "GptModel",
     process: async (input: any) => {
-      const options = {
-        voice: "shimmer",
-      }; // TODO: add options if they are selected
-      const result = await modelApi.generate(
-        model,
-        "text",
-        type,
-        input,
-        options
-      );
-      return result;
+      if (type === "file") {
+        console.log("parsing pdf...");
+        const result = await parseApi.parsePdf(input);
+        return result;
+      } else {
+        const options = {
+          voice: "shimmer",
+        }; // TODO: add options if they are selected
+        const result = await modelApi.generate(
+          model,
+          "text",
+          type,
+          input,
+          options
+        );
+        return result;
+      }
     },
   };
 
