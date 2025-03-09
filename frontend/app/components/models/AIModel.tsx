@@ -121,7 +121,7 @@ const Header = ({ type, isOpen, setIsOpen }: HeaderProps) => {
                   onBlur={handleBlur}
                   onKeyDown={handleKeyDown}
                   autoFocus
-                  className="border border-gray-300 rounded w-full focus:outline-none"
+                  className="w-full focus:outline-none border-none"
                 />
               ) : (
                 <div
