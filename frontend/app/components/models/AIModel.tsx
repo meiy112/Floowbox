@@ -1,17 +1,18 @@
 import { useState } from "react";
 import "./AIModel.css";
 import { s } from "framer-motion/client";
-import { ModelType } from "./utils";
-import { 
-  ChevronDown, 
-  ChevronUp, 
-  Maximize2, 
+import { modelIconMap, ModelType } from "./utils";
+import Input from "../input-field/Input";
+import {
+  ChevronDown,
+  ChevronUp,
+  Maximize2,
   Minimize2,
   BotMessageSquare,
   BookOpen,
   PencilLine,
   FileAudio,
-  Palette
+  Palette,
 } from "lucide-react";
 
 type HeaderProps = {
@@ -32,24 +33,32 @@ const Header = ({ type, isOpen, setIsOpen }: HeaderProps) => {
   };
   const aiType = optionsMap[type as ModelType];
 
-  const iconMap: {[key: string]: any } = {
-    text: <BotMessageSquare 
-            size={30}
-            style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
-          />,
-    image: <Palette 
-            size={30}
-            style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
-          />,
-    audio: <FileAudio 
-              size={30}
-              style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
-            />,
-    file: <BookOpen 
-              size={30}
-              style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
-            />,
-  }
+  const iconMap: { [key: string]: any } = {
+    text: (
+      <BotMessageSquare
+        size={30}
+        style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
+      />
+    ),
+    image: (
+      <Palette
+        size={30}
+        style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
+      />
+    ),
+    audio: (
+      <FileAudio
+        size={30}
+        style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
+      />
+    ),
+    file: (
+      <BookOpen
+        size={30}
+        style={{ color: `rgba(var(--${type}__font-rgb), 1)` }}
+      />
+    ),
+  };
 
   const handleDoubleClick = () => {
     setIsEditing(true);
@@ -94,7 +103,7 @@ const Header = ({ type, isOpen, setIsOpen }: HeaderProps) => {
             >
               {aiType}
             </div>
-          </div >
+          </div>
           <div className="flex flex-row items-center space-x-3">
             <div className="font-semibold text-[1rem]">
               {isEditing ? (
@@ -108,15 +117,15 @@ const Header = ({ type, isOpen, setIsOpen }: HeaderProps) => {
                   className="border border-gray-300 rounded w-full focus:outline-none"
                 />
               ) : (
-                <div onDoubleClick={handleDoubleClick} className="cursor-pointer">
+                <div
+                  onDoubleClick={handleDoubleClick}
+                  className="cursor-pointer"
+                >
                   {title}
                 </div>
               )}
             </div>
-            <PencilLine 
-              size={18}
-              style={{ color: 'var(--font--light)' }}
-            />
+            <PencilLine size={18} style={{ color: "var(--font--light)" }} />
           </div>
         </div>
         <button
@@ -266,9 +275,10 @@ const AIModel = ({
   setContext,
 }: AIModelProps) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [temperature, setTemperature] = useState(1);
 
   return (
-    <div className="ai-model__container container-shadow text-black bg-white w-[25em] rounded-[20px] p-[1em] flex flex-col gap-y-[1em]">
+    <div className="ai-model__container container-shadow text-black bg-white w-[25em] rounded-[20px] p-[1em] flex flex-col gap-y-[1.2em]">
       <Header type={type} isOpen={isOpen} setIsOpen={setIsOpen} />
       {isOpen ? (
         <>
@@ -276,6 +286,17 @@ const AIModel = ({
           <ModelSelection model={model} setModel={setModel} type={type} />
           {type != "file" && (
             <ContextInput text={context} setText={setContext} />
+          )}
+          {type != "file" && (
+            <div className="flex flex-col gap-y-[0.2em]">
+              <div className="ai-model__label--s">Temperature</div>
+              <Input
+                value={temperature}
+                updateValue={setTemperature}
+                max={2}
+                type={type}
+              />
+            </div>
           )}
         </>
       ) : null}
