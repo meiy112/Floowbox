@@ -408,7 +408,7 @@ const AIModel = (props: AIModelProps) => {
               <Input
                 value={props.speed}
                 updateValue={props.setSpeed}
-                max={1}
+                max={4}
                 type={props.type}
               />
           </div>
