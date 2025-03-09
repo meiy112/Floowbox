@@ -96,13 +96,11 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
           voice: voiceRef.current,
         }; 
 
-        console.log(options)
-
         const result = await modelApi.generate(
           model,
           "text",
           type,
-          prompt + ": " + input,
+          promptRef.current + ": " + input,
           options
         );
         return result;
