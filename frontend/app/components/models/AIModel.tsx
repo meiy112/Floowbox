@@ -259,6 +259,57 @@ const ContextInput = ({ text, setText }: ContextInputProps) => {
   );
 };
 
+
+type VoiceDropdownProps = {
+  voice: string;
+  setVoice: (value: string) => void;
+};
+
+const VoiceDropdown = ({ voice, setVoice }: VoiceDropdownProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const voices = ["alloy", "ash", "coral", "echo", "fable", "onyx", "nova", "sage", "shimmer"]
+
+  return (
+    <div className="flex flex-col gap-y-[0.3em]">
+      <div className="relative w-full">
+        {/* Dropdown Button */}
+        <div
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-full aspect-[8/1] font-medium ai-model__input flex justify-between items-center cursor-pointer"
+        >
+          <div className="flex items-center py-2 px-3">
+            {voice}
+          </div>
+
+          <span className="mr-[1em]">
+            {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+          </span>
+        </div>
+
+        {/* Dropdown Menu */}
+        {isOpen && (
+          <ul className="absolute left-0 w-full mt-1 bg-white border-2 border-gray-200 rounded-lg shadow-lg z-10">
+            {voices.map((voice, index) => (
+              <li
+                key={index}
+                className="py-2 px-3 hover:bg-gray-100 cursor-pointer"
+                onClick={() => {
+                  setVoice(voice);
+                  setIsOpen(false);
+                }}
+              >
+                <div className="pr-10">
+                  {voice}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
+
 type AIModelProps = {
   type: string;
   model: string;
@@ -275,7 +326,12 @@ const AIModel = ({
   setContext,
 }: AIModelProps) => {
   const [isOpen, setIsOpen] = useState(true);
-  const [temperature, setTemperature] = useState(1);
+  const [temperature, setTemperature] = useState(0.5);
+  const [prompt, setPrompt] = useState("");
+  const [maxLength, setMaxLength] = useState(200);
+  const [negativePrompt, setNegativePrompt] = useState("")
+  const [speed, setSpeed] = useState(0.5)
+  const [voice, setVoice] = useState("alloy")
 
   return (
     <div className="ai-model__container container-shadow text-black bg-white w-[25em] rounded-[20px] p-[1em] flex flex-col gap-y-[1.2em]">
@@ -287,16 +343,68 @@ const AIModel = ({
           {type != "file" && (
             <ContextInput text={context} setText={setContext} />
           )}
+          {(type == "text" || type == "image") && (
+            <div className="flex flex-col gap-y-[0.2em]">
+              <div className="ai-model__label--s">Prompt</div>
+              <textarea
+                id="text-input"
+                value={prompt}
+                onChange={(e: any) => setPrompt(e)}
+                className="leading-tight w-full aspect-[4/1] text-[0.85rem] rounded-[10px] resize-none ai-model__input py-[0.5em] px-[0.8em] placeholder-[#BAB7C3]"
+                placeholder="Prompt for the AI."
+              />
+          </div>
+          )}
+          {type == "image" && (
+            <div className="flex flex-col gap-y-[0.2em]">
+              <div className="ai-model__label--s">Negative Prompt</div>
+              <textarea
+                id="text-input"
+                value={negativePrompt}
+                onChange={(e: any) => setNegativePrompt(e)}
+                className="leading-tight w-full aspect-[4/1] text-[0.85rem] rounded-[10px] resize-none ai-model__input py-[0.5em] px-[0.8em] placeholder-[#BAB7C3]"
+                placeholder="What not to include in the generated image."
+              />
+          </div>
+          )}
           {type != "file" && (
             <div className="flex flex-col gap-y-[0.2em]">
               <div className="ai-model__label--s">Temperature</div>
               <Input
                 value={temperature}
                 updateValue={setTemperature}
-                max={2}
+                max={1}
                 type={type}
               />
             </div>
+          )}
+          {type == "text" && (
+            <div className="flex flex-col gap-y-[0.2em]">
+              <div className="ai-model__label--s">Max length (Tokens)</div>
+              <Input
+                value={maxLength}
+                updateValue={setMaxLength}
+                max={1000}
+                type={type}
+              />
+          </div>
+          )}
+          {type == "audio" && (
+            <div className="flex flex-col gap-y-[0.2em]">
+              <div className="ai-model__label--s">Voice</div>
+              <VoiceDropdown voice={voice} setVoice={setVoice}/>
+          </div>
+          )}
+          {type == "audio" && (
+            <div className="flex flex-col gap-y-[0.2em]">
+              <div className="ai-model__label--s">Speed</div>
+              <Input
+                value={speed}
+                updateValue={setSpeed}
+                max={1}
+                type={type}
+              />
+          </div>
           )}
         </>
       ) : null}
