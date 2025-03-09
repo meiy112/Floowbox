@@ -1,6 +1,6 @@
 "use client";
 import { modelApi } from "@/app/api/modelApi";
-import { parseApi } from "@/app/api/parseApi"
+import { parseApi } from "@/app/api/parseApi";
 import { PipelineNode } from "@/app/class/Pipeline";
 import AIModel from "@/app/components/models/AIModel";
 import { ModelType } from "@/app/components/models/utils";
@@ -31,9 +31,9 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
   const [temperature, setTemperature] = useState(0.5);
   const [prompt, setPrompt] = useState("");
   const [maxLength, setMaxLength] = useState(200);
-  const [negativePrompt, setNegativePrompt] = useState("")
-  const [speed, setSpeed] = useState(1)
-  const [voice, setVoice] = useState("alloy")
+  const [negativePrompt, setNegativePrompt] = useState("");
+  const [speed, setSpeed] = useState(1);
+  const [voice, setVoice] = useState("alloy");
 
   const contextRef = useRef(context);
   const modelRef = useRef(model);
@@ -55,23 +55,23 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
   useEffect(() => {
     temperatureRef.current = temperature;
   }, [temperature]);
-  
+
   useEffect(() => {
     promptRef.current = prompt;
   }, [prompt]);
-  
+
   useEffect(() => {
     maxLengthRef.current = maxLength;
   }, [maxLength]);
-  
+
   useEffect(() => {
     negativePromptRef.current = negativePrompt;
   }, [negativePrompt]);
-  
+
   useEffect(() => {
     speedRef.current = speed;
   }, [speed]);
-  
+
   useEffect(() => {
     voiceRef.current = voice;
   }, [voice]);
@@ -94,7 +94,7 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
           negativePrompt: negativePromptRef.current,
           speed: speedRef.current,
           voice: voiceRef.current,
-        }; 
+        };
 
         const result = await modelApi.generate(
           model,
@@ -103,6 +103,7 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
           promptRef.current + ": " + input,
           options
         );
+        console.log("AI Model node results", result);
         return result;
       }
     },

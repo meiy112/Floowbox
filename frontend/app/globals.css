@@ -85,6 +85,10 @@ body {
   --audio__font: #4577bc;
   --file__font: #3415dc;
 
+  --chat__font-rgb: 130, 2, 90;
+  --chat__background-rgb: 255, 204, 230;
+  --chat__font: #b40a7f;
+
   --border: #ecebf0;
   --border--container: #e4e3e9;
 
@@ -215,3 +219,37 @@ input[type="number"] {
   -moz-appearance: textfield;
   font-size: 0.9rem;
 }
+
+.border-hover__text:hover {
+  border: 1px solid rgba(var(--text__background-rgb), 1);
+}
+
+/* .react-flow {
+  --xy-theme-selected: #f57dbd;
+  --xy-theme-hover: #c5c5c5;
+  --xy-theme-edge-hover: black;
+  --xy-theme-color-focus: #e8e8e8;
+} */
+
+/* .custom-node.selectable:focus {
+  box-shadow: 0px 0px 0px 4px var(--xy-theme-color-focus);
+  border-color: #d9d9d9;
+}
+
+.custom-node.selectable:focus:active {
+  box-shadow: var(--xy-node-boxshadow-default);
+}
+
+.custom-node.selectable:focus:active {
+  box-shadow: var(--xy-node-boxshadow-default);
+}
+
+.custom-node.selectable:hover,
+.custom-node.draggable:hover {
+  border-color: var(--xy-theme-hover);
+}
+
+.custom-node.selectable.selected {
+  border-color: var(--xy-theme-selected);
+  box-shadow: var(--xy-node-boxshadow-default);
+} */

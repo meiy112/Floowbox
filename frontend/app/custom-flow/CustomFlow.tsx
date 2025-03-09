@@ -20,6 +20,7 @@ import HeaderNode from "./nodes/HeaderNode";
 import AudioNode from "./nodes/AudioNode";
 import FileDropNode from "./nodes/FileDropNode";
 import { extractConnectionIds, generateId } from "./utils";
+import ChatNode from "./nodes/ChatNode";
 
 interface ConnectionParams {
   source: string;
@@ -63,6 +64,7 @@ export default function CustomFlow({
     imagegen: AIModelNode,
     filebox: FileDropNode,
     fileparser: AIModelNode,
+    chatbox: ChatNode,
   };
 
   useEffect(() => {
@@ -109,6 +111,9 @@ export default function CustomFlow({
           };
         }
         if (node.type === "imagebox") {
+          return { ...node, data: { ...node.data, isFrontend } };
+        }
+        if (node.type === "chatbox") {
           return { ...node, data: { ...node.data, isFrontend } };
         }
         if (node.type === "textbox") {
@@ -168,6 +173,8 @@ export default function CustomFlow({
     } else if (nodeType === "imagegen") {
       setIsFrontend(false);
       newData = { type: "image", id: newId };
+    } else if (nodeType === "chatbox") {
+      newData = { isFrontend: isFrontend, id: newId };
     } else {
       newData = { id: newId };
     }
@@ -216,7 +223,7 @@ export default function CustomFlow({
         <TopMenu
           isFrontend={isFrontend}
           toggleFrontend={toggleFrontend}
-          name="Untitled"
+          name="Custom Flow"
           setName={setName}
           addNewNode={addNewNode}
           reactFlowWrapper={reactFlowWrapper}

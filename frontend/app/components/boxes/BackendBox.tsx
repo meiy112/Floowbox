@@ -1,4 +1,4 @@
-import { AudioLines, Image, Type, Upload } from "lucide-react";
+import { AudioLines, Image, MessagesSquare, Type, Upload } from "lucide-react";
 import NodeHandleWrapper from "../NodeHandleWrapper";
 import "./BackendBox.css";
 
@@ -7,7 +7,7 @@ const BackendBox = ({
   isConnectable,
   id,
 }: {
-  type: "text" | "image" | "audio" | "file";
+  type: "text" | "image" | "audio" | "file" | "chat";
   isConnectable: boolean;
   id: string;
 }) => {
@@ -16,6 +16,7 @@ const BackendBox = ({
     image: "Image Box",
     audio: "Audio Box",
     file: "FileDrop Box",
+    chat: "Chat Box",
   };
 
   const SIZE = 24;
@@ -26,6 +27,7 @@ const BackendBox = ({
     image: <Image size={SIZE} strokeWidth={STROKE_WIDTH} />,
     audio: <AudioLines size={SIZE} strokeWidth={STROKE_WIDTH} />,
     file: <Upload size={SIZE} strokeWidth={STROKE_WIDTH} />,
+    chat: <MessagesSquare size={SIZE} strokeWidth={STROKE_WIDTH} />,
   };
 
   return (

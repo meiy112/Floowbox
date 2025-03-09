@@ -307,7 +307,7 @@ const SystemStatus = ({ isFrontend }: { isFrontend: boolean }) => {
     <div
       className="flex gap-x-[0.4em] items-center justify-center pr-[0.7em] pl-[0.6em] py-[0.08em] rounded-[5px] mr-[1em]"
       style={
-        !isFrontend
+        isFrontend
           ? { background: "var(--secondary" }
           : { background: "#EEF1F7" }
       }
@@ -316,7 +316,7 @@ const SystemStatus = ({ isFrontend }: { isFrontend: boolean }) => {
         <div
           className="aspect-square w-[0.45em] rounded-[10em]"
           style={
-            !isFrontend
+            isFrontend
               ? { background: "var(--primary)" }
               : { background: "#3354FF" }
           }
@@ -324,7 +324,7 @@ const SystemStatus = ({ isFrontend }: { isFrontend: boolean }) => {
       </div>
       <span
         className="text-[0.75rem] text-[var(--primary)] tracking-[0.01em] font-medium"
-        style={!isFrontend ? { color: "var(--primary)" } : { color: "#3354FF" }}
+        style={isFrontend ? { color: "var(--primary)" } : { color: "#3354FF" }}
       >
         {isFrontend ? "Frontend" : "Backend"}
       </span>
