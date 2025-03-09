@@ -21,6 +21,7 @@ import AudioNode from "./nodes/AudioNode";
 import FileDropNode from "./nodes/FileDropNode";
 import { extractConnectionIds, generateId } from "./utils";
 import ChatNode from "./nodes/ChatNode";
+import { Ghost } from "lucide-react";
 
 interface ConnectionParams {
   source: string;
@@ -263,11 +264,35 @@ export default function CustomFlow({
         >
           {!isRunning && (
             <Background
-              color="#BCBCD0"
+              color="#CCCCCC"
               variant={BackgroundVariant.Dots}
               gap={25}
               size={2}
             />
+          )}
+          {nodes.length === 0 && (
+            <div className="absolute inset-0 pb-[0em] flex flex-col items-center justify-center pointer-events-none">
+              {/* <div className="border-1 border-[var(--border)] bg-white rounded-[15px] gap-y-[1em] w-[23em] h-[16em] flex flex-col items-center justify-center">
+                <Ghost size={100} strokeWidth={1.5} color={"#FAFAFC"} />
+                <div className="text-center text-[0.85rem] w-[15em] text-[#CECCD7]">
+                  This is the floow page, it is empty now. Find the + icon at
+                  the top left to add nodes.
+                </div>
+              </div> */}
+              <div className="flex">
+                <span className="font-bold text-[var(--primary)] text-[4em]">
+                  Floow
+                </span>
+                <span className="font-bold text-[4em]">Box</span>
+              </div>
+              <div
+                className="text-center text-[0.85rem] w-[18em] text-black bg-white rounded-[15px]"
+                style={{ color: "rgba(0, 0, 0, 0.5" }}
+              >
+                This is the floow page, it is empty now. Find the + icon at the
+                top left to add nodes.
+              </div>
+            </div>
           )}
         </ReactFlow>
       </ReactFlowProvider>
