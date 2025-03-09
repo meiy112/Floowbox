@@ -88,18 +88,18 @@ const NodeHandleWrapper = ({
         const sourceConnected = edges.some(
           (edge) =>
             edge.source === id &&
-            edge.sourceHandle === `node-source-${dir}-${id}`
+            edge.sourceHandle === `node-source-${dir}-${id}-${type}`
         );
         const targetConnected = edges.some(
           (edge) =>
             edge.target === id &&
-            edge.targetHandle === `node-target-${dir}-${id}`
+            edge.targetHandle === `node-target-${dir}-${id}-${type}`
         );
         const isSourceActive =
           connection &&
           connection.inProgress &&
           connection.fromNode.id === id &&
-          connection.fromHandle.id === `node-source-${dir}-${id}`;
+          connection.fromHandle.id === `node-source-${dir}-${id}-${type}`;
 
         // Conditions for showing the target handle:
         // Always show it if a target connection exists, or if we're in target mode.
@@ -132,7 +132,7 @@ const NodeHandleWrapper = ({
                 pointerEvents: showTarget ? "auto" : "none",
                 transition: "opacity 0.2s",
               }}
-              id={`node-target-${dir}-${id}`}
+              id={`node-target-${dir}-${id}-${type}`}
             />
             {/* Source Handle */}
             <Handle
@@ -152,7 +152,7 @@ const NodeHandleWrapper = ({
                 pointerEvents: showSource ? "auto" : "none",
                 transition: "opacity 0.2s",
               }}
-              id={`node-source-${dir}-${id}`}
+              id={`node-source-${dir}-${id}-${type}`}
             />
           </React.Fragment>
         );

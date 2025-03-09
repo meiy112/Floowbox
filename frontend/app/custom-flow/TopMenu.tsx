@@ -169,7 +169,7 @@ const ComponentMenu = ({
             <button
               className="component-menu__button--component"
               onClick={() =>
-                addNewNode("uploadbox", centerFlowPosition, generateId())
+                addNewNode("filebox", centerFlowPosition, generateId())
               }
             >
               <Upload size={22} strokeWidth={1.65} />

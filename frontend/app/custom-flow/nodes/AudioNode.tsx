@@ -1,12 +1,10 @@
 "use client";
 import { AnimatePresence } from "framer-motion";
 import "./AudioNode.css";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PipelineNode } from "@/app/class/Pipeline";
 import { useNodeConnectionContext } from "@/app/context/NodeConnectionProvider";
 import BackendBox from "@/app/components/boxes/BackendBox";
-import { Pause, Play } from "lucide-react";
-import AudioBox from "@/app/components/boxes/AudioBox";
 import WavesurferPlayer from "@wavesurfer/react";
 import WaveSurfer from "wavesurfer.js";
 
@@ -78,7 +76,7 @@ const FrontendAudioBox = ({ audioBlob }: { audioBlob: Blob | null }) => {
 
   return (
     <div className="bg-white audio-box__frontend-container audio-box h-full w-[450px]">
-      <div className="gap-y-[0.8em] px-[1.7em] image-box__frontend rounded-[50em] overflow-hidden flex flex-col items-center justify-center h-full">
+      <div className="gap-y-[0.8em] px-[1.7em] audio-box__frontend rounded-[50em] overflow-hidden flex flex-col items-center justify-center h-full">
         <div className="flex items-center justify-center gap-x-[1.5em]">
           <button className="cursor-pointer" onClick={onPlayPause}>
             {isPlaying ? (
