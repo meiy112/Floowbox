@@ -6,8 +6,6 @@ from routes.upload_routes import upload_bp
 app = Flask(__name__)
 CORS(app)
 
-app = Flask(__name__)
-
 app.register_blueprint(model_bp)
 app.register_blueprint(upload_bp)
 

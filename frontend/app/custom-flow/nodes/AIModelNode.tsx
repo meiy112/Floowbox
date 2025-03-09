@@ -1,4 +1,5 @@
 "use client";
+import { modelApi } from "@/app/api/modelApi";
 import { PipelineNode } from "@/app/class/Pipeline";
 import AIModel from "@/app/components/models/AIModel";
 import { ModelType } from "@/app/components/models/utils";
@@ -43,13 +44,9 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
     id: id,
     type: "GptModel",
     process: async (input: any) => {
-      // const result = await modelApi.generate("openai", "string", input);
-      const result =
-        modelRef.current +
-        " model processed: " +
-        contextRef.current +
-        " " +
-        input;
+      console.log("here");
+      const options = {}; // TODO: add options if they are selected
+      const result = await modelApi.generate(model, "string", type, input, options);
       return result;
     },
   };

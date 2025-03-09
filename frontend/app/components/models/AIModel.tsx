@@ -68,18 +68,20 @@ const ModelSelection = ({ model, setModel, type }: ModelSelectionProps) => {
 
   // TODO: add more models to the map
   const optionsMap = {
-    text: ["GPT o3-mini", "Gemini", "Deepseek"],
-    image: ["DALLE 3", "Midjourney"],
+    text: ["GPT o3-mini", "Gemini", "Ollama", "Deepseek"],
+    image: ["DALLE 3", "DreamShaper", "Midjourney"],
     audio: ["TTS-1"],
   };
   const options = optionsMap[type as ModelType];
 
   const iconMap = {
     "GPT o3-mini": "/images/openai-icon-text.svg",
+    Ollama: "/images/ollama-icon.svg",
     Gemini: "/images/gemini-icon.svg",
     Deepseek: "/images/deepseek-icon.svg",
     "DALLE 3": "/images/openai-icon-image.svg",
     Midjourney: "/images/midjourney-icon.svg",
+    DreamShaper: "/images/cloudflare-icon.svg",
     "TTS-1": "/images/openai-icon-audio.svg",
   };
   const modelIcon = iconMap[model as keyof typeof iconMap];
