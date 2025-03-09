@@ -14,6 +14,7 @@ const modelMap: { [key: string]: string } = {
   Midjourney: "cloudflare",
   DreamShaper: "cloudflare",
   "TTS-1": "openai",
+  "TTS (text-to-speech)": "openai",
 };
 
 async function generate(model: string, inputType: string, outputType: string, prompt: string, options: any) {
@@ -54,6 +55,7 @@ async function generate(model: string, inputType: string, outputType: string, pr
   
     // TODO: test audio
     case "audio":
+      console.log(model)
       response = await fetch(BASE_URL + url, {
         method: "POST",
         headers: {
@@ -68,8 +70,7 @@ async function generate(model: string, inputType: string, outputType: string, pr
       }
   
       blob = await response.blob();
-      blobUrl = URL.createObjectURL(blob);
-      return blobUrl
+      return blob
 
     default:
       throw new Error("\'outputType\' parameter must be one of text, audio, or image.")
