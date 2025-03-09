@@ -193,6 +193,7 @@ const AIModel = ({
   setContext,
 }: AIModelProps) => {
   const [isOpen, setIsOpen] = useState(true);
+  console.log("AI model context: ", context)
 
   return (
     <div className="ai-model__container container-shadow text-black bg-white w-[25em] rounded-[20px] p-[1em] flex flex-col gap-y-[1em]">

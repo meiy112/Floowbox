@@ -52,8 +52,10 @@ const AIModelNode = ({ data, isConnectable }: AIModelNodeProps) => {
         return result;
       } else {
         const options = {
+          context: contextRef.current,
           voice: "shimmer",
         }; // TODO: add options if they are selected
+
         const result = await modelApi.generate(
           model,
           "text",
