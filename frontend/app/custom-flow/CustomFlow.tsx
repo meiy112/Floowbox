@@ -44,8 +44,6 @@ export default function CustomFlow({
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
-  console.log(nodes);
-
   const nodeTypes = {
     imagebox: ImageNode,
     textbox: TextNode,

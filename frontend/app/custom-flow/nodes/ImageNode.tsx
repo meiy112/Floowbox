@@ -37,15 +37,14 @@ const ImageNode = ({ data, isConnectable, id }: ImageBoxNodeProps) => {
       className="relative flex items-center justify-center"
       style={{ height: "380px", zIndex: 5 }}
     >
-      <AnimatePresence>
-        <div>
-          {isFrontend ? (
-            <FrontendImageBox imageSrc={imageSrc}/>
-          ) : (
-            <BackendImageBox isConnectable={isConnectable} id={id} />
-          )}
-        </div>
-      </AnimatePresence>
+      <div className={isFrontend ? "" : "invisible"}>
+        <FrontendImageBox imageSrc={imageSrc} />
+      </div>
+      <BackendImageBox
+        isConnectable={isConnectable}
+        id={id}
+        hidden={isFrontend}
+      />
     </div>
   );
 };
@@ -53,14 +52,11 @@ const ImageNode = ({ data, isConnectable, id }: ImageBoxNodeProps) => {
 const FrontendImageBox = ({ imageSrc }: { imageSrc: string | null }) => {
   return (
     <div className="bg-white image-box__frontend-container image-box h-[380px]">
-      {
-        imageSrc ?
+      {imageSrc ? (
         <div className="gap-y-[0.8em] image-box__frontend rounded-[15px] overflow-hidden flex flex-col items-center justify-center h-full">
-          <img
-            src={imageSrc}
-          />
+          <img src={imageSrc} />
         </div>
-        :
+      ) : (
         <div className="gap-y-[0.8em] image-box__frontend rounded-[15px] overflow-hidden flex flex-col items-center justify-center h-full bg-[#F7F7F9]">
           <Image size={70} color={"#CECCD7"} opacity={0.5} strokeWidth={1.3} />
           <div className="flex items-center justify-center flex-col">
@@ -72,8 +68,7 @@ const FrontendImageBox = ({ imageSrc }: { imageSrc: string | null }) => {
             </div>
           </div>
         </div>
-      }
-      
+      )}
     </div>
   );
 };
@@ -81,12 +76,20 @@ const FrontendImageBox = ({ imageSrc }: { imageSrc: string | null }) => {
 const BackendImageBox = ({
   isConnectable,
   id,
+  hidden,
 }: {
   isConnectable: boolean;
   id: string;
+  hidden: boolean;
 }) => {
   return (
-    <div className="image-box__backend-container image-box h-[380px] flex items-center justify-center">
+    <div
+      className="absolute inset-0 image-box__backend-container image-box h-[380px] flex items-center justify-center"
+      style={{
+        opacity: hidden ? 0 : 1,
+        pointerEvents: hidden ? "none" : "auto",
+      }}
+    >
       <BackendBox type="image" isConnectable={isConnectable} id={id} />
     </div>
   );
