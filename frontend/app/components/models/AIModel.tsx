@@ -47,7 +47,7 @@ const Header = ({ type, isOpen, setIsOpen }: HeaderProps) => {
           <div className="font-semibold text-[1rem]">Hello World</div>
         </div>
         <button
-          className="absolute top-[-5] right-[-5] p-2"
+          className="absolute top-[-5] right-[-5] p-2 cursor-pointer"
           onClick={() => setIsOpen((prev) => !prev)}
         >
           {isOpen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
