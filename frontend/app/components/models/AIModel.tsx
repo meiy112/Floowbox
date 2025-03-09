@@ -266,44 +266,152 @@ const ContextInput = ({ text, setText }: ContextInputProps) => {
   );
 };
 
+
+type VoiceDropdownProps = {
+  voice: string;
+  setVoice: (value: string) => void;
+};
+
+const VoiceDropdown = ({ voice, setVoice }: VoiceDropdownProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const voices = ["alloy", "ash", "coral", "echo", "fable", "onyx", "nova", "sage", "shimmer"]
+
+  return (
+    <div className="flex flex-col gap-y-[0.3em]">
+      <div className="relative w-full">
+        {/* Dropdown Button */}
+        <div
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-full aspect-[8/1] font-medium ai-model__input flex justify-between items-center cursor-pointer"
+        >
+          <div className="flex items-center py-2 px-3">
+            {voice}
+          </div>
+
+          <span className="mr-[1em]">
+            {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+          </span>
+        </div>
+
+        {/* Dropdown Menu */}
+        {isOpen && (
+          <ul className="absolute left-0 w-full mt-1 bg-white border-2 border-gray-200 rounded-lg shadow-lg z-10">
+            {voices.map((voice, index) => (
+              <li
+                key={index}
+                className="py-2 px-3 hover:bg-gray-100 cursor-pointer"
+                onClick={() => {
+                  setVoice(voice);
+                  setIsOpen(false);
+                }}
+              >
+                <div className="pr-10">
+                  {voice}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
+
 type AIModelProps = {
   type: string;
   model: string;
   setModel: (value: string) => void;
   context: string;
   setContext: (value: string) => void;
+  temperature: number;
+  setTemperature: (value: number) => void;
+  prompt: string;
+  setPrompt: (value: string) => void;
+  maxLength: number;
+  setMaxLength: (value: number) => void;
+  negativePrompt: string;
+  setNegativePrompt: (value: string) => void;
+  speed: number;
+  setSpeed: (value: number) => void;
+  voice: string;
+  setVoice: (value: string) => void;
 };
 
-const AIModel = ({
-  type,
-  model,
-  setModel,
-  context,
-  setContext,
-}: AIModelProps) => {
+const AIModel = (props: AIModelProps) => {
   const [isOpen, setIsOpen] = useState(true);
-  const [temperature, setTemperature] = useState(1);
 
   return (
     <div className="ai-model__container container-shadow text-black bg-white w-[25em] rounded-[20px] p-[1em] flex flex-col gap-y-[1.2em]">
-      <Header type={type} isOpen={isOpen} setIsOpen={setIsOpen} />
+      <Header type={props.type} isOpen={isOpen} setIsOpen={setIsOpen} />
       {isOpen ? (
         <>
           <div className="border-[1px] border-gray-100"></div>
-          <ModelSelection model={model} setModel={setModel} type={type} />
-          {type != "file" && (
-            <ContextInput text={context} setText={setContext} />
+          <ModelSelection model={props.model} setModel={props.setModel} type={props.type} />
+          {props.type != "file" && (
+            <ContextInput text={props.context} setText={props.setContext} />
           )}
-          {type != "file" && (
+          {(props.type == "text" || props.type == "image") && (
+            <div className="flex flex-col gap-y-[0.2em]">
+              <div className="ai-model__label--s">Prompt</div>
+              <textarea
+                id="text-input"
+                value={props.prompt}
+                onChange={(e: any) => props.setPrompt(e.target.value)}
+                className="leading-tight w-full aspect-[4/1] text-[0.85rem] rounded-[10px] resize-none ai-model__input py-[0.5em] px-[0.8em] placeholder-[#BAB7C3]"
+                placeholder="Prompt for the AI."
+              />
+          </div>
+          )}
+          {props.type == "image" && (
+            <div className="flex flex-col gap-y-[0.2em]">
+              <div className="ai-model__label--s">Negative Prompt</div>
+              <textarea
+                id="text-input"
+                value={props.negativePrompt}
+                onChange={(e: any) => props.setNegativePrompt(e.target.value)}
+                className="leading-tight w-full aspect-[4/1] text-[0.85rem] rounded-[10px] resize-none ai-model__input py-[0.5em] px-[0.8em] placeholder-[#BAB7C3]"
+                placeholder="What not to include in the generated image."
+              />
+          </div>
+          )}
+          {props.type != "file" && (
             <div className="flex flex-col gap-y-[0.2em]">
               <div className="ai-model__label--s">Temperature</div>
               <Input
-                value={temperature}
-                updateValue={setTemperature}
-                max={2}
-                type={type}
+                value={props.temperature}
+                updateValue={props.setTemperature}
+                max={1}
+                type={props.type}
               />
             </div>
+          )}
+          {props.type == "text" && (
+            <div className="flex flex-col gap-y-[0.2em]">
+              <div className="ai-model__label--s">Max length (Tokens)</div>
+              <Input
+                value={props.maxLength}
+                updateValue={props.setMaxLength}
+                max={1000}
+                type={props.type}
+              />
+          </div>
+          )}
+          {props.type == "audio" && (
+            <div className="flex flex-col gap-y-[0.2em]">
+              <div className="ai-model__label--s">Voice</div>
+              <VoiceDropdown voice={props.voice} setVoice={props.setVoice}/>
+          </div>
+          )}
+          {props.type == "audio" && (
+            <div className="flex flex-col gap-y-[0.2em]">
+              <div className="ai-model__label--s">Speed</div>
+              <Input
+                value={props.speed}
+                updateValue={props.setSpeed}
+                max={1}
+                type={props.type}
+              />
+          </div>
           )}
         </>
       ) : null}
@@ -312,4 +420,4 @@ const AIModel = ({
 };
 
 export default AIModel;
-s;
+
