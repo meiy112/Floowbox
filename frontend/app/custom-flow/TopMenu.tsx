@@ -26,6 +26,7 @@ import { motion } from "framer-motion";
 import Divider from "../components/divider/Divider";
 import { useEffect, useState } from "react";
 import { useReactFlow } from "@xyflow/react";
+import ComponentMenu from "./ComponentMenu";
 
 const TopMenu = ({
   isFrontend,
@@ -140,106 +141,6 @@ const TopMenu = ({
             addNewNode={addNewNode}
             centerFlowPosition={centerFlowPosition}
           />
-        </div>
-      )}
-    </div>
-  );
-};
-
-const ComponentMenu = ({
-  addNewNode,
-  centerFlowPosition,
-}: {
-  addNewNode: (nodeType: string, position: any) => void;
-  centerFlowPosition: any;
-}) => {
-  const [expand, setExpand] = useState(false);
-
-  return (
-    <div className="">
-      {expand ? (
-        <div className="top-menu__component-menu flex flex-col gap-y-[0.5em] overflow-hidden items-center justify-between py-[0.6em]">
-          <button
-            className="component-menu__button--collapse"
-            onClick={() => setExpand(false)}
-          >
-            <ChevronUp size={22} strokeWidth={1.65} />
-          </button>
-          <Divider isHorizontal={true} width={2.5} />
-          <div className="component-menu__section">
-            <button
-              className="component-menu__button--component"
-              onClick={() => addNewNode("textbox", centerFlowPosition)}
-            >
-              <Type size={22} strokeWidth={1.65} />
-            </button>
-            <button
-              onClick={() => addNewNode("imagebox", centerFlowPosition)}
-              className="component-menu__button--component"
-            >
-              <Image size={22} strokeWidth={1.65} />
-            </button>
-            <button
-              className="component-menu__button--component"
-              onClick={() => addNewNode("audiobox", centerFlowPosition)}
-            >
-              <AudioLines size={22} strokeWidth={1.65} />
-            </button>
-            <button
-              className="component-menu__button--component"
-              onClick={() => addNewNode("header", centerFlowPosition)}
-            >
-              <Heading size={22} strokeWidth={1.65} />
-            </button>
-            <button
-              className="component-menu__button--component"
-              onClick={() => addNewNode("filebox", centerFlowPosition)}
-            >
-              <Upload size={22} strokeWidth={1.65} />
-            </button>
-            <button
-              className="component-menu__button--component"
-              onClick={() => addNewNode("chatbox", centerFlowPosition)}
-            >
-              <MessagesSquare size={22} strokeWidth={1.65} />
-            </button>
-          </div>
-          <Divider isHorizontal={true} width={2.5} />
-          <div className="component-menu__section">
-            <button
-              className="component-menu__button--component"
-              onClick={() => addNewNode("llm", centerFlowPosition)}
-            >
-              <BotMessageSquare size={22} strokeWidth={1.65} />
-            </button>
-            <button
-              className="component-menu__button--component"
-              onClick={() => addNewNode("imagegen", centerFlowPosition)}
-            >
-              <Palette size={22} strokeWidth={1.65} />
-            </button>
-            <button
-              className="component-menu__button--component"
-              onClick={() => addNewNode("audiogen", centerFlowPosition)}
-            >
-              <FileAudio size={22} strokeWidth={1.65} />
-            </button>
-            <button
-              className="component-menu__button--component"
-              onClick={() => addNewNode("fileparser", centerFlowPosition)}
-            >
-              <BookOpen size={22} strokeWidth={1.65} />
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="top-menu__component-menu flex items-center justify-center">
-          <button
-            onClick={() => setExpand(true)}
-            className="component-menu__button"
-          >
-            <Plus size={22} strokeWidth={1.65} />
-          </button>
         </div>
       )}
     </div>

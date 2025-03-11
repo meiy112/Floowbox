@@ -1,18 +1,33 @@
 "use client";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import "@xyflow/react/dist/style.css";
-import { Button } from "@/components/ui/button";
+import { NodeConnectionProvider } from "./context/NodeConnectionProvider";
+import { PipelineProvider } from "./context/PipelineProvider";
+import CustomFlow from "./custom-flow/CustomFlow";
 
-export default function Home() {
+export default function CustomFlowPage() {
   const router = useRouter();
+  const [isFrontend, setIsFrontend] = useState(true);
 
-  const navigateToFlow = () => {
-    router.push("/custom-flow");
+  const toggleFrontend = () => {
+    setIsFrontend((prev) => !prev);
+  };
+
+  const navigateHome = () => {
+    router.push("/");
   };
 
   return (
-    <div className="h-full w-full">
-      <Button onClick={navigateToFlow}>New</Button>
-    </div>
+    <PipelineProvider>
+      <NodeConnectionProvider>
+        <CustomFlow
+          isFrontend={isFrontend}
+          navigateHome={navigateHome}
+          setIsFrontend={setIsFrontend}
+          toggleFrontend={toggleFrontend}
+        />
+      </NodeConnectionProvider>
+    </PipelineProvider>
   );
 }
